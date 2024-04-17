@@ -28,17 +28,9 @@ public class JourneeService {
         return journeeRepository.findAll();
     }
 
-   /* @Transactional
-    public JourneeEntity updateJournee(String reference, JourneeEntity journeeDetails) {
-        Optional<JourneeEntity> journeeOptional = journeeRepository.findByReference(reference);
-        if(journeeOptional.isPresent()) {
-            JourneeEntity existingJournee = journeeOptional.get();
-            existingJournee.setDate(journeeDetails.getDate());
-            existingJournee.setMontant(journeeDetails.getMontant());
-            existingJournee.setReference(journeeDetails.getReference());
-            return journeeRepository.save(existingJournee);
-        } else {
-            return null;
-        }
-    }*/
+    public JourneeEntity createJournee(JourneeEntity journee) {
+        // Ici, vous pouvez inclure la logique pour vérifier si la journée existe déjà
+        // ou d'autres règles métier avant de sauvegarder
+        return journeeRepository.save(journee);
+    }
 }

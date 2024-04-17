@@ -1,6 +1,6 @@
 # sur quel port le serveur démarre
 server:
-  port: 5050
+  port: 8080
 
 # Les informations de connexion de la bd
 spring:

@@ -2,9 +2,13 @@ package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.services.JourneeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -29,12 +33,17 @@ public class JourneeController {
         List<JourneeEntity> journees = journeeService.findAllJournees();
         return ResponseEntity.ok(journees);
     }
-    /*@PutMapping("/{reference}")
-    public ResponseEntity<JourneeEntity> updateJournee(@PathVariable String reference, @RequestBody JourneeEntity journeeDetails) {
-        JourneeEntity updatedJournee = journeeService.updateJournee(reference, journeeDetails);
-        if(updatedJournee == null) {
-            return ResponseEntity.notFound().build();
+    @PostMapping
+    public ResponseEntity<JourneeEntity> createJournee(@RequestBody JourneeEntity journee) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = sdf.parse("15/04/2024");
+            journee.setDate(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(updatedJournee);
-    }*/
+        JourneeEntity savedJournee = journeeService.createJournee(journee);
+        return new ResponseEntity<>(savedJournee, HttpStatus.CREATED);
+    }
 }

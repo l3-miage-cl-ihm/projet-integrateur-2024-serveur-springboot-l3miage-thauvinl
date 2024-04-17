@@ -36,6 +36,7 @@ public class CommandeEntity {
     @ManyToOne()
     private LivraisonEntity livraisonEntity;
     
-
+    @ManyToOne
+    private ClientEntity client;
     
 }
