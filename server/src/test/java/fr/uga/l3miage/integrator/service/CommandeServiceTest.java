@@ -1,82 +1,81 @@
-package fr.uga.l3miage.integrator.service;
-
+package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
+import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.services.CommandeService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureTestDatabase
-public class CommandeServiceTest {
-     @Autowired
-    private CommandeService commandeService;
+
+class CommandeServiceTest {
+
     @Mock
     private CommandeRepository commandeRepository;
 
     @Mock
     private ClientRepository clientRepository;
 
-    @Before
-    public void setUp() {
-        // Initialisation des mocks
+    @InjectMocks
+    private CommandeService commandeService;
+
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.initMocks(this);
-        commandeService.setCommandeRepository(commandeRepository);
-        commandeService.setClientRepository(clientRepository);
     }
 
+    @Test
+    void testGetCommandeByReference() {
+        // Mocking
+        Set<CommandeEntity> expectedCommandes = new HashSet<>();
+        when(commandeRepository.findCommandeEntitiesByReference("reference")).thenReturn(expectedCommandes);
 
+        // Test
+        Set<CommandeEntity> commandes = commandeService.getCommandeByReference("reference");
+
+        // Assertion
+        assertEquals(expectedCommandes, commandes);
+    }
 
     @Test
-    public void testFindClientAdressByCommande() {
-        // Création d'une commande avec une référence
-        CommandeEntity commande = new CommandeEntity();
-        commande.setReference("CMD123");
-        Set<CommandeEntity> commandes = new HashSet<>();
-        commandes.add(commande);
-        commandeRepository.save(commande);
-        commandeService.setCommandeRepository(commandeRepository);
-        // Création d'un client avec une adresse
-        Adresse adresse = new Adresse();
-        adresse.setVille("Grenoble");
-        ClientEntity client = new ClientEntity();
-        client.setAdresse(adresse);
-        clientRepository.save(client);
-        commandeService.setClientRepository(clientRepository);
-        // Définition du comportement du clientRepository mock
-       when(clientRepository.findByCommandesReference("CMD123")).thenReturn(client);
+    void testGetAllCommandeByLivraison() {
+        // Mocking
+        LivraisonEntity livraisonEntity = new LivraisonEntity();
+        Set<CommandeEntity> expectedCommandes = new HashSet<>();
+        when(commandeRepository.findCommandeEntitiesByLivraisonEntity(livraisonEntity)).thenReturn(expectedCommandes);
 
-        // Définition du comportement du commandeRepository mock
-        when(commandeRepository.findCommandeEntitiesByReference("CMD123")).thenReturn(commandes);
+        // Test
+        Set<CommandeEntity> commandes = commandeService.getAllCommandeByLivraison(livraisonEntity);
 
-        // Appel de la méthode à tester
-        Adresse adresseTrouvee = commandeService.findClientAdressByCommande(commande);
+        // Assertion
+        assertEquals(expectedCommandes, commandes);
+    }
 
-        // Vérification que l'adresse retournée est celle du client associé à la commande
-        assertEquals(adresse, adresseTrouvee);
+    @Test
+    void testFindClientAdressByCommande() {
+        // Mocking
+        CommandeEntity commandeEntity = new CommandeEntity();
+        ClientEntity clientEntity = new ClientEntity();
+        Adresse expectedAdresse = new Adresse();
+        clientEntity.setAdresse(expectedAdresse);
+        when(clientRepository.findByCommandesReference(any())).thenReturn(clientEntity);
 
-        // Vérification que la méthode findByCommandesReference du clientRepository a bien été appelée
-        verify(clientRepository).findByCommandesReference("CMD123");
+        // Test
+        Adresse adresse = commandeService.findClientAdressByCommande(commandeEntity);
 
-        // Vérification que la méthode findCommandeByReference du commandeRepository a bien été appelée
-        verify(commandeRepository).findCommandeEntitiesByReference("CMD123");
+        // Assertion
+        assertEquals(expectedAdresse, adresse);
     }
 }

@@ -25,8 +25,13 @@ public class CommandeService {
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
         return commandeRepository.findCommandeEntitiesByLivraisonEntity(L);
     }
+    public ClientEntity findByCommandesReference(CommandeEntity commande){
+        Set<ClientEntity> cl=clientRepository.findClientEntitiesByCommandes(commande);
+        ClientEntity c=cl.stream().findFirst().orElse(null);
+        return c;
+    }
     public Adresse findClientAdressByCommande(CommandeEntity commande) {
-        ClientEntity client = clientRepository.findByCommandesReference(commande.getReference());
+        ClientEntity client = findByCommandesReference(commande);
         if (client != null) {
             return client.getAdresse();
         } else {

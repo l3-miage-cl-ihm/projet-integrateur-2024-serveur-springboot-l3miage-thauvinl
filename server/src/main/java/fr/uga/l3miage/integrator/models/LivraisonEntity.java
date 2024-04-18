@@ -2,12 +2,8 @@ package fr.uga.l3miage.integrator.models;
 
 import java.sql.Time;
 import java.util.Set;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.*;
 
 import fr.uga.l3miage.integrator.models.enums.EtatDeLivraisonClass.EtatDeLivraison;
@@ -46,4 +42,8 @@ public class LivraisonEntity {
 
     @OneToMany(mappedBy = "livraisonEntity")
     private Set<CommandeEntity> commandeEntities;
+    @ManyToOne
+    private TourneeEntity tournee;
+
+
 }

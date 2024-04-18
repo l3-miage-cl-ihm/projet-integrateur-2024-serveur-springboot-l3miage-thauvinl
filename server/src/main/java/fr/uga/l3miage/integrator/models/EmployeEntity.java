@@ -5,7 +5,7 @@ import fr.uga.l3miage.integrator.models.enums.Emploi;
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.awt.*;
-
+import java.util.Set;
 @Entity
 public class EmployeEntity {
     @Id
@@ -13,9 +13,11 @@ public class EmployeEntity {
     private String email;
     private String prenom;
     private String nom;
-    @Embedded
-    private Image photo;
+    //@Embedded
+    //private byte[] photo;
     private String telephone;
     private Emploi emploi;
 
+    @ManyToMany(mappedBy = "employeEntitySet")
+    private Set<TourneeEntity> tourneeEntitySet;
 }

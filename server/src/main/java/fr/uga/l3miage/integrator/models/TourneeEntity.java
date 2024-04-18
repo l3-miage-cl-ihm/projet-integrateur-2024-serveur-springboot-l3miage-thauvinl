@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,10 +24,15 @@ public class TourneeEntity {
     private Integer tempsDeMontageEffectif;
     private Double distanceAParcourir;
     private Double distanceDeRetour;
-    /*@OneToMany
-    @JoinColumn(name="tournee_entity_reference", referencedColumnName = "reference")
-    private List<LivraisonEntity> livraisonEntities;
-    @OneToOne
+    @OneToMany(mappedBy = "tournee")
+    private Set<LivraisonEntity> livraisons;
+
+
+    @ManyToMany
+    private Set<EmployeEntity> employeEntitySet;
+
+    /* @OneToOne
     private CamionEntity;*/
 
 }
+//test de performarmance pour les methodes
