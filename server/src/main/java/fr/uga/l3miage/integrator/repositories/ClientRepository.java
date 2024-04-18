@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, String> {
-    //ClientEntity findByCommandesReference(String reference);
-    Set<ClientEntity> findClientEntitiesByCommandes(CommandeEntity commande);
+    ClientEntity findClientEntityByCommandes(CommandeEntity commande);
 }

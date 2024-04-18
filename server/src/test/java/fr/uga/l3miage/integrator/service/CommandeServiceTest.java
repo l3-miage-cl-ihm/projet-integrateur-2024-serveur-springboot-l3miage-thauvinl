@@ -1,4 +1,4 @@
-package fr.uga.l3miage.integrator.controllers;
+package fr.uga.l3miage.integrator.service;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
@@ -69,8 +69,9 @@ class CommandeServiceTest {
         CommandeEntity commandeEntity = new CommandeEntity();
         ClientEntity clientEntity = new ClientEntity();
         Adresse expectedAdresse = new Adresse();
+        expectedAdresse.setVille("Grenoble");
         clientEntity.setAdresse(expectedAdresse);
-        when(clientRepository.findByCommandesReference(any())).thenReturn(clientEntity);
+        when(commandeService.findClientAdressByCommande(any())).thenReturn(clientEntity.getAdresse());
 
         // Test
         Adresse adresse = commandeService.findClientAdressByCommande(commandeEntity);

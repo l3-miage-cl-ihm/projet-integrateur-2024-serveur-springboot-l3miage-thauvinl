@@ -44,7 +44,7 @@ public class ClientRepositoryTest {
         clientRepository.save(client);
 
         // Recherche du client par référence de commande
-        ClientEntity clientTrouve = clientRepository.findByCommandesReference("CMD123");
+        ClientEntity clientTrouve = clientRepository.findClientEntityByCommandes(commande);
 
         // Vérification que le client trouvé est celui que nous avons enregistré
         assertNotNull(clientTrouve);
