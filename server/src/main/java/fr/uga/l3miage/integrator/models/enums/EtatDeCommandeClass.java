@@ -8,4 +8,21 @@ public class EtatDeCommandeClass {
         livrée,
         notée
     }
+
+    public enum EtatsDeTournee {
+        planifiee,
+        enChargement,
+        enParcours,
+        enDechargement,
+        enClientele,
+        enMontage,
+        enRetour,
+        effectuee
+    }
+
+    public enum EtatDeClient {
+        livrable,
+        aLivrer,
+        livre
+    }
 }

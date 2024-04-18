@@ -1,11 +1,13 @@
 package fr.uga.l3miage.integrator.models;
 
-import fr.uga.l3miage.integrator.enums.EtatsDeTournee;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass;
 import lombok.*;
 
 import javax.persistence.*;
+
 import java.util.List;
 import java.util.Set;
+
 
 @Entity
 @Getter
@@ -17,7 +19,7 @@ public class TourneeEntity {
     @Id
     private String reference;
     @Enumerated(EnumType.ORDINAL)
-    private EtatsDeTournee etatsDeTournee;
+    private EtatDeCommandeClass.EtatsDeTournee etatsDeTournee;
     private String lettre;
     private Double montant;
     private Integer tempsDeMontageTheorique;
