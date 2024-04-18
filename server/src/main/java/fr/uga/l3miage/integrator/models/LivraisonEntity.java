@@ -8,12 +8,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import lombok.*;
 
 import fr.uga.l3miage.integrator.models.enums.EtatDeLivraisonClass.EtatDeLivraison;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LivraisonEntity {
     @Id
     private String reference;

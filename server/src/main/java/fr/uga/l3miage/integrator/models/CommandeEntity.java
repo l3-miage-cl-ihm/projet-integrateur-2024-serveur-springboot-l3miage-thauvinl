@@ -9,10 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass.EtatDeCommande;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CommandeEntity {
     @Id 
     private String reference;
@@ -35,8 +41,8 @@ public class CommandeEntity {
 
     @ManyToOne()
     private LivraisonEntity livraisonEntity;
-    
-    @ManyToOne
-    private ClientEntity client;
-    
+
+
+
+>>>>>>> Stashed changes
 }

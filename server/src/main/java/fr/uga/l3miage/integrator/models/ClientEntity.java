@@ -2,8 +2,7 @@ package fr.uga.l3miage.integrator.models;
 
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.enums.EtatDeClient;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,6 +10,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientEntity {
     @Id
     private String email;
@@ -21,7 +23,7 @@ public class ClientEntity {
     @Embedded
     private Adresse adresse;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany()
     private Set<CommandeEntity> commandes;
 
 

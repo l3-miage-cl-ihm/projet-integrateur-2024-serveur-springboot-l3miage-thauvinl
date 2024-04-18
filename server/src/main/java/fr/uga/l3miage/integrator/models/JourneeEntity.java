@@ -1,7 +1,6 @@
 package fr.uga.l3miage.integrator.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +9,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class JourneeEntity {
     @Id
     private String reference;

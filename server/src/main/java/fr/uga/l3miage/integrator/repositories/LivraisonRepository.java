@@ -8,5 +8,6 @@ import java.util.Set;
 @Repository
 public interface LivraisonRepository extends JpaRepository<LivraisonEntity, String> {
     // Vous pouvez ajouter des méthodes spécifiques de requête ici si nécessaire
-    Set<LivraisonEntity> findLivraisonEntitiesByReference(String reference);
+    LivraisonEntity findLivraisonEntityByReference(String reference);
+
 }
