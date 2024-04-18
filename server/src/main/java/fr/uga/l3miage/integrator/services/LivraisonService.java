@@ -18,6 +18,8 @@ public class LivraisonService {
     public LivraisonEntity getLivraisonByReference(String reference) {
         return livraisonRepository.findLivraisonEntityByReference(reference);
     }
-
+    public long countElementsInRepo(){
+        return livraisonRepository.count();
+    }
 
 }

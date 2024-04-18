@@ -48,12 +48,12 @@ public class LivraisonController {
         return new ResponseEntity<>(livraison, HttpStatus.OK);
     }
 
-<<<<<<< Updated upstream
+
     @GetMapping("/count")
     public ResponseEntity<Long> countLivraisons() {
-        long count = livraisonRepository.count();
-        return new ResponseEntity<>(count, HttpStatus.OK);
-=======
+        long count = livraisonService.countElementsInRepo();
+        return new ResponseEntity<>(count, HttpStatus.OK);}
+
     @PostMapping
     public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {
 
@@ -70,7 +70,7 @@ public class LivraisonController {
         }
         Adresse add = commandeService.findClientAdressByCommande(cm_tmp);
         return new ResponseEntity<>(add, HttpStatus.OK);
->>>>>>> Stashed changes
+
     }
 
 }
