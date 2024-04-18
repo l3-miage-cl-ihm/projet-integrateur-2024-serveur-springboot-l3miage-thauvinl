@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
+import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.services.JourneeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/journees")
 public class JourneeController {
 
@@ -43,7 +45,25 @@ public class JourneeController {
             e.printStackTrace();
             return ResponseEntity.noContent().build();
         }
+
+
         JourneeEntity savedJournee = journeeService.createJournee(journee);
         return new ResponseEntity<>(savedJournee, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{reference}/tournees")
+    public ResponseEntity<List<TourneeEntity>> getAllTourneesOfJournee(@PathVariable String reference) {
+        List<TourneeEntity> tournees = journeeService.getAllTourneesOfJournee(reference);
+        return ResponseEntity.ok().body(tournees);
+    }
+
+    /*@PatchMapping("/{reference}")
+    public ResponseEntity<JourneeEntity> updateJournee(@PathVariable String reference, @RequestBody JourneeEntity journee){
+        JourneeEntity updatedJournee = journeeService.updateJournee(reference, journee);
+        if (updatedJournee != null) {
+            return ResponseEntity.ok().body(updatedJournee);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
 }

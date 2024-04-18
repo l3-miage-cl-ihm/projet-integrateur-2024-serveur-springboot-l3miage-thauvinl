@@ -1,6 +1,8 @@
 package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
+import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
+import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,11 @@ public class JourneeService {
 
     private final JourneeRepository journeeRepository;
 
+    private TourneeRepository tourneeRepository;
     @Autowired
-    public JourneeService(JourneeRepository journeeRepository) {
+    public JourneeService(JourneeRepository journeeRepository, TourneeRepository tourneeRepository) {
         this.journeeRepository = journeeRepository;
+        this.tourneeRepository=tourneeRepository;
     }
 
     public Optional<JourneeEntity> findJourneeByReference(String reference) {
@@ -29,8 +33,15 @@ public class JourneeService {
     }
 
     public JourneeEntity createJournee(JourneeEntity journee) {
-        // Ici, vous pouvez inclure la logique pour vérifier si la journée existe déjà
-        // ou d'autres règles métier avant de sauvegarder
         return journeeRepository.save(journee);
     }
+
+    public List<TourneeEntity> getAllTourneesOfJournee(String reference) {
+        // Implémentez la logique pour récupérer toutes les tournées associées à une journée spécifique
+        // en utilisant la référence de la journée.
+        return tourneeRepository.findByReferenceContaining(reference);
+    }
+
+
+
 }

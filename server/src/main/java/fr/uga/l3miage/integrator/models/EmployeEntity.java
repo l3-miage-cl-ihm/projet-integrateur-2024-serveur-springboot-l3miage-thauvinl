@@ -13,8 +13,8 @@ public class EmployeEntity {
     private String email;
     private String prenom;
     private String nom;
-    @Embedded
-    private Image photo;
+    //@Embedded
+    //private Image photo;
     private String telephone;
     private Emploi emploi;
 
