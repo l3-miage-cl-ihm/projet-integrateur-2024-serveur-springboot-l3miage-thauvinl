@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/livraisons")
+@RequestMapping("api/livraisons")
 public class LivraisonController {
 
     @Autowired
