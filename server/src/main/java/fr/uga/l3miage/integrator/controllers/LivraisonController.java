@@ -30,5 +30,10 @@ public class LivraisonController {
         return new ResponseEntity<>(livraison, HttpStatus.OK);
     }
 
-    // Ajoutez ici d'autres méthodes pour gérer les opérations CRUD des livraisons
+    @GetMapping("/count")
+    public ResponseEntity<Long> countLivraisons() {
+        long count = livraisonRepository.count();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
 }
