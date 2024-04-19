@@ -1,42 +1,38 @@
-package fr.uga.l3miage.integrator.services;
-import fr.uga.l3miage.integrator.components.JourneeComponent;
+package fr.uga.l3miage.integrator.components;
+
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class JourneeService {
-    private final JourneeComponent journeeComponent;
+public class JourneeComponent {
+   private final JourneeRepository journeeRepository;
+
+       private TourneeRepository tourneeRepository;
 
     public Optional<JourneeEntity> findJourneeByReference(String reference) {
         // Implémentation de la logique pour trouver une Journee par sa référence
-        return journeeComponent.findJourneeByReference(reference);
+        return journeeRepository.findByReference(reference);
     }
 
     public List<JourneeEntity> findAllJournees(){
-        return journeeComponent.findAllJournees();
+        return journeeRepository.findAll();
     }
 
     public JourneeEntity createJournee(JourneeEntity journee) {
-        return journeeComponent.createJournee(journee);
+        return journeeRepository.save(journee);
     }
 
     public List<TourneeEntity> getAllTourneesOfJournee(String reference) {
         // Implémentez la logique pour récupérer toutes les tournées associées à une journée spécifique
         // en utilisant la référence de la journée.
-        return journeeComponent.getAllTourneesOfJournee(reference);
+        return tourneeRepository.findByReferenceContaining(reference);
     }
-
-
-
 }
