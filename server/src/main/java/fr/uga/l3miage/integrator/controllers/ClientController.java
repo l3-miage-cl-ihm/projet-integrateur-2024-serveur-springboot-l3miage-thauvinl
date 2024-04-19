@@ -4,6 +4,7 @@ package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,11 @@ public class ClientController {
 
     @GetMapping("/clients/{email}")
     public ResponseEntity<ClientEntity> getClientByEmail(@PathVariable String email) {
-        Optional<ClientEntity> client = clientService.getClientByEmail(email);
-        return client.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        ClientEntity client = clientService.getClientByEmail(email);
+       if (client!=null){
+           return new ResponseEntity<>(client, HttpStatus.OK);
+       }
+       else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

@@ -33,7 +33,7 @@ public class ClientControllerTest {
         String email = "test@example.com";
         ClientEntity client = new ClientEntity();
         client.setEmail(email);
-        when(clientService.getClientByEmail(email)).thenReturn(Optional.of(client));
+        when(clientService.getClientByEmail(email)).thenReturn(client);
 
         // Act
         ResponseEntity<ClientEntity> response = clientController.getClientByEmail(email);
@@ -47,7 +47,7 @@ public class ClientControllerTest {
     void getClientByEmail_ClientNotFound_ReturnsNotFound() {
         // Arrange
         String email = "nonexistent@example.com";
-        when(clientService.getClientByEmail(email)).thenReturn(Optional.empty());
+        when(clientService.getClientByEmail(email)).thenReturn(null);
 
         // Act
         ResponseEntity<ClientEntity> response = clientController.getClientByEmail(email);

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, String> {
     ClientEntity findClientEntityByCommandes(CommandeEntity commande);
+    ClientEntity findClientEntityByEmail(String email);
 }
