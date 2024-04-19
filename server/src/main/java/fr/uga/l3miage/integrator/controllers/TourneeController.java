@@ -20,9 +20,6 @@ public class TourneeController {
     @Autowired
     private  TourneeService tourneeService;
 
-    @Autowired
-    private JourneeService journeeService;
-
     @PostMapping()
     public ResponseEntity<TourneeEntity> createTourneeForJournee(@RequestBody TourneeEntity tournee) {
         ResponseEntity<TourneeEntity> response = tourneeService.createTournee(tournee);

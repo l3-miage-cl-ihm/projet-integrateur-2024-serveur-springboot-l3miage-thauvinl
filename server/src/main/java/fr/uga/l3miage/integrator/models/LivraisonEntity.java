@@ -40,8 +40,8 @@ public class LivraisonEntity {
 
     @Column(nullable=true) private Integer tdmEffectif;
 
-    @OneToMany(mappedBy = "livraisonEntity")
-    private Set<CommandeEntity> commandeEntities;
+    @OneToMany(mappedBy = "livraison")
+    private Set<CommandeEntity> commandes;
     @ManyToOne
     private TourneeEntity tournee;
 

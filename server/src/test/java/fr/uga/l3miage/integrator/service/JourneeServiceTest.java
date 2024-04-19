@@ -26,7 +26,7 @@ public class JourneeServiceTest {
 
     @MockBean
     private JourneeRepository journeeRepository;
-    
+
     @MockBean
     private TourneeRepository tourneeRepository;
 

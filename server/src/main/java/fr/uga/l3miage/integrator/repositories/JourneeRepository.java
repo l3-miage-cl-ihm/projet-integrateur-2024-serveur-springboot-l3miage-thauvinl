@@ -9,4 +9,5 @@ import java.util.Set;
 public interface JourneeRepository extends JpaRepository<JourneeEntity, String> {
     Optional<JourneeEntity> findByReference(String reference);
 
+    boolean existsByReference(String reference);
 }

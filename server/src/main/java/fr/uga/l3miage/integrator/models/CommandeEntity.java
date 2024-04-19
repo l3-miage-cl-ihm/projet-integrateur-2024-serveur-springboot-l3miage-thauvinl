@@ -40,7 +40,7 @@ public class CommandeEntity {
     @Column(nullable=true) private Integer dureeDeLivraison;
 
     @ManyToOne()
-    private LivraisonEntity livraisonEntity;
+    private LivraisonEntity livraison;
 
 
 
