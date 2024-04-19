@@ -55,7 +55,7 @@ public class LivraisonController {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
 
-    @PostMapping
+    @PostMapping("/adresseFromLivraison")
     public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {
 
         String id_livraison=objectMapper.writeValueAsString(jsonData); //mapper jsonData en un string qui est la ref

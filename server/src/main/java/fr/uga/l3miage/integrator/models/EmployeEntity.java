@@ -4,9 +4,14 @@ import fr.uga.l3miage.integrator.models.enums.Emploi;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.awt.*;
 import java.util.Set;
 @Entity
+@Data
 public class EmployeEntity {
     @Id
     private String trigramme;
