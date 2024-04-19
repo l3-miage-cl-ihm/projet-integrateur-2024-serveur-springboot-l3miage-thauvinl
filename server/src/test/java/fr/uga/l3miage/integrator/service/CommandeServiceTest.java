@@ -71,7 +71,7 @@ class CommandeServiceTest {
         Adresse expectedAdresse = new Adresse();
         expectedAdresse.setVille("Grenoble");
         clientEntity.setAdresse(expectedAdresse);
-        when(commandeService.findClientAdressByCommande(any())).thenReturn(clientEntity.getAdresse());
+        when(clientRepository.findClientEntityByCommandes(commandeEntity)).thenReturn(clientEntity);
 
         // Test
         Adresse adresse = commandeService.findClientAdressByCommande(commandeEntity);
