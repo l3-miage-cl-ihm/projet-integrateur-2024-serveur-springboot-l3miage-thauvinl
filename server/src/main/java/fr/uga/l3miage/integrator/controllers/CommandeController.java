@@ -9,6 +9,7 @@ import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/commandes")
 public class CommandeController {
 

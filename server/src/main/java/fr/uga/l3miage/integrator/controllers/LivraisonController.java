@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/livraisons")
 public class LivraisonController {
 
@@ -33,7 +34,7 @@ public class LivraisonController {
 
 
 
-    @GetMapping
+    @GetMapping("AllLivraisons")
     public ResponseEntity<List<LivraisonEntity>> getAllLivraisons() {
         List<LivraisonEntity> livraisons = livraisonService.getAllLivraison();
         return new ResponseEntity<>(livraisons, HttpStatus.OK);
@@ -54,7 +55,7 @@ public class LivraisonController {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
 
-    @PostMapping
+    @PostMapping("/adresseFromLivraison")
     public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {
 
         String id_livraison=objectMapper.writeValueAsString(jsonData); //mapper jsonData en un string qui est la ref

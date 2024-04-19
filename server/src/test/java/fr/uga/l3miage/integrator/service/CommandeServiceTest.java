@@ -1,10 +1,8 @@
 package fr.uga.l3miage.integrator.service;
+import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
-import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.repositories.ClientRepository;
-import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,47 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class CommandeServiceTest {
+    @Mock
+    private CommandeComponent commandeComponent;
 
+    @InjectMocks
+    private CommandeService commandeService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    void testFindClientAdressByCommande() {
+        // Mocking
+        CommandeEntity commandeEntity = new CommandeEntity();
+        Adresse expectedAdresse = new Adresse();
+        expectedAdresse.setVille("Grenoble");
+        when(commandeComponent.findClientAdressByCommande(commandeEntity)).thenReturn(expectedAdresse);
+
+        // Test
+        Adresse adresse = commandeService.findClientAdressByCommande(commandeEntity);
+
+        // Assertion
+        assertEquals(expectedAdresse, adresse);
+    }
+
+    @Test
+    void testGetAllCommandeByLivraison() {
+        // Mocking
+        LivraisonEntity livraisonEntity = new LivraisonEntity();
+        Set<CommandeEntity> expectedCommandes = new HashSet<>();
+        when(commandeComponent.getAllCommandeByLivraison(livraisonEntity)).thenReturn(expectedCommandes);
+
+        // Test
+        Set<CommandeEntity> commandes = commandeService.getAllCommandeByLivraison(livraisonEntity);
+
+        // Assertion
+        assertEquals(expectedCommandes, commandes);
+    }
+
+/* test qui pourra utilisé pour le component probablement
     @Mock
     private CommandeRepository commandeRepository;
 
@@ -54,7 +92,7 @@ class CommandeServiceTest {
         // Mocking
         LivraisonEntity livraisonEntity = new LivraisonEntity();
         Set<CommandeEntity> expectedCommandes = new HashSet<>();
-        when(commandeRepository.findCommandeEntitiesByLivraisonEntity(livraisonEntity)).thenReturn(expectedCommandes);
+        when(commandeRepository.findCommandeEntitiesByLivraison(livraisonEntity)).thenReturn(expectedCommandes);
 
         // Test
         Set<CommandeEntity> commandes = commandeService.getAllCommandeByLivraison(livraisonEntity);
@@ -71,12 +109,12 @@ class CommandeServiceTest {
         Adresse expectedAdresse = new Adresse();
         expectedAdresse.setVille("Grenoble");
         clientEntity.setAdresse(expectedAdresse);
-        when(commandeService.findClientAdressByCommande(any())).thenReturn(clientEntity.getAdresse());
+        when(clientRepository.findClientEntityByCommandes(commandeEntity)).thenReturn(clientEntity);
 
         // Test
         Adresse adresse = commandeService.findClientAdressByCommande(commandeEntity);
 
         // Assertion
         assertEquals(expectedAdresse, adresse);
-    }
+    }*/
 }
