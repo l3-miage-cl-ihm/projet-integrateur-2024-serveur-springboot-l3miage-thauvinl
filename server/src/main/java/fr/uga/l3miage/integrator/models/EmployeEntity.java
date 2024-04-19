@@ -17,6 +17,8 @@ public class EmployeEntity {
 
 
     private String telephone;
+
+    @Enumerated(EnumType.STRING)
     private Emploi emploi;
 
     @ManyToMany(mappedBy = "employeEntitySet")

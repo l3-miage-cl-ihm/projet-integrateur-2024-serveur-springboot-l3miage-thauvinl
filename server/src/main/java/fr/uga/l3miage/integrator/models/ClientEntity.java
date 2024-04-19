@@ -18,6 +18,7 @@ public class ClientEntity {
     private String email;
     private String prenom;
     private String nom;
+    @Enumerated(EnumType.ORDINAL)
     private EtatDeCommandeClass.EtatDeClient etat;
     private Float montantTotal;
     @Embedded

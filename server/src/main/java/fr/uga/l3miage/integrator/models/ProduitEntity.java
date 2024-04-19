@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.awt.*;
 
 @Entity
 @Data
@@ -16,7 +18,8 @@ import javax.persistence.Id;
 public class ProduitEntity {
     @Id
     private String Id;
-    private String photo;
+    //@Embedded
+    //private Image photo;
     private String titre;
     private String description;
     private Double prix;
