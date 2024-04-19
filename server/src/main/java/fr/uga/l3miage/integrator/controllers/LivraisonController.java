@@ -34,7 +34,7 @@ public class LivraisonController {
 
 
 
-    @GetMapping
+    @GetMapping("AllLivraisons")
     public ResponseEntity<List<LivraisonEntity>> getAllLivraisons() {
         List<LivraisonEntity> livraisons = livraisonService.getAllLivraison();
         return new ResponseEntity<>(livraisons, HttpStatus.OK);
