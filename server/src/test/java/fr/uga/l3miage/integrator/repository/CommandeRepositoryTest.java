@@ -4,6 +4,7 @@ package fr.uga.l3miage.integrator.repository;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
+import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class CommandeRepositoryTest {
     @Autowired
     private CommandeRepository commandeRepository;
 
+    @Autowired
+    private LivraisonRepository livraisonRepository;
+
     @Test
     public void testFindCommandeEntitiesByReference() {
         // Création d'une commande avec une référence
@@ -36,27 +40,28 @@ public class CommandeRepositoryTest {
         assertEquals(1, commandesTrouvees.size());
         assertEquals("CMD123", commandesTrouvees.iterator().next().getReference());
     }
-    /*
+
 
     @Test
     public void testFindCommandeEntitiesByLivraisonEntity() {
         // Création d'une livraison
         LivraisonEntity livraison = new LivraisonEntity();
         livraison.setReference("Livraison1");
-
+        livraisonRepository.save(livraison);
         // Création de deux commandes associées à cette livraison
         CommandeEntity commande1 = new CommandeEntity();
         commande1.setReference("CMD1");
-        commande1.setLivraisonEntity(livraison);
+        commande1.setLivraison(livraison);
+        //commande1.setLivraisonEntity(livraison);
 
         CommandeEntity commande2 = new CommandeEntity();
         commande2.setReference("CMD2");
-        commande2.setLivraisonEntity(livraison);
+        commande2.setLivraison(livraison);
 
         commandeRepository.saveAll(Set.of(commande1, commande2));
 
         // Recherche des commandes par livraison
-        Set<CommandeEntity> commandesTrouvees = commandeRepository.findCommandeEntitiesByLivraisonEntity(livraison);
+        Set<CommandeEntity> commandesTrouvees = commandeRepository.findCommandeEntitiesByLivraison(livraison);
 
         // Vérification que les commandes trouvées sont celles associées à la livraison
         assertEquals(2, commandesTrouvees.size());
@@ -65,5 +70,7 @@ public class CommandeRepositoryTest {
             references.add(commande.getReference());
         }
         assertEquals(Set.of("CMD1", "CMD2"), references);
-    }*/
+
+    }
+
 }
