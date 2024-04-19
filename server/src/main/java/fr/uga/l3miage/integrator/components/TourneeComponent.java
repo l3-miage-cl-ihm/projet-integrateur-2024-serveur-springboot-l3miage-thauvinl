@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.components;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.uga.l3miage.integrator.models.JourneeEntity;
@@ -10,7 +11,9 @@ import fr.uga.l3miage.integrator.models.TourneeEntity;
 @Component
 @RequiredArgsConstructor
 public class TourneeComponent {
+   @Autowired
    private final TourneeRepository tourneeRepository;
+   @Autowired
    private final JourneeRepository journeeRepository;
 
 

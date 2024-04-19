@@ -5,6 +5,7 @@ import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class JourneeComponent {
+    @Autowired
    private final JourneeRepository journeeRepository;
 
-       private TourneeRepository tourneeRepository;
+   @Autowired
+   private TourneeRepository tourneeRepository;
 
     public Optional<JourneeEntity> findJourneeByReference(String reference) {
         // Implémentation de la logique pour trouver une Journee par sa référence

@@ -16,6 +16,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class JourneeService {
+    @Autowired
     private final JourneeComponent journeeComponent;
 
     public Optional<JourneeEntity> findJourneeByReference(String reference) {
