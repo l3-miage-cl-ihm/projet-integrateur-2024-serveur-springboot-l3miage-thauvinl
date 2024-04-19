@@ -54,7 +54,7 @@ class CommandeServiceTest {
         // Mocking
         LivraisonEntity livraisonEntity = new LivraisonEntity();
         Set<CommandeEntity> expectedCommandes = new HashSet<>();
-        when(commandeRepository.findCommandeEntitiesByLivraisonEntity(livraisonEntity)).thenReturn(expectedCommandes);
+        when(commandeRepository.findCommandeEntitiesByLivraison(livraisonEntity)).thenReturn(expectedCommandes);
 
         // Test
         Set<CommandeEntity> commandes = commandeService.getAllCommandeByLivraison(livraisonEntity);

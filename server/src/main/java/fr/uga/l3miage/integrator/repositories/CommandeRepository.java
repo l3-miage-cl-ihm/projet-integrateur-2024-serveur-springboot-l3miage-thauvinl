@@ -10,7 +10,7 @@ import java.util.Set;
 public interface CommandeRepository extends JpaRepository<CommandeEntity, String> {
     // Vous pouvez ajouter des méthodes spécifiques de requête ici si nécessaire
     Set<CommandeEntity> findCommandeEntitiesByReference(String reference);
-    Set<CommandeEntity> findCommandeEntitiesByLivraisonEntity(LivraisonEntity L);
+    Set<CommandeEntity> findCommandeEntitiesByLivraison(LivraisonEntity L);
 
 
 }

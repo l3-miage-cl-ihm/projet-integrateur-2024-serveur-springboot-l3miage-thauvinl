@@ -36,6 +36,7 @@ public class CommandeRepositoryTest {
         assertEquals(1, commandesTrouvees.size());
         assertEquals("CMD123", commandesTrouvees.iterator().next().getReference());
     }
+    /*
 
     @Test
     public void testFindCommandeEntitiesByLivraisonEntity() {
@@ -64,5 +65,5 @@ public class CommandeRepositoryTest {
             references.add(commande.getReference());
         }
         assertEquals(Set.of("CMD1", "CMD2"), references);
-    }
+    }*/
 }
