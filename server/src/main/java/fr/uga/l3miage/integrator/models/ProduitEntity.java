@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ public class ProduitEntity {
     //@Embedded
     //private Image photo;
     private String titre;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Double prix;
     private Boolean optionDeMontage;
