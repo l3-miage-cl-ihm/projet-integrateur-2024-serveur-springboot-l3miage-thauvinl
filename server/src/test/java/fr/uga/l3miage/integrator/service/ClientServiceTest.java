@@ -1,7 +1,8 @@
-package fr.uga.l3miage.integrator.services;
+package fr.uga.l3miage.integrator.service;
 
 import fr.uga.l3miage.integrator.components.ClientComponent;
 import fr.uga.l3miage.integrator.models.ClientEntity;
+import fr.uga.l3miage.integrator.services.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
