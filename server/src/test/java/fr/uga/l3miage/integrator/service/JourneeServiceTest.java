@@ -1,5 +1,4 @@
 package fr.uga.l3miage.integrator.service;
-
 import fr.uga.l3miage.integrator.components.JourneeComponent;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
@@ -129,5 +128,5 @@ public class JourneeServiceTest {
         when(tourneeRepository.findByReferenceContaining(reference)).thenReturn(expectedTournees);
         List<TourneeEntity> tournees = journeeService.getAllTourneesOfJournee(reference);
         assertEquals(expectedTournees, tournees);
-    }*/
+    }
 }
