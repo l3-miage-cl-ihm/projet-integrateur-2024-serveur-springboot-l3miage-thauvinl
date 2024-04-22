@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,7 +20,7 @@ public class JourneeEntity {
     private Double distanceAParcourir;
     private Double montant;
     private Integer tempsDeMontageTheorique;
-    @OneToMany
-    @JoinColumn(name="journee_entity_reference", referencedColumnName = "reference")
-    private List<TourneeEntity> tournees;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="journee_reference")
+    private Set<TourneeEntity> tournees;
 }

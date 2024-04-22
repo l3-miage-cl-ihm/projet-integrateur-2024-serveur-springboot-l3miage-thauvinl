@@ -1,7 +1,11 @@
 package fr.uga.l3miage.integrator.controllers;
+import fr.uga.l3miage.integrator.endpoints.JourneeEndpoints;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
+import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.JourneeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +17,12 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/journees")
-public class JourneeController {
+@RequiredArgsConstructor
+public class JourneeController implements JourneeEndpoints {
 
     private final JourneeService journeeService;
 
-    @Autowired
-    public JourneeController(JourneeService journeeService) {
-        this.journeeService = journeeService;
-    }
+
 
     @GetMapping("/{reference}")
     public ResponseEntity<JourneeEntity> getJournee(@PathVariable String reference) {
@@ -35,20 +35,9 @@ public class JourneeController {
         List<JourneeEntity> journees = journeeService.findAllJournees();
         return ResponseEntity.ok(journees);
     }
-    @PostMapping
-    public ResponseEntity<JourneeEntity> createJournee(@RequestBody JourneeEntity journee) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = sdf.parse("15/04/2024");
-            journee.setDate(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return ResponseEntity.noContent().build();
-        }
-
-
-        JourneeEntity savedJournee = journeeService.createJournee(journee);
-        return new ResponseEntity<>(savedJournee, HttpStatus.CREATED);
+    @Override
+    public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
+        return journeeService.createJournee(journeeCreationRequest);
     }
 
     @GetMapping("/{reference}/tournees")
