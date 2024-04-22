@@ -24,11 +24,9 @@ public class JourneeController implements JourneeEndpoints {
 
 
 
-    @GetMapping("/{reference}")
-    public ResponseEntity<JourneeEntity> getJournee(@PathVariable String reference) {
-        return journeeService.findJourneeByReference(reference)
-                .map(journee -> ResponseEntity.ok(journee)) // Si la journée est trouvée, retourne la journée avec un statut 200 OK
-                .orElse(ResponseEntity.notFound().build()); // Si la journée n'est pas trouvée, retourne un statut 404 Not Found
+    @Override
+    public JourneeResponseDTO getJournee (String reference) {
+        return journeeService.getJournee(reference); // Si la journée n'est pas trouvée, retourne un statut 404 Not Found
     }
     @GetMapping
     public ResponseEntity<List<JourneeEntity>> getAllJournees() {

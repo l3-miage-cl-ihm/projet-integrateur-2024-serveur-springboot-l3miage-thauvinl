@@ -1,5 +1,8 @@
 package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.components.JourneeComponent;
+import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
@@ -22,9 +25,12 @@ public class JourneeService {
     private final JourneeMapper journeeMapper;
     private final TourneeMapper tourneeMapper;
 
-    public Optional<JourneeEntity> findJourneeByReference(String reference) {
-        // Implémentation de la logique pour trouver une Journee par sa référence
-        return journeeComponent.findJourneeByReference(reference);
+    public JourneeResponseDTO getJournee(String reference) {
+        try{
+            return journeeMapper.toResponse(journeeComponent.getJournee(reference));
+        }catch (NotFoundJourneeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
     }
 
     public List<JourneeEntity> findAllJournees(){

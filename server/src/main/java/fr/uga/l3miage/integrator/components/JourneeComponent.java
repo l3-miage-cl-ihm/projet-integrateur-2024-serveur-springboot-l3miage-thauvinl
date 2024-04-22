@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
@@ -21,9 +22,9 @@ public class JourneeComponent {
    @Autowired
    private TourneeRepository tourneeRepository;
 
-    public Optional<JourneeEntity> findJourneeByReference(String reference) {
+    public JourneeEntity getJournee(String reference) throws NotFoundJourneeEntityException {
         // Implémentation de la logique pour trouver une Journee par sa référence
-        return journeeRepository.findByReference(reference);
+        return journeeRepository.findByReference(reference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée [%s] n'a pas été trouvée", reference)));
     }
 
     public List<JourneeEntity> findAllJournees(){

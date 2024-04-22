@@ -1,8 +1,11 @@
 package fr.uga.l3miage.integrator.endpoints;
 
+import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,4 +28,14 @@ public interface JourneeEndpoints {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);
+
+    @Operation(description = "récuperer une journée")
+    @ApiResponses({@ApiResponse(responseCode = "200",
+            description = "La journée a été trouvée"),
+    @ApiResponse(responseCode ="404",
+            description="La journée est introuvable",
+            content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = "application/json")})})
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("{idJournee}")
+    JourneeResponseDTO getJournee(@PathVariable(name="idJournee")String idJournee);
 }
