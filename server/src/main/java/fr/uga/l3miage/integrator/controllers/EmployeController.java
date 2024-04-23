@@ -24,4 +24,11 @@ public class EmployeController {
         return new ResponseEntity<>(livreurs, HttpStatus.OK);
     }
 
+    @GetMapping("/employes/livreurs")
+    public ResponseEntity<Set<EmployeEntity>> getAllLivreurs() {
+        Set<EmployeEntity> livreurs = employeService.getAllLivreurs();
+        return new ResponseEntity<>(livreurs, HttpStatus.OK);
+    }
+
+
 }

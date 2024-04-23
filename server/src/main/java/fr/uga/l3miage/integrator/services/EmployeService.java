@@ -59,4 +59,8 @@ public class EmployeService {
     public void deleteEmploye(String id) {
         employeRepository.deleteById(id);
     }
+
+    public Set<EmployeEntity> getAllLivreurs(){
+        return employeComponent.getAllLivreurs();
+    }
 }
