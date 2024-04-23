@@ -16,7 +16,7 @@ public class CommandeController {
     @Autowired
     private CommandeRepository commandeRepository;
 
-    @GetMapping
+    @GetMapping("/AllCommandes")
     public ResponseEntity<List<CommandeEntity>> getAllCommandes() {
         List<CommandeEntity> commandes = commandeRepository.findAll();
         return new ResponseEntity<>(commandes, HttpStatus.OK);
@@ -31,5 +31,5 @@ public class CommandeController {
         return new ResponseEntity<>(commande, HttpStatus.OK);
     }
 
-    // Ajoutez ici d'autres méthodes pour gérer les opérations CRUD des commandes
+
 }
