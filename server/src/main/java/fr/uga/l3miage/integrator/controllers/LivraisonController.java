@@ -3,8 +3,10 @@ package fr.uga.l3miage.integrator.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.endpoints.LivraisonEndpoints;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import java.util.Set;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/livraisons")
-public class LivraisonController {
+public class LivraisonController{
 
     @Autowired
     private LivraisonService livraisonService;
@@ -34,11 +36,16 @@ public class LivraisonController {
 
 
 
-    @GetMapping("AllLivraisons")
+    @GetMapping("/AllLivraisons")
     public ResponseEntity<List<LivraisonEntity>> getAllLivraisons() {
         List<LivraisonEntity> livraisons = livraisonService.getAllLivraison();
         return new ResponseEntity<>(livraisons, HttpStatus.OK);
     }
+    /*
+    @Override
+    public LivraisonResponseDTO getAllLivraisons(){
+        return livraisonService.getAllLivraison();
+    }*/
 
     @GetMapping("/{reference}")
     public ResponseEntity<LivraisonEntity> getLivraisonByReference(@PathVariable String reference) {
