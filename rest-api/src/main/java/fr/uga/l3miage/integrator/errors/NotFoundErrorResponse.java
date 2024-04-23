@@ -13,7 +13,7 @@ public class NotFoundErrorResponse {
     private final String uri;
     @Schema(
             description = "error message",
-            example = "La journée J001 n'existe pas"
+            example = "La journée [J001] n'a pas été trouvée"
     )
     private final String errorMessage;
 

@@ -22,35 +22,19 @@ public class JourneeController implements JourneeEndpoints {
 
     private final JourneeService journeeService;
 
-
+    @Override
+    public JourneeResponseDTO addTourneeInJournee(String journeeReference, String tourneeReference){
+        return journeeService.addTourneeInJournee(journeeReference, tourneeReference);
+    }
 
     @Override
     public JourneeResponseDTO getJournee (String reference) {
         return journeeService.getJournee(reference); // Si la journée n'est pas trouvée, retourne un statut 404 Not Found
     }
-    @GetMapping
-    public ResponseEntity<List<JourneeEntity>> getAllJournees() {
-        List<JourneeEntity> journees = journeeService.findAllJournees();
-        return ResponseEntity.ok(journees);
-    }
+
     @Override
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         return journeeService.createJournee(journeeCreationRequest);
     }
 
-    @GetMapping("/{reference}/tournees")
-    public ResponseEntity<List<TourneeEntity>> getAllTourneesOfJournee(@PathVariable String reference) {
-        List<TourneeEntity> tournees = journeeService.getAllTourneesOfJournee(reference);
-        return ResponseEntity.ok().body(tournees);
-    }
-
-    /*@PatchMapping("/{reference}")
-    public ResponseEntity<JourneeEntity> updateJournee(@PathVariable String reference, @RequestBody JourneeEntity journee){
-        JourneeEntity updatedJournee = journeeService.updateJournee(reference, journee);
-        if (updatedJournee != null) {
-            return ResponseEntity.ok().body(updatedJournee);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
 }

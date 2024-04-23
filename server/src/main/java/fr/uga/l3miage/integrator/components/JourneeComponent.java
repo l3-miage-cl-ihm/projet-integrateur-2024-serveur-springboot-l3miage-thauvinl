@@ -16,28 +16,28 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class JourneeComponent {
-    @Autowired
+
    private final JourneeRepository journeeRepository;
 
-   @Autowired
    private TourneeRepository tourneeRepository;
 
+   public JourneeEntity addTourneeInJournee(String journeeReference, TourneeEntity tourneeEntity) throws NotFoundJourneeEntityException{
+       JourneeEntity journeeEntity  = journeeRepository.findByReference(journeeReference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée de référence %s n'a pas été trouvée", journeeReference)));
+       journeeEntity.getTournees().add(tourneeEntity);
+       return journeeRepository.save(journeeEntity);
+   }
     public JourneeEntity getJournee(String reference) throws NotFoundJourneeEntityException {
         // Implémentation de la logique pour trouver une Journee par sa référence
         return journeeRepository.findByReference(reference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée [%s] n'a pas été trouvée", reference)));
     }
 
-    public List<JourneeEntity> findAllJournees(){
-        return journeeRepository.findAll();
-    }
 
     public JourneeEntity createJournee(JourneeEntity journee) {
         return journeeRepository.save(journee);
     }
 
-    public List<TourneeEntity> getAllTourneesOfJournee(String reference) {
-        // Implémentez la logique pour récupérer toutes les tournées associées à une journée spécifique
-        // en utilisant la référence de la journée.
-        return tourneeRepository.findByReferenceContaining(reference);
-    }
+    public void deleteJournee(String reference) throws NotFoundJourneeEntityException{
+       JourneeEntity journee = journeeRepository.findByReference(reference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée [%s] n'a pas été trouvée", reference)));
+       journeeRepository.delete(journee);
+   }
 }

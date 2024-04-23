@@ -8,7 +8,8 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface JourneeMapper {
-    JourneeResponseDTO toResponse(JourneeEntity journeeEntity);
+    @Mapping(target = "tourneeResponseDTOS", source = "tournees")
+    JourneeResponseDTO toResponseWithTournees(JourneeEntity journeeEntity);
 
     @Mapping(target = "tournees", ignore = true)
     JourneeEntity toEntity(JourneeCreationRequest request);

@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,12 @@ import fr.uga.l3miage.integrator.models.TourneeEntity;
 @Component
 @RequiredArgsConstructor
 public class TourneeComponent {
-   @Autowired
    private final TourneeRepository tourneeRepository;
-   @Autowired
    private final JourneeRepository journeeRepository;
 
-
+   public TourneeEntity getTourneeByRef(String tourneeReference) throws NotFoundTourneeEntityException {
+      return tourneeRepository.findByReference(tourneeReference).orElseThrow(()->new NotFoundTourneeEntityException(String.format("La tournée de référence : %s n'existe pas", tourneeReference)));
+   }
     /*public ResponseEntity<TourneeEntity> createTournee(TourneeEntity tournee) {
         Optional<JourneeEntity> optionalJournee = journeeRepository.findByReference(tournee.getReference());
         if (optionalJournee.isPresent()) {

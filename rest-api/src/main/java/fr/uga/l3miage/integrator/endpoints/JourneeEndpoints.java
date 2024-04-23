@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.endpoints;
 
+import fr.uga.l3miage.integrator.errors.AddJourneeErrorResponse;
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Gestion des journées", description = "Tous les endpoints de gestion des journées")
@@ -38,4 +40,11 @@ public interface JourneeEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{idJournee}")
     JourneeResponseDTO getJournee(@PathVariable(name="idJournee")String idJournee);
+
+    @Operation(description = "Ajouter une tournée à la journée")
+    @ApiResponse(responseCode = "200",description = "La tournée a été ajoutée à la journée")
+    @ApiResponse(responseCode = "404", description = "Une erreur s'est produite, la journée ou la tournée demandée n'a pas été trouvée",content = @Content(schema = @Schema(implementation = AddJourneeErrorResponse.class),mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{idJournee}/add")
+    JourneeResponseDTO addTourneeInJournee(@PathVariable(name = "idJournee")String idJournee, @RequestParam(name = "idTournee") String idTournee);
 }

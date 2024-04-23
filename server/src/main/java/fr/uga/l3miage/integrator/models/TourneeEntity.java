@@ -18,7 +18,7 @@ import java.util.Set;
 public class TourneeEntity {
     @Id
     private String reference;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private EtatDeCommandeClass.EtatsDeTournee etatsDeTournee;
     private String lettre;
     private Double montant;
