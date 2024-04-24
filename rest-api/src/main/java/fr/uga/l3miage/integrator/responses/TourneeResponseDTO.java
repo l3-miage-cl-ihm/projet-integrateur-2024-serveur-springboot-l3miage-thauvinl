@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Builder
 public class TourneeResponseDTO {
@@ -23,4 +25,6 @@ public class TourneeResponseDTO {
     private Double distanceAParcourir;
     @Schema(description = "Distance entre la dernière livraison et l'entrepôt")
     private Double distanceDeRetour;
+    @Schema(description = "Liste des employés effectuant une tournée")
+    private Set<EmployeResponseDTO> employeResponseDTOS;
 }

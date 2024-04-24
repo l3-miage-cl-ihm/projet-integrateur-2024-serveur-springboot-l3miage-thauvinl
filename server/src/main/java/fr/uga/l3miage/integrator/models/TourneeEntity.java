@@ -30,7 +30,7 @@ public class TourneeEntity {
     private Set<LivraisonEntity> livraisons;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<EmployeEntity> employeEntitySet;
 
     /* @OneToOne

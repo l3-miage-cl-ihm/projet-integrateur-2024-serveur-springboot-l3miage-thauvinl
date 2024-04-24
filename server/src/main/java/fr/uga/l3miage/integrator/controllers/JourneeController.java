@@ -29,7 +29,7 @@ public class JourneeController implements JourneeEndpoints {
 
     @Override
     public JourneeResponseDTO getJournee (String reference) {
-        return journeeService.getJournee(reference); // Si la journée n'est pas trouvée, retourne un statut 404 Not Found
+        return journeeService.getJournee(reference);
     }
 
     @Override
