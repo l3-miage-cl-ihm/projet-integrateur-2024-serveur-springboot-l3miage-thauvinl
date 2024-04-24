@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 public class EmployeControllerTest {
@@ -67,5 +68,21 @@ public class EmployeControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(employes, responseEntity.getBody());
     }
+
+    /*@Test
+    public void testGetLivreursByTourneeIdFail() throws NotFoundException {
+        // Given
+        String tourneeId = "123";
+
+        // Définir le comportement simulé du service pour lancer une exception NotFoundException
+        doThrow(NotFoundException.class).when(employeService).getLivreursByTourneeId(tourneeId);
+
+        // When
+        ResponseEntity<Set<EmployeEntity>> responseEntity = employeController.getLivreursByTourneeId(tourneeId);
+
+        // Then
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }*/
 
 }

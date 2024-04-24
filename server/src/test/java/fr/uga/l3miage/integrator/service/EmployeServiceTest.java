@@ -40,13 +40,17 @@ public class EmployeServiceTest {
         String tourneeId = "123";
 
         // Create a set of mock employees
-        EmployeEntity employe1 = new EmployeEntity();
-        employe1.setEmail("test1");
-        employe1.setNom("titi");
+        EmployeEntity employe1 = EmployeEntity
+                .builder()
+                .email("test1")
+                .nom("toto")
+                .build();
 
-        EmployeEntity employe2 = new EmployeEntity();
-        employe2.setEmail("test2");
-        employe2.setNom("toto");
+        EmployeEntity employe2 = EmployeEntity
+                .builder()
+                .email("test2")
+                .nom("titi")
+                .build();
 
         Set<EmployeEntity> employes = new HashSet<>();
         employes.add(employe1);
@@ -75,6 +79,50 @@ public class EmployeServiceTest {
 
         // When, Then
         assertThrows(NotFoundException.class, () -> employeService.getLivreursByTourneeId(tourneeId));
+    }
+
+    @Test
+    public void testGetAllLivreursSuccess() {
+        // Given
+        EmployeEntity employe1 = EmployeEntity
+                .builder()
+                .trigramme("123")
+                .email("test1")
+                .nom("toto")
+                .build();
+
+        EmployeEntity employe2 = EmployeEntity
+                .builder()
+                .trigramme("234")
+                .email("test2")
+                .nom("titi")
+                .build();
+
+
+        Set<EmployeEntity> employes = new HashSet<>();
+        employes.add(employe1);
+        employes.add(employe2);
+
+        // Set up mock behavior
+        when(employeComponent.getAllLivreurs()).thenReturn(employes);
+
+        // When
+        Set<EmployeEntity> result = employeService.getAllLivreurs();
+
+        // Then
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(employe1));
+        assertTrue(result.contains(employe2));
+    }
+
+    @Test
+    public void testGetAllLivreursFail() {
+        // Set up mock behavior to return null
+        when(employeComponent.getAllLivreurs()).thenReturn(null);
+
+        // When, Then
+        assertNull(employeService.getAllLivreurs());
     }
 
 }
