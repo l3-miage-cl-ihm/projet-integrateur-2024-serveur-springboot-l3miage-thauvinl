@@ -65,4 +65,16 @@ public class EmployeServiceTest {
         assertTrue(result.contains(employe2));
     }
 
+    @Test
+    public void testGetLivreursByTourneeIdFail() throws NotFoundException {
+        // Given
+        String tourneeId = "456";
+
+        // Set up mock behavior to throw NotFoundException
+        when(employeComponent.getLivreursByTourneeId(tourneeId)).thenThrow(new NotFoundException("Tournée non trouvée"));
+
+        // When, Then
+        assertThrows(NotFoundException.class, () -> employeService.getLivreursByTourneeId(tourneeId));
+    }
+
 }
