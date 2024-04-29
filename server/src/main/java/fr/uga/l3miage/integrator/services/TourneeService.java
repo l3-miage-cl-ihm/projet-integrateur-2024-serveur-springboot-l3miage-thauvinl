@@ -31,7 +31,10 @@ public class TourneeService {
     private final EmployeMapper employeMapper;
     private final TourneeComponent tourneeComponent;
 
-    public TourneeResponseDTO createTournee(TourneeCreationRequest tourneeCreationRequest) {
+   /* public TourneeResponseDTO createTournee(TourneeCreationRequest tourneeCreationRequest) {
+        if (journeeRepository.findByReference(tourneeCreationRequest.getRefJournee()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Journée not found with reference: " + tourneeCreationRequest.getRefJournee());
+        }
         try {
             TourneeEntity tournee = tourneeMapper.toEntity(tourneeCreationRequest);
             tournee.setEmployeEntitySet(tourneeCreationRequest.getEmployes()
@@ -42,7 +45,7 @@ public class TourneeService {
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create tournee" + e.getMessage(), e);
         }
-    }
+    }*/
 
     public TourneeResponseDTO getTourneeByEmploye(String trigramme){
         try {

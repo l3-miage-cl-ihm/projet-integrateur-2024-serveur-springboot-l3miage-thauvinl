@@ -3,10 +3,10 @@ package fr.uga.l3miage.integrator.models.enums;
 public class EtatDeCommandeClass {
     public enum EtatDeCommande{
         ouverte,
-        planifiée,
+        planifiee,
         enLivraison,
-        livrée,
-        notée
+        livree,
+        notee
     }
 
     public enum EtatsDeTournee {

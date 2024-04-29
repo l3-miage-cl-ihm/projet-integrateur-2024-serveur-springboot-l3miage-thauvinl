@@ -14,15 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/tournees")
 public interface TourneeEndpoints {
 
-    @Operation(description = "Création d'une journée")
-    @ApiResponses({@ApiResponse(
-            responseCode = "201",
-            description = "La tournée a bien été créée"),
-            @ApiResponse(responseCode = "400",
-                         description = "Une erreur s'est produite avec la requête")})
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create")
-    TourneeResponseDTO createTournee(@RequestBody TourneeCreationRequest tourneeCreationRequest);
+
 
     @Operation(description = "Accès à une tournée à partir du nom d'un de ses employés")
     @ApiResponses({@ApiResponse(

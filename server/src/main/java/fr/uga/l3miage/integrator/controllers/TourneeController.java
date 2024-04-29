@@ -24,10 +24,10 @@ public class TourneeController implements TourneeEndpoints {
 
     private  final TourneeService tourneeService;
 
-    @Override
-    public TourneeResponseDTO createTournee(TourneeCreationRequest tourneeCreationRequest) {
+    //@Override
+    /*public TourneeResponseDTO createTournee(TourneeCreationRequest tourneeCreationRequest) {
         return tourneeService.createTournee(tourneeCreationRequest);
-    }
+    }*/
 
     @Override
     public TourneeResponseDTO getTourneeByEmploye(String trigramme){

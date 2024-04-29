@@ -6,12 +6,8 @@ import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -23,10 +19,10 @@ public class JourneeComponent {
 
    public JourneeEntity addTourneeInJournee(String journeeReference, TourneeEntity tourneeEntity) throws NotFoundJourneeEntityException{
        JourneeEntity journeeEntity  = journeeRepository.findByReference(journeeReference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée de référence %s n'a pas été trouvée", journeeReference)));
-       journeeEntity.getTournees().add(tourneeEntity);
+       journeeEntity.addTournee(tourneeEntity);
        return journeeRepository.save(journeeEntity);
    }
-    public JourneeEntity getJournee(String reference) throws NotFoundJourneeEntityException {
+    public JourneeEntity getJourneeByRef(String reference) throws NotFoundJourneeEntityException {
         // Implémentation de la logique pour trouver une Journee par sa référence
         return journeeRepository.findByReference(reference).orElseThrow(()->new NotFoundJourneeEntityException(String.format("La journée [%s] n'a pas été trouvée", reference)));
     }

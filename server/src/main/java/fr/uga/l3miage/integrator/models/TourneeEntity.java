@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,21 +21,21 @@ public class TourneeEntity {
     private String reference;
     @Enumerated(EnumType.STRING)
     private EtatDeCommandeClass.EtatsDeTournee etatsDeTournee;
+    @Column(nullable = false)
     private String lettre;
-    private Double montant;
-    private Integer tempsDeMontageTheorique;
     private Integer tempsDeMontageEffectif;
-    private Double distanceAParcourir;
+    @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private Double distanceDeRetour;
     @OneToMany(mappedBy = "tournee")
     private Set<LivraisonEntity> livraisons;
 
+    @ManyToOne
+    private  JourneeEntity journee;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<EmployeEntity> employeEntitySet;
+    private Set<EmployeEntity> employeEntitySet = new HashSet<>();
 
-    /* @OneToOne
-    private CamionEntity;*/
+    @OneToOne
+    private CamionEntity camion;
 
 }
-//test de performarmance pour les methodes

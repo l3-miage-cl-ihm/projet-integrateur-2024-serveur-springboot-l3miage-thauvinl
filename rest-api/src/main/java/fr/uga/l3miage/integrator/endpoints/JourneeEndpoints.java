@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.endpoints;
 import fr.uga.l3miage.integrator.errors.AddJourneeErrorResponse;
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
+import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,5 +47,5 @@ public interface JourneeEndpoints {
     @ApiResponse(responseCode = "404", description = "Une erreur s'est produite, la journée ou la tournée demandée n'a pas été trouvée",content = @Content(schema = @Schema(implementation = AddJourneeErrorResponse.class),mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{idJournee}/add")
-    JourneeResponseDTO addTourneeInJournee(@PathVariable(name = "idJournee")String idJournee, @RequestParam(name = "idTournee") String idTournee);
+    JourneeResponseDTO addTourneeInJournee(@PathVariable(name = "idJournee")String idJournee, @RequestBody TourneeCreationRequest request);
 }
