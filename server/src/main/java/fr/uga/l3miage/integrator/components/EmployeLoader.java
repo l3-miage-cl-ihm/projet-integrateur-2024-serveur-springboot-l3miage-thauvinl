@@ -31,7 +31,7 @@ public class EmployeLoader implements CommandLineRunner {
                     employe.setNom(data[2]);
                     employe.setPrenom(data[3]);
                     employe.setTelephone(data[4]);
-                    employe.setEmail(data[5].isEmpty() ? null : data[5]);
+                    employe.setEmail(data.length>5 ? data[5] : null);
                     return employe;
                 })
                 .collect(Collectors.toList());

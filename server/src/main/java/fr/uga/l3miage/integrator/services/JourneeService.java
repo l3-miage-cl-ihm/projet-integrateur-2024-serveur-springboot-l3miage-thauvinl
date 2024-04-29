@@ -53,6 +53,9 @@ public class JourneeService {
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         try{
             JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
+            for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
+                journeeEntity.addTournee(tourneeMapper.toEntityWithJourneeRef(tournee, journeeEntity.getReference()));
+            }
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create journée: " + e.getMessage(), e);

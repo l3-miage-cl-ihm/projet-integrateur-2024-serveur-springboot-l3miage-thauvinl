@@ -18,6 +18,7 @@ import java.util.Set;
 public class EmployeEntity {
     @Id
     private String trigramme;
+    @Column(nullable = true)
     private String email;
     private String prenom;
     private String nom;

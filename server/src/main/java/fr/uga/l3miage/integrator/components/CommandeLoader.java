@@ -36,7 +36,7 @@ public class CommandeLoader implements CommandLineRunner {
                     commande.setDureeDeLivraison((data[6].isEmpty() ? null : Integer.parseInt(data[6])));
                     commande.setTddTheorique(data[7].isEmpty() ? null : Integer.parseInt(data[7]));
                     commande.setTdmTheorique(data[8].isEmpty() ? null : Integer.parseInt(data[8]));
-                    commande.setMontant(data[8].isEmpty() ? null : Double.parseDouble(data[8]));
+                    commande.setMontant(data[9].isEmpty() ? null : Double.parseDouble(data[9]));
                     return commande;
                 })
                 .collect(Collectors.toList());
