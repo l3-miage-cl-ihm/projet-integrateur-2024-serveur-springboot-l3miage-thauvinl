@@ -26,6 +26,7 @@ public class TourneeEntity {
     private Integer tempsDeMontageEffectif;
     @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private Double distanceDeRetour;
+
     @OneToMany(mappedBy = "tournee")
     private Set<LivraisonEntity> livraisons;
 
