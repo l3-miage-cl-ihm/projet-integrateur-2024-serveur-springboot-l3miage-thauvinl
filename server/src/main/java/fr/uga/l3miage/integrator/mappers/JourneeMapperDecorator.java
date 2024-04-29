@@ -26,7 +26,7 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
         journee.setReference("j0" + day + "G");
         journee.setTournees(new HashSet<>());
         for(TourneeCreationRequest tournee : request.getTournees()){
-            journee.addTournee(mapper.toEntity(tournee));
+            journee.addTournee(mapper.toEntityWithJourneeRef(tournee,journee.getReference()));
         }
         return journee;
     }

@@ -15,4 +15,6 @@ public interface TourneeMapper {
     @Mapping(target = "employeEntitySet", ignore = true)
     @Mapping(target = "reference",ignore = true)
     TourneeEntity toEntity(TourneeCreationRequest request);
+
+    TourneeEntity toEntityWithJourneeRef(TourneeCreationRequest tournee, String reference);
 }

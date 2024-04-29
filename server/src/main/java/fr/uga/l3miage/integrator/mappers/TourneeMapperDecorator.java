@@ -19,6 +19,14 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
             System.out.println(tournee.getReference());
         return tournee;
     }
+    @Override
+    public TourneeEntity toEntityWithJourneeRef(TourneeCreationRequest request, String ref){
+        TourneeEntity tournee = delegate.toEntity(request);
+        tournee.setReference(ref + tournee.getLettre());
+        System.out.println(tournee.getReference());
+        return tournee;
+    }
+
 
     @Override
     public TourneeResponseDTO toResponseWithEmployes(TourneeEntity tournee){
