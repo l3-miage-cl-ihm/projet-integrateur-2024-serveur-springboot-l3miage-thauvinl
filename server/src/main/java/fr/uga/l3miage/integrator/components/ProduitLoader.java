@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,31 +19,22 @@ public class ProduitLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception{
-        if (produitRepository.count() == 0) { // Vérifier si la base est vide
-            Path csvPath = Path.of("C:\\Users\\user\\OneDrive\\Bureau\\projet-integrateur-2024-serveur-springboot-l3miage-thauvinl\\server\\src\\main\\resources\\Export_Produits_netoye.csv");
-            List<ProduitEntity> produits = new ArrayList<>();
-
-            List<String> lines = Files.readAllLines(csvPath);
-
-
-            for (String line : lines.stream().skip(1).collect(Collectors.toList())) {
-                String[] data = line.split(";");
-
-                if (data.length == 6) {
+        Path path = Path.of("server/src/main/resources/Export_Produits_Modifie.csv");
+        List<String> lines = Files.readAllLines(path);
+        List<ProduitEntity> produits = lines.stream().skip(1) // Skip header line
+                .map(line -> line.split(";"))
+                .map(data -> {
                     ProduitEntity p = new ProduitEntity();
-                    p.setId(data[0].trim());
-                    p.setDescription(data[1].trim());
-                    p.setOptionDeMontage(Boolean.parseBoolean(data[2].trim()));
-                    p.setPrix(Double.parseDouble(data[3].trim()));
-                    p.setTempsDeMontageTheorique(Integer.parseInt(data[4].trim()));
-                    p.setTitre(data[5].trim());
-                    produitRepository.save(p); // Enregistrer le produit
-                } else {
-                    System.err.println("Ligne ignorée pour nombre de colonnes incorrect : " + line);
-                }
-            }
-        }
+                    p.setId(data[0]);
+                    p.setTitre(data[1]);
+                    p.setDescription(data[2]);
+                    p.setTempsDeMontageTheorique(data[3].isEmpty() ? null : Integer.parseInt(data[3]));
+                    p.setOptionDeMontage(Boolean.parseBoolean(data[4]));
+                    p.setPrix(Double.parseDouble(data[5].replace("€", "").trim()));
+                    return p;
+                })
+                .collect(Collectors.toList());
 
-
+        produitRepository.saveAll(produits);
     }
 }

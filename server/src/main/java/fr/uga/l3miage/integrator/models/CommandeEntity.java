@@ -29,7 +29,7 @@ public class CommandeEntity {
     @Column(nullable=true) private Integer note;
     @Column(nullable=true) private String commentaire;
 
-    private float montant;
+    private Double montant;
     private Integer tddTheorique;
 
     private Integer tdmTheorique;
