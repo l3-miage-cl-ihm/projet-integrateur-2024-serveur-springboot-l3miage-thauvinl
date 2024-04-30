@@ -1,11 +1,23 @@
 package fr.uga.l3miage.integrator.controllers;
 
+import fr.uga.l3miage.integrator.endpoints.CamionEndpoints;
+import fr.uga.l3miage.integrator.responses.CamionResponseDTO;
+import fr.uga.l3miage.integrator.services.CamionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/api/camions")
+import java.util.List;
+import java.util.Set;
+
 @RestController
-public class CamionController {
+@RequiredArgsConstructor
+public class CamionController implements CamionEndpoints {
+    private final CamionService camionService;
+    public List<CamionResponseDTO> getAllCamions(){
+        return camionService.getAllCamions();
+    }
+
+
 }
