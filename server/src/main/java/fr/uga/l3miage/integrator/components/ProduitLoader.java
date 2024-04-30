@@ -2,7 +2,7 @@ package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.repositories.ProduitRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class ProduitLoader implements CommandLineRunner {
 
-    @Autowired
-    private ProduitRepository produitRepository;
+
+    private final ProduitRepository produitRepository;
 
     @Override
     public void run(String... args) throws Exception{
-        Path path = Path.of("server/src/main/resources/Export_Produits_Modifie.csv");
+        Path path = Path.of("server/src/main/resources/Produits.csv");
         List<String> lines = Files.readAllLines(path);
         List<ProduitEntity> produits = lines.stream().skip(1) // Skip header line
                 .map(line -> line.split(";"))

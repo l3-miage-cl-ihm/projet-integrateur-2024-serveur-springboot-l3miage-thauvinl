@@ -1,10 +1,9 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.models.EmployeEntity;
-import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +13,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class EmployeLoader implements CommandLineRunner {
-    @Autowired
-    private EmployeRepository employeRepository;
+
+    private final EmployeRepository employeRepository;
 
     @Override
     public void run(String... args) throws Exception{
-        Path path = Path.of("server/src/main/resources/Export_Employés_netoye.csv");
+        Path path = Path.of("server/src/main/resources/Employés.csv");
         List<String> lines = Files.readAllLines(path);
         List<EmployeEntity> employes = lines.stream().skip(1) // Skip header line
                 .map(line -> line.split(","))

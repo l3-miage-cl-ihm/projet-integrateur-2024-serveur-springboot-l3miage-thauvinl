@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/journees")
 public interface JourneeEndpoints {
     @Operation(description = "Création d'une journée")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "La journée a bien été créée"
-    ),
+    )
     @ApiResponse(
             responseCode = "400",
             description = "Une erreur s'est produite avec la requête"
-    )})
+    )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);

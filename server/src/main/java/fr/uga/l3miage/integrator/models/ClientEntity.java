@@ -24,7 +24,7 @@ public class ClientEntity {
     @Embedded
     private Adresse adresse;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<CommandeEntity> commandes;
 
 

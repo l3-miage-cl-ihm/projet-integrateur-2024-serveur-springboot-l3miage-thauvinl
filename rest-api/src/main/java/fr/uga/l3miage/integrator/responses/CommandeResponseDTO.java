@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -21,7 +22,7 @@ public class CommandeResponseDTO {
     //private EtatDeCommande etat;
 
     @Schema(description = "Date de création de la commande")
-    private Date dateDeCreation;
+    private LocalDateTime dateDeCreation;
 
     @Schema(description = "Note attribuée à la commande")
     private Integer note;
@@ -39,7 +40,7 @@ public class CommandeResponseDTO {
     private Integer tdmTheorique;
 
     @Schema(description = "Date de livraison effective de la commande")
-    private Date dateDeLivraisonEffective;
+    private LocalDateTime dateDeLivraisonEffective;
 
     @Schema(description = "Durée de livraison de la commande")
     private Integer dureeDeLivraison;
