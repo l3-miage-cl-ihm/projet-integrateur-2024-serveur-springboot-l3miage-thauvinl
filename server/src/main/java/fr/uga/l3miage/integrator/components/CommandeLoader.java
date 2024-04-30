@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-@Component
+/*@Component
 public class CommandeLoader implements CommandLineRunner {
     @Autowired
     private CommandeRepository commandeRepository;
@@ -43,4 +43,4 @@ public class CommandeLoader implements CommandLineRunner {
 
         commandeRepository.saveAll(commandes);
     }
-}
+}*/

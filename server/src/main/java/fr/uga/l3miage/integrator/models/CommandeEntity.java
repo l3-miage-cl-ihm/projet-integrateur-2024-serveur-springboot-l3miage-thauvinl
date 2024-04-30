@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.models;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Column;
@@ -24,18 +25,18 @@ public class CommandeEntity {
     @Enumerated(EnumType.STRING)
     private EtatDeCommande etat;
 
-    private Date dateDeCreation;
+    private LocalDateTime dateDeCreation;
 
-    @Column(nullable=true) private Integer note;
-    @Column(nullable=true) private String commentaire;
+    private Integer note;
+    private String commentaire;
 
     private Double montant;
     private Integer tddTheorique;
 
     private Integer tdmTheorique;
-    @Column(nullable=true) private Date dateDeLivraisonEffective;
+    private LocalDateTime dateDeLivraisonEffective;
 
-    @Column(nullable=true) private Integer dureeDeLivraison;
+   private Integer dureeDeLivraison;
 
     @ManyToOne()
     private LivraisonEntity livraison;
