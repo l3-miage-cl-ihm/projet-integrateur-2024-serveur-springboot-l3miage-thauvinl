@@ -51,14 +51,14 @@ public interface CommandeEndpoint {
     CommandeResponseDTO getCommandeByReference(@PathVariable String reference);
 
     @Operation(description = "Get commandes group by client")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "La commandes ont été récupérée "
-    ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Une erreur s'est produite avec la requête de getCommandeGroupByClient"
-            )})
+    )
+    @ApiResponse(
+             responseCode = "400",
+            description = "Une erreur s'est produite avec la requête de getCommandeGroupByClient"
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/CommandesByClient")
     Map<String,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;

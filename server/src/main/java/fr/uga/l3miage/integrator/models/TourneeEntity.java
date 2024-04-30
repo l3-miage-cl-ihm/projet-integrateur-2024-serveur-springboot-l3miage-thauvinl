@@ -28,7 +28,7 @@ public class TourneeEntity {
     private Double distanceDeRetour;
 
     @OneToMany(mappedBy = "tournee")
-    private Set<LivraisonEntity> livraisons;
+    private Set<LivraisonEntity> livraisons = new HashSet<>();
 
     @ManyToOne
     private  JourneeEntity journee;

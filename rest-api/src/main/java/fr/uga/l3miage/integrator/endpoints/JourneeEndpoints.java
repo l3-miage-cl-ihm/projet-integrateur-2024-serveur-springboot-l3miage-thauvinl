@@ -25,12 +25,18 @@ public interface JourneeEndpoints {
     @PostMapping("/create")
     JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);
 
+
+
     @Operation(description = "récuperer une journée")
+
     @ApiResponse(responseCode = "200", description = "La journée a été trouvée")
     @ApiResponse(responseCode = "404", description = "La journée est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = "application/json")})
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{idJournee}")
     JourneeResponseDTO getJournee(@PathVariable(name = "idJournee") String idJournee);
+
+
 
     @Operation(description = "Ajouter une tournée à la journée")
     @ApiResponse(responseCode = "200", description = "La tournée a été ajoutée à la journée")

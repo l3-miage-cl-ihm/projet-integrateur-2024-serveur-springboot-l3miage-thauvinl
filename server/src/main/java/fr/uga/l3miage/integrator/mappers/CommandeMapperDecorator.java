@@ -13,10 +13,8 @@ import java.util.stream.Collectors;
 public abstract class CommandeMapperDecorator implements CommandeMapper{
     @Autowired
     private CommandeMapper commandeMapper;
-
-   // @Autowired
-    //private LivraisonMapper livraisonMapper;
-
+    @Autowired
+    private LivraisonMapper livraisonMapper;
 
     public CommandeResponseDTO toCommandeResponseDTO(CommandeEntity entity){
         CommandeResponseDTO commandeResponseDTO=commandeMapper.toCommandeResponseDTO(entity);
@@ -25,7 +23,7 @@ public abstract class CommandeMapperDecorator implements CommandeMapper{
             commandeResponseDTO.setTdmTheorique(0);
         } else {
 
-            //commandeResponseDTO.setLivraison(livraisonMapper.toLivraisonResponseDTO(entity.getLivraison()));
+            commandeResponseDTO.setLivraison(livraisonMapper.toResponse(entity.getLivraison()));
             //ici a rajoutter autre calcul par rapport a livraison
         }
         return commandeResponseDTO;
