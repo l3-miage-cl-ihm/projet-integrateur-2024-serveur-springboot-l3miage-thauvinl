@@ -14,6 +14,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 @Tag(name = "Gestion des livraisons", description = "Tous les endpoints des livraisons")
 @RestController
@@ -31,7 +35,7 @@ public interface CommandeEndpoint {
             )})
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllCommandes")
-    CommandeResponseDTO getAllCommandes();
+    Set<CommandeResponseDTO> getAllCommandes();
 
     @Operation(description = "Get commande by reference")
     @ApiResponses({@ApiResponse(
@@ -45,5 +49,18 @@ public interface CommandeEndpoint {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{reference}")
     CommandeResponseDTO getCommandeByReference(@PathVariable String reference);
+
+    @Operation(description = "Get commandes group by client")
+    @ApiResponses({@ApiResponse(
+            responseCode = "201",
+            description = "La commandes ont été récupérée "
+    ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Une erreur s'est produite avec la requête de getCommandeGroupByClient"
+            )})
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/CommandesByClient")
+    Map<String,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;
 
 }

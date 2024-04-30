@@ -42,6 +42,7 @@ public class LivraisonEntity {
 
     @OneToMany(mappedBy = "livraison")
     private Set<CommandeEntity> commandes;
+
     @ManyToOne
     private TourneeEntity tournee;
 

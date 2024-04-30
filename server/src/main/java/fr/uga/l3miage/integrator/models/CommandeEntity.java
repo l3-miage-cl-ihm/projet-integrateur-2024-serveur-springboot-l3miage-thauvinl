@@ -41,6 +41,4 @@ public class CommandeEntity {
     private LivraisonEntity livraison;
 
 
-
-
 }

@@ -8,7 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.ClientEntity;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +20,7 @@ public class CommandeComponent {
     private final CommandeRepository commandeRepository;
     private final ClientRepository clientRepository;
 
-    public Set<CommandeEntity> getCommandeByReference(String reference) {
+    public CommandeEntity getCommandeByReference(String reference) {
         return commandeRepository.findCommandeEntitiesByReference(reference);
     }
 
@@ -37,6 +41,18 @@ public class CommandeComponent {
             return null;
         }
     }
+    public List<CommandeEntity> getAllCommandes(){
+        return commandeRepository.findAll();
+    }
+    private String getClientMail(CommandeEntity commande){
+        ClientEntity client = findByCommandesReference(commande);
+        return client.getEmail();
+    }
+    public Map<String, List<CommandeEntity>> getCommandesGroupedByClient() {
+        List<CommandeEntity> commandes = commandeRepository.findAll();
+        Map<String, List<CommandeEntity>> commandesGroupedByClient = commandes.stream()
+                .collect(Collectors.groupingBy(this::getClientMail));
 
-
+        return commandesGroupedByClient;
+    }
 }
