@@ -15,7 +15,7 @@ import java.util.Set;
 @DecoratedWith(CommandeMapperDecorator.class)
 public interface CommandeMapper {
 
-    @Mapping(target = "livraison", source = "livraisonEntity")
+    @Mapping(target = "livraison", source = "livraison")
     CommandeResponseDTO toCommandeResponseDTO(CommandeEntity entity);
 
     Set<CommandeResponseDTO> toCommandeResponseDTOList(Set<CommandeEntity> entities);

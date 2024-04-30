@@ -1,10 +1,12 @@
 package fr.uga.l3miage.integrator.controllers;
 
 import fr.uga.l3miage.integrator.endpoints.TourneeEndpoints;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
+import fr.uga.l3miage.integrator.requests.LivraisonCreationRequest;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.JourneeService;
@@ -33,5 +35,10 @@ public class TourneeController implements TourneeEndpoints {
     public TourneeResponseDTO getTourneeByEmploye(String trigramme){
         return tourneeService.getTourneeByEmploye(trigramme);
     }
+    @Override
+    public TourneeResponseDTO addLivraisonInTournee(String idTournee, LivraisonCreationRequest request) {
+        return tourneeService.addLivraisonInTournee(idTournee,request);
+    }
+
 
 }

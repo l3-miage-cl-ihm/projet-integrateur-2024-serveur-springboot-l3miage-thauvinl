@@ -27,6 +27,8 @@ public class TourneeResponseDTO {
     private Double distanceDeRetour;
     @Schema(description = "Liste des employés effectuant une tournée")
     private Set<EmployeResponseDTO> employeResponseDTOS;
+    @Schema(description = "Liste des employés effectuant une tournée")
+    private Set<LivraisonResponseDTO> livraisonResponseDTOS;
 
 
 }

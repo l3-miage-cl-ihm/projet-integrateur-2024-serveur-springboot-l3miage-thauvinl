@@ -6,6 +6,7 @@ import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.endpoints.LivraisonEndpoints;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
+import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
@@ -35,7 +36,7 @@ public class LivraisonController{
     private ObjectMapper objectMapper; //object pour mapper valeur envoyé par API angular
 
 
-
+    //plugin sonarelint
     @GetMapping("/AllLivraisons")
     public ResponseEntity<List<LivraisonEntity>> getAllLivraisons() {
         List<LivraisonEntity> livraisons = livraisonService.getAllLivraison();
@@ -61,7 +62,7 @@ public class LivraisonController{
     public ResponseEntity<Long> countLivraisons() {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
-
+/*
     @PostMapping("/adresseFromLivraison")
     public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {
 
@@ -71,7 +72,7 @@ public class LivraisonController{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Set<CommandeEntity> commandeEntitySet=commandeService.getAllCommandeByLivraison(livraisonEntity);
+        Set<CommandeResponseDTO> commandeEntitySet=commandeService.getAllCommandeByLivraison(livraisonEntity);
         CommandeEntity cm_tmp=commandeEntitySet.stream().findFirst().orElse(null);
         if (cm_tmp == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -79,6 +80,6 @@ public class LivraisonController{
         Adresse add = commandeService.findClientAdressByCommande(cm_tmp);
         return new ResponseEntity<>(add, HttpStatus.OK);
 
-    }
+    }*/
 
 }

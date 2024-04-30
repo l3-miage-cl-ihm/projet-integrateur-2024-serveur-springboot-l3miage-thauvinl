@@ -17,6 +17,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.List;
+
 
 @Tag(name = "Gestion des livraisons", description = "Tous les endpoints des livraisons")
 @RestController
@@ -24,55 +26,55 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface LivraisonEndpoints {
     //mapping endpoint de getAllLivraisons
     @Operation(description = "Get toutes les livraisons")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "Les livraisons ont été récupérées"
-    ),
+    )
             @ApiResponse(
                     responseCode = "400",
                     description = "Une erreur s'est produite avec la requête de getAllLivraisons"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllLivraisons")
-    LivraisonResponseDTO getAllLivraisons();
+    List<LivraisonResponseDTO> getAllLivraisons();
 
     //mapiing endpoint de getLivraisonByReference
     @Operation(description = "Get livraison by reference")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "La livraisons a été récupérée par sa reference"
-    ),
+    )
             @ApiResponse(
                     responseCode = "400",
                     description = "Une erreur s'est produite avec la requête de getLivraisonsByReference"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{reference}")
     LivraisonResponseDTO getLivraisonByReference(@PathVariable String reference);
 
     //mapping endpoint de countLivraisons
     @Operation(description = "count toutes les livraisons")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "Les livraisons ont été compté"
-    ),
+    )
             @ApiResponse(
                     responseCode = "400",
                     description = "Une erreur s'est produite avec la requête de countLivraisons"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/count")
     Long countLivraisons();
 
     @Operation(description = "get adresse from livraisons")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "L'adresse a été récupérée"
-    ),
-            @ApiResponse(
+    )
+    @ApiResponse(
                     responseCode = "400",
                     description = "Une erreur s'est produite avec la requête de getAdresseClientFromLivraison"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/adresseFromLivraison")
     AdresseResponseDTO getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException ;
