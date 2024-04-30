@@ -50,7 +50,6 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
                     .mapToDouble(TourneeResponseDTO::getDistanceAParcourir)
                     .sum());
         }
-        System.out.println(responseDTO.getReference());
         return responseDTO;
     }
 }

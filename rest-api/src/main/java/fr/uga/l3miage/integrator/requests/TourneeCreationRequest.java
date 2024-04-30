@@ -21,4 +21,6 @@ public class TourneeCreationRequest {
     private final String refJournee;
     @Schema(description = "Ensemble des employés qui livrent la tournée")
     private final Set<EmployeCreationRequest> employes;
+    @Schema(description = "Ensemble des livraisons de la tournée")
+    private final Set<LivraisonCreationRequest> livraisons;
 }
