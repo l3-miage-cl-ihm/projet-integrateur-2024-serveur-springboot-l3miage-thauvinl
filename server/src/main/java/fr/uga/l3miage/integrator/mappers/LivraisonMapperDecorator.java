@@ -14,11 +14,13 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
 
     @Override
     public LivraisonEntity toEntity(LivraisonCreationRequest request) {
-        return null;
+        System.out.println("ok i guesss ");
+        return livraisonMapper.toEntity(request);
     }
 
     @Override
     public LivraisonResponseDTO toResponse(LivraisonEntity livraisonEntity) {
-        return null;
+        System.out.println("ok i guesss 2 ");
+        return livraisonMapper.toResponse(livraisonEntity);
     }
 }

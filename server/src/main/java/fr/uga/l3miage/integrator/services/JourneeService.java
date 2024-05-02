@@ -54,6 +54,7 @@ public class JourneeService {
         try{
             JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
             for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
+                System.out.println(tournee.toString());
                 journeeEntity.addTournee(tourneeMapper.toEntity(tournee));
             }
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
