@@ -22,8 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/livraisons")
 public class LivraisonController{
 
     @Autowired

@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 
-@Tag(name = "Gestion des livraisons", description = "Tous les endpoints des livraisons")
+@Tag(name = "Gestion des commandes", description = "Tous les endpoints des commandes")
 @RestController
-@RequestMapping("/api/livraisons")
+@RequestMapping("/api/commandes")
 public interface CommandeEndpoint {
 
     @Operation(description = "Get toutes les commandes")
@@ -30,7 +30,7 @@ public interface CommandeEndpoint {
             description = "Les commandes ont été récupérées"
     ),
             @ApiResponse(
-                    responseCode = "400",
+                    responseCode = "404",
                     description = "Une erreur s'est produite avec la requête de getAllCommandes"
             )})
     @ResponseStatus(HttpStatus.OK)

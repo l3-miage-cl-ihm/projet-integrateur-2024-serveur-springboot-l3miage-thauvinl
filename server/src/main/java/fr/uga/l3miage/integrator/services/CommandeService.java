@@ -9,6 +9,8 @@ import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import fr.uga.l3miage.integrator.mappers.CommandeMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.Map;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +30,10 @@ public class CommandeService {
     public Set<CommandeResponseDTO> getAllCommandeByLivraison(LivraisonEntity L) {
         try {
             Set<CommandeEntity> commandeEntities=commandeComponent.getAllCommandeByLivraison(L);
-            Set<CommandeResponseDTO> commandeResponseDTOS=commandeMapper.toCommandeResponseDTOList(commandeEntities);
+            Set<CommandeResponseDTO> commandeResponseDTOS = new HashSet<>();
+            for (CommandeEntity commandeEntity : commandeEntities) {
+                commandeResponseDTOS.add(commandeMapper.toResponseDTO(commandeEntity));
+            }
             return commandeResponseDTOS;
         }
         catch (Exception e){
@@ -53,22 +58,26 @@ public class CommandeService {
     public CommandeResponseDTO getCommandeByReference(String reference) {
         try{
             CommandeEntity commande= commandeComponent.getCommandeByReference(reference);
-            CommandeResponseDTO commandeResponseDTO=commandeMapper.toCommandeResponseDTO(commande);
+            CommandeResponseDTO commandeResponseDTO=commandeMapper.toResponseDTO(commande);
             return commandeResponseDTO;
         } catch (Exception e){
             throw new RuntimeException();
         }
     }
-    public Set<CommandeResponseDTO> getAllCommandes(){
+    public Set<CommandeResponseDTO> getAllCommandes() {
+        System.out.println("qsfsdfsdfsdf");
         try {
-            List<CommandeEntity> commandeEntities=commandeComponent.getAllCommandes();
-            Set<CommandeResponseDTO> commandeResponseDTOS=commandeMapper.toCommandeResponseDTOList(commandeEntities.stream().collect(Collectors.toSet()));
+            List<CommandeEntity> commandeEntities = commandeComponent.getAllCommandes();
+            Set<CommandeResponseDTO> commandeResponseDTOS = new HashSet<>();
+            for (CommandeEntity commandeEntity : commandeEntities) {
+                commandeResponseDTOS.add(commandeMapper.toResponseDTO(commandeEntity));
+            }
             return commandeResponseDTOS;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException();
         }
     }
+
     public Map<String,Set<CommandeResponseDTO>> getCommandesGroupedByClient(){
         try{
             Map<String, List<CommandeEntity>> commandesGroupedByClient = commandeComponent.getCommandesGroupedByClient();
@@ -78,7 +87,7 @@ public class CommandeService {
                     .collect(Collectors.toMap(
                             Map.Entry::getKey, // Clé : nom du client
                             entry -> entry.getValue().stream() // Valeur : ensemble de CommandeResponseDTO
-                                    .map(commandeMapper::toCommandeResponseDTO)
+                                    .map(commandeMapper::toResponseDTO)
                                     .collect(Collectors.toSet())
                     ));
 

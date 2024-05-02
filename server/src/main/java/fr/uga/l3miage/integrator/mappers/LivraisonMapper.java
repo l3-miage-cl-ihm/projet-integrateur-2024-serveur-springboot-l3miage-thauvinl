@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan
+
 @Mapper
 @DecoratedWith(LivraisonMapperDecorator.class)
 public interface LivraisonMapper {
