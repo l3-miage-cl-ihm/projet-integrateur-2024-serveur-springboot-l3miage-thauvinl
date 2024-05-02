@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.components.ClientComponent;
 import fr.uga.l3miage.integrator.mappers.ClientMapper;
 import fr.uga.l3miage.integrator.models.ClientEntity;
+import fr.uga.l3miage.integrator.requests.ClientCreationRequest;
 import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,22 @@ public class ClientService {
         return clients.stream()
                 .map(clientMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public ClientResponseDTO createClient(ClientCreationRequest clientCreationRequest){
+        try {
+            ClientEntity clientEntity = clientMapper.toEntity(clientCreationRequest);
+
+            ClientEntity createdClient = clientComponent.createClient(clientEntity);
+
+
+            return clientMapper.toResponse(createdClient);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new RuntimeException("Failed to create client: " + e.getMessage(), e);
+        }
     }
 
 }

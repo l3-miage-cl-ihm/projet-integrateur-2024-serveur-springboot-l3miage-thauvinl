@@ -2,9 +2,11 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.mappers.ClientMapper;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import fr.uga.l3miage.integrator.mappers.CommandeMapper;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 public class CommandeService {
     private final CommandeComponent commandeComponent;
     private final CommandeMapper commandeMapper;
-    //private final ClientMapper clientMapper;
+    private final ClientMapper clientMapper;
     public Adresse findClientAdressByCommande(CommandeEntity commande){
 
         return commandeComponent.findClientAdressByCommande(commande);
@@ -40,11 +42,11 @@ public class CommandeService {
             throw new RuntimeException();
         }
         }
-/*
+
     public ClientResponseDTO findByCommandesReference(CommandeEntity commande){
         try {
             ClientEntity cl=commandeComponent.findByCommandesReference(commande);
-            ClientResponseDTO client=clientMapper.toResponseDTO(cl);
+            ClientResponseDTO client=clientMapper.toResponse(cl);
             return client;
             }
          catch(Exception e){
@@ -52,7 +54,7 @@ public class CommandeService {
          }
 
 
-    }*/
+    }
 
 
     public CommandeResponseDTO getCommandeByReference(String reference) {

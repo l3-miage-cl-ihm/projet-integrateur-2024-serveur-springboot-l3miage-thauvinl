@@ -22,18 +22,18 @@ public interface ClientEndpoints {
     @ApiResponse(responseCode = "201", description = "Le client a été créé avec succès")
     @ApiResponse(responseCode = "400", description = "La demande de création de client est incorrecte")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ClientResponseDTO createClient(@Valid @RequestBody ClientCreationRequest clientCreationRequest);
+    @PostMapping(value = "/create")
+    ClientResponseDTO createClient(ClientCreationRequest clientCreationRequest);
 
     @Operation(description = "Récupérer un client par son adresse email")
     @ApiResponse(responseCode = "200", description = "Le client a été trouvé")
     @ApiResponse(responseCode = "404", description = "Le client n'a pas été trouvé")
     @GetMapping("/{email}")
-    ClientResponseDTO getClientByEmail(@PathVariable String email);
+    ClientResponseDTO getClientByEmail(String email);
 
     @Operation(description = "Récupérer tous les clients")
     @ApiResponse(responseCode = "200", description = "La liste des clients a été récupérée")
     @ApiResponse(responseCode = "404", description = "Aucun client trouvé")
-    @GetMapping
+    @GetMapping("/AllClient")
     List<ClientResponseDTO> getAllClients();
 }

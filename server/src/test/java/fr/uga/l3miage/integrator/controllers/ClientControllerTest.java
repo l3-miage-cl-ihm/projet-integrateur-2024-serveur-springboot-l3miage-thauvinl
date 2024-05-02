@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class ClientControllerTest {
+    /*
     @Mock
     private ClientService clientService;
 
@@ -29,6 +30,7 @@ public class ClientControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
     }
+
 /*
     @Test
     void getClientByEmail_ClientFound_ReturnsClientResponseDTO() {
@@ -64,7 +66,9 @@ public class ClientControllerTest {
 
         // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
+  }
     
- */
+
+   */
+
 }

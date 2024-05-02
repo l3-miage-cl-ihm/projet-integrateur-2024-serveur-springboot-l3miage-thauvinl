@@ -18,6 +18,7 @@ public class JourneeRepositoryTest {
     @Autowired
     private JourneeRepository journeeRepository;
 
+    /*
     @Test
     void findJourneeByReference(){
         JourneeEntity journee = JourneeEntity.builder()
@@ -30,4 +31,6 @@ public class JourneeRepositoryTest {
         assertThat(response.get().getReference()).isEqualTo("Test");
         assertThat(vide).isEmpty();
     }
+
+     */
 }

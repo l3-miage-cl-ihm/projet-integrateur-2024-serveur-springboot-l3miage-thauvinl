@@ -11,6 +11,7 @@ import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 @Service
 @RequiredArgsConstructor
 public class LivraisonService {
+    @Autowired
     private final LivraisonComponent livraisonComponent;
 
     

@@ -6,6 +6,8 @@ import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+
+
 public abstract class LivraisonMapperDecorator implements LivraisonMapper{
     @Autowired
     @Qualifier("delegate")
