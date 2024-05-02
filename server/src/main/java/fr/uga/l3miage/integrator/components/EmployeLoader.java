@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.apache.tomcat.util.buf.Ascii.toLower;
+
 @Component
 @AllArgsConstructor
 public class EmployeLoader implements CommandLineRunner {
@@ -30,8 +32,8 @@ public class EmployeLoader implements CommandLineRunner {
                     employe.setEmploi(data[1].isEmpty() ? null : Emploi.valueOf(data[1]));
                     employe.setNom(data[2]);
                     employe.setPrenom(data[3]);
+                    employe.setEmail(employe.getNom().toLowerCase() +"." +employe.getPrenom()+"@ikeo.fr");
                     employe.setTelephone(data[4]);
-                    employe.setEmail(data.length>5 ? data[5] : null);
                     return employe;
                 })
                 .collect(Collectors.toList());
