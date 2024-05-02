@@ -8,17 +8,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper
+@Mapper(uses = LivraisonMapper.class)
 @DecoratedWith(TourneeMapperDecorator.class)
 public interface TourneeMapper {
-    @Mapping(target = "employeResponseDTOS", source = "employeEntitySet")
-    TourneeResponseDTO toResponseWithEmployes(TourneeEntity tourneeEntity);
+
     @Mapping(target = "employeEntitySet", ignore = true)
     @Mapping(target = "reference",ignore = true)
+    @Mapping(target = "livraisons", ignore = true)
     TourneeEntity toEntity(TourneeCreationRequest request);
-    @Named("toResponseWithLivraison")
-    @Mapping(target = "livraisonResponseDTOS", source = "livraisons")
-    TourneeResponseDTO toResponseWithLivraison(TourneeEntity tourneeEntity);
 
-    TourneeEntity toEntityWithJourneeRef(TourneeCreationRequest tournee, String reference);
+    @Mapping(target = "employeResponseDTOS", source = "employeEntitySet")
+    TourneeResponseDTO toResponse(TourneeEntity tourneeEntity);
+
 }

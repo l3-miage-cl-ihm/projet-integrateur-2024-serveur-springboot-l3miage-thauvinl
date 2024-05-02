@@ -27,7 +27,7 @@ public class TourneeEntity {
     @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private Double distanceDeRetour;
 
-    @OneToMany(mappedBy = "tournee")
+    @OneToMany(mappedBy = "tournee", cascade = CascadeType.ALL)
     private Set<LivraisonEntity> livraisons = new HashSet<>();
 
     @ManyToOne
@@ -38,5 +38,11 @@ public class TourneeEntity {
 
     @OneToOne
     private CamionEntity camion;
+
+    public void addLivraison(LivraisonEntity livraison){
+        this.livraisons.add(livraison);
+        livraison.setTournee(this);
+        livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
+    }
 
 }
