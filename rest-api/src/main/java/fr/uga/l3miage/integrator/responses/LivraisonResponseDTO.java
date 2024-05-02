@@ -51,8 +51,7 @@ public class LivraisonResponseDTO {
     //@Schema(description = "Liste des commandes associées à la livraison")
     //private Set<CommandeResponseDTO> commandes;
 
-    @Schema(description = "Tournee associée à la livraison")
-    private TourneeResponseDTO tournee;
+
 
 
 

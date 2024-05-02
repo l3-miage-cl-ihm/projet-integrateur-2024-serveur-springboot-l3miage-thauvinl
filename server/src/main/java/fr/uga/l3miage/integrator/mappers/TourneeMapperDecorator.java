@@ -24,6 +24,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     public TourneeEntity toEntity(TourneeCreationRequest request){
         TourneeEntity tournee= delegate.toEntity(request);
         tournee.setLivraisons(new HashSet<>());
+        tournee.setEmployeEntitySet(new HashSet<>());
         return tournee;
     }
 
