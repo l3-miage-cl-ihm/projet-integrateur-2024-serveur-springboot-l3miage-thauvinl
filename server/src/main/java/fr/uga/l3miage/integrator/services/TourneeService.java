@@ -56,7 +56,7 @@ public class TourneeService {
 
     public TourneeResponseDTO getTourneeByEmploye(String trigramme) {
         try {
-            return tourneeMapper.toResponseWithEmployes(tourneeComponent.getTourneeByEmploye(trigramme));
+            return tourneeMapper.toResponse(tourneeComponent.getTourneeByEmploye(trigramme));
         } catch (NotFoundTourneeEntityException | NotFoundEmployeEntityException e) {
             throw new NotFoundEntityRestException(e.getMessage());
 
@@ -65,7 +65,7 @@ public class TourneeService {
     public TourneeResponseDTO addLivraisonInTournee(String reference, LivraisonCreationRequest livraisonCreationRequest) {
         try {
             LivraisonEntity livraisonEntity = livraisonMapper.toEntity(livraisonCreationRequest);
-            return tourneeMapper.toResponseWithLivraison(tourneeComponent.addLivraisonInTournee(reference, livraisonEntity));
+            return tourneeMapper.toResponse(tourneeComponent.addLivraisonInTournee(reference, livraisonEntity));
         } catch (NotFoundTourneeEntityException e) {
             throw new RuntimeException(e);
         }

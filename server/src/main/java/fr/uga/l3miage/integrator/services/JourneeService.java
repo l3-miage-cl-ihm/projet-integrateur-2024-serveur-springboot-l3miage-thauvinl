@@ -8,10 +8,13 @@ import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
+import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
+import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
+import fr.uga.l3miage.integrator.requests.LivraisonCreationRequest;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class JourneeService {
     private final TourneeComponent tourneeComponent;
     private final JourneeMapper journeeMapper;
     private final TourneeMapper tourneeMapper;
+    private final LivraisonMapper livraisonMapper;
 
     public JourneeResponseDTO addTourneeInJournee(String journeeReference, TourneeCreationRequest request){
         try {
@@ -53,10 +57,20 @@ public class JourneeService {
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         try{
             JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
+            System.out.println(journeeEntity.getReference());
             for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
-                System.out.println(tournee.toString());
-                journeeEntity.addTournee(tourneeMapper.toEntity(tournee));
+                TourneeEntity tourneeEntity = tourneeMapper.toEntity(tournee);
+                journeeEntity.addTournee(tourneeEntity);
+                System.out.println(tourneeEntity.getReference());
+                for(LivraisonCreationRequest livraison: tournee.getLivraisons()){
+                    System.out.println(livraison);
+                    LivraisonEntity livraisonEntity = livraisonMapper.toEntity(livraison);
+                    tourneeEntity.addLivraison(livraisonEntity);
+                    System.out.println(livraisonEntity.getReference());
+                    System.out.println(tourneeEntity.getLivraisons().size());
+                }
             }
+
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create journée: " + e.getMessage(), e);

@@ -11,9 +11,8 @@ import lombok.Data;
 @Builder
 public class LivraisonCreationRequest {
 
-        private String reference;
 
-        private String etat;
+        private final String etat;
 
         private float montant;
 
@@ -33,8 +32,7 @@ public class LivraisonCreationRequest {
 
         private Integer tdmEffectif;
 
-        private Set<CommandeResponseDTO> commandes;
+        private final Set<CommandeResponseDTO> commandes;
 
-        private TourneeCreationRequest tournees;
     }
 
