@@ -17,8 +17,8 @@ public class TourneeCreationRequest {
     private final Integer tempsDeMontageEffectif;
     @Schema(description = "Distance entre la dernière livraison de la tournée et l'entrepôt")
     private final Double distanceDeRetour;
-    @Schema(description = "Ensemble des employés qui livrent la tournée")
-    private final Set<EmployeCreationRequest> employes;
+    @Schema(description = "Ensemble des ids (trigramme) des employés qui livrent la tournée")
+    private final Set<String> employesIds;
     @Schema(description = "Ensemble des livraisons de la tournée")
     private final Set<LivraisonCreationRequest> livraisons;
 }
