@@ -65,6 +65,7 @@ public class CommandeService {
         }
     }
     public Set<CommandeResponseDTO> getAllCommandes() {
+        System.out.println("qsfsdfsdfsdf");
         try {
             List<CommandeEntity> commandeEntities = commandeComponent.getAllCommandes();
             Set<CommandeResponseDTO> commandeResponseDTOS = new HashSet<>();

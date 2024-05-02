@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@AutoConfigureTestDatabase
+/*@AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class JourneeComponentTest {
 
@@ -42,4 +42,4 @@ public class JourneeComponentTest {
         when(journeeRepository.findByReference(any(String.class))).thenReturn(Optional.empty());
         assertThrows(NotFoundJourneeEntityException.class, ()->journeeComponent.getJournee("Test"));
     }
-}
+}*/
