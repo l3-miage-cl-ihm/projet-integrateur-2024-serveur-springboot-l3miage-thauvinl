@@ -5,6 +5,8 @@ import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 @RequiredArgsConstructor
@@ -13,6 +15,10 @@ public class ClientComponent {
 
     public ClientEntity getClientByEmail(String email) {
         return clientRepository.findClientEntityByEmail(email);
+    }
+
+    public List<ClientEntity> getAllClients() {
+        return clientRepository.findAll(); // Suppose que votre repository possède une méthode findAll pour récupérer tous les clients.
     }
 
 }
