@@ -21,4 +21,6 @@ public class TourneeCreationRequest {
     private final Set<String> employesIds;
     @Schema(description = "Ensemble des livraisons de la tournée")
     private final Set<LivraisonCreationRequest> livraisons;
+    @Schema(description = "immatriculation de camion")
+    private final String refCamion;
 }

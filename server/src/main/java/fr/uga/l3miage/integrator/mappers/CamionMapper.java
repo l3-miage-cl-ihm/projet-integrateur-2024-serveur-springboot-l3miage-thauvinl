@@ -9,5 +9,5 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface CamionMapper {
     @Mapping(source = "immatriculation", target = "immatriculation")
-    CamionResponseDTO toResponseDTO(CamionEntity camion);
+    CamionResponseDTO toResponse(CamionEntity camion);
 }

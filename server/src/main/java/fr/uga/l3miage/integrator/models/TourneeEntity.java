@@ -36,7 +36,7 @@ public class TourneeEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<EmployeEntity> employeEntitySet = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CamionEntity camion;
 
     public void addLivraison(LivraisonEntity livraison){
@@ -44,5 +44,6 @@ public class TourneeEntity {
         livraison.setTournee(this);
         livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
     }
+
 
 }

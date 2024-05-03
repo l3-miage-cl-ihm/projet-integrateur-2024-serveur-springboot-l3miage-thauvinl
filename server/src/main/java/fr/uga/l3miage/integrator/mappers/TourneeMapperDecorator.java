@@ -20,6 +20,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     @Autowired
     private LivraisonMapper livraisonMapper;
 
+    @Autowired CamionMapper camionMapper;
     @Override
     public TourneeEntity toEntity(TourneeCreationRequest request){
         TourneeEntity tournee= delegate.toEntity(request);
@@ -33,7 +34,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     public TourneeResponseDTO toResponse(TourneeEntity tournee){
         TourneeResponseDTO responseDTO = delegate.toResponse(tournee);
         // Utiliser le mapper délégué pour le début de la conversion
-
+        responseDTO.setCamionResponseDTO(camionMapper.toResponse(tournee.getCamion()));
 
         // Transformer chaque LivraisonEntity en LivraisonResponseDTO
         if (tournee.getLivraisons() == null || tournee.getLivraisons().isEmpty()) {
