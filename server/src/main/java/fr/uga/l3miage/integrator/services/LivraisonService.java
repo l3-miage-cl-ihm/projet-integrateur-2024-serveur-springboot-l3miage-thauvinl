@@ -1,25 +1,20 @@
 package fr.uga.l3miage.integrator.services;
-import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
-import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Set;
 import java.util.*;
-import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
+
 
 @Service
 @RequiredArgsConstructor
 public class LivraisonService {
     private final LivraisonComponent livraisonComponent;
     private final LivraisonMapper livraisonMapper;
-    private  final CommandeComponent commandeComponent;
     private final AdresseMapper adresseMapper;
 
     public List<LivraisonResponseDTO> getAllLivraison() {
@@ -41,6 +36,7 @@ public class LivraisonService {
         return livraisonComponent.countElementsInRepo();
     }
 
+
     public AdresseResponseDTO getAdresseClientFromLivraison(String ref){
         try{
             LivraisonEntity livraison=livraisonComponent.getLivraisonByReference(ref);
@@ -50,4 +46,6 @@ public class LivraisonService {
             throw new RuntimeException();
         }
     }
+
+
 }

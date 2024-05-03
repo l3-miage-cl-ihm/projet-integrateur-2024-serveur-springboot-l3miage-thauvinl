@@ -23,7 +23,6 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
     @Override
     public LivraisonEntity toEntity(LivraisonCreationRequest request) {
         LivraisonEntity livraisonEntity = livraisonMapper.toEntity(request);
-        //livraisonEntity.setCommandes(Set.of());
         Set<CommandeEntity> cmd=new HashSet<>();
         livraisonEntity.setCommandes(cmd);
         return livraisonEntity;
@@ -34,8 +33,8 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
 
         LivraisonResponseDTO responseDTO =  livraisonMapper.toResponse(livraisonEntity);
 
-        // Vérifiez si livraisonEntity.getCommandes() est null ou vide
         if (livraisonEntity.getCommandes() == null || livraisonEntity.getCommandes().isEmpty()) {
+
             // Si c'est le cas, affectez les valeurs par défaut
             responseDTO.setMontant(0.0);
             responseDTO.setTdmTheorique(0);
@@ -55,7 +54,6 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
                     .mapToDouble(CommandeResponseDTO::getMontant)
                     .sum());
 
-            // Assurez-vous d'ajouter les commandes mappées à la réponse
 
         }
         return responseDTO;//

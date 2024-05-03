@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.endpoints;
 
+import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,13 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,27 +20,27 @@ import java.util.Set;
 public interface CommandeEndpoint {
 
     @Operation(description = "Get toutes les commandes")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "Les commandes ont été récupérées"
-    ),
-            @ApiResponse(
+    )
+    @ApiResponse(
                     responseCode = "404",
                     description = "Une erreur s'est produite avec la requête de getAllCommandes"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllCommandes")
     Set<CommandeResponseDTO> getAllCommandes();
 
     @Operation(description = "Get commande by reference")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "La commande a été récupérée par sa reference"
-    ),
-            @ApiResponse(
-                    responseCode = "400",
+    )
+    @ApiResponse(
+                    responseCode = "404",
                     description = "Une erreur s'est produite avec la requête de getCommandeByReference"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{reference}")
     CommandeResponseDTO getCommandeByReference(@PathVariable String reference);
@@ -56,11 +51,11 @@ public interface CommandeEndpoint {
             description = "La commandes ont été récupérée "
     )
     @ApiResponse(
-             responseCode = "400",
+             responseCode = "404",
             description = "Une erreur s'est produite avec la requête de getCommandeGroupByClient"
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/CommandesByClient")
-    Map<String,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;
+    Map<AdresseResponseDTO,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;
 
 }

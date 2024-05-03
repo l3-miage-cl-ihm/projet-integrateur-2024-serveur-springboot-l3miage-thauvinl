@@ -48,9 +48,6 @@ public class LivraisonResponseDTO {
     @Schema(description = "Temps de montage effectif")
     private Integer tdmEffectif;
 
-    //@Schema(description = "Liste des commandes associées à la livraison")
-    //private Set<CommandeResponseDTO> commandes;
-
     @Schema(description = "les commanndes dans la livraison")
     private Set<CommandeResponseDTO> commandes;
 

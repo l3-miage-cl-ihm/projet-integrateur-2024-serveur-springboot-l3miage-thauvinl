@@ -30,9 +30,9 @@ public interface LivraisonEndpoints {
             responseCode = "201",
             description = "Les livraisons ont été récupérées"
     )
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Une erreur s'est produite avec la requête de getAllLivraisons"
+    @ApiResponse(
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de getAllLivraisons"
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllLivraisons")
@@ -44,9 +44,9 @@ public interface LivraisonEndpoints {
             responseCode = "201",
             description = "La livraisons a été récupérée par sa reference"
     )
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Une erreur s'est produite avec la requête de getLivraisonsByReference"
+    @ApiResponse(
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de getLivraisonsByReference"
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{reference}")
@@ -58,9 +58,9 @@ public interface LivraisonEndpoints {
             responseCode = "201",
             description = "Les livraisons ont été compté"
     )
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Une erreur s'est produite avec la requête de countLivraisons"
+    @ApiResponse(
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de countLivraisons"
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/count")
@@ -72,11 +72,11 @@ public interface LivraisonEndpoints {
             description = "L'adresse a été récupérée"
     )
     @ApiResponse(
-                    responseCode = "400",
-                    description = "Une erreur s'est produite avec la requête de getAdresseClientFromLivraison"
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de getAdresseClientFromLivraison"
             )
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/adresseFromLivraison")
+    @GetMapping("/adresseFromLivraison")
     AdresseResponseDTO getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException ;
 
 
