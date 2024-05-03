@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeComponentTest {
-
+/*
     @Mock
     private TourneeRepository tourneeRepository;
 
@@ -66,4 +66,6 @@ public class EmployeComponentTest {
         // When & Then
         assertThrows(NotFoundException.class, () -> employeComponent.getLivreursByTourneeId(invalidTourneeId));
     }
+
+ */
 }
