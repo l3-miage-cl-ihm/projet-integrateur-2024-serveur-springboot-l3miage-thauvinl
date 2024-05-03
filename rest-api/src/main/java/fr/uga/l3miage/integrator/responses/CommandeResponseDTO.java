@@ -18,8 +18,8 @@ public class CommandeResponseDTO {
     @Schema(description = "Référence de la commande")
     private String reference;
 
-    //@Schema(description = "État de la commande")
-    //private EtatDeCommande etat;
+    @Schema(description = "État de la commande")
+    private String etat;
 
     @Schema(description = "Date de création de la commande")
     private LocalDateTime dateDeCreation;
@@ -31,7 +31,7 @@ public class CommandeResponseDTO {
     private String commentaire;
 
     @Schema(description = "Montant de la commande")
-    private float montant;
+    private Double montant;
 
     @Schema(description = "Temps de déplacement théorique")
     private Integer tddTheorique;
@@ -45,6 +45,5 @@ public class CommandeResponseDTO {
     @Schema(description = "Durée de livraison de la commande")
     private Integer dureeDeLivraison;
 
-    @Schema(description = "Livraison associée à la commande")
-    private LivraisonResponseDTO livraison;
+
 }
