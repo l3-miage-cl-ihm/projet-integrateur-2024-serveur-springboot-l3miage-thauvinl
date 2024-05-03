@@ -20,10 +20,10 @@ public class LivraisonResponseDTO {
     private String etat;
 
     @Schema(description = "Montant de la livraison")
-    private float montant;
+    private Double montant;
 
     @Schema(description = "Distance parcourue")
-    private float distanceParcourue;
+    private Double distanceParcourue;
 
     @Schema(description = "Temps de travail à l'aller")
     private Integer tdtALAller;
