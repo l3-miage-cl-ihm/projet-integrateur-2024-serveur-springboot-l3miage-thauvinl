@@ -15,5 +15,8 @@ public class CamionComponent {
     public List<CamionEntity> getAllCamions(){
         return camionRepository.findAll();
     }
+    public CamionEntity getCamionByRef(String ref){
+        return camionRepository.findCamionEntityByImmatriculation(ref);
+    }
 
 }

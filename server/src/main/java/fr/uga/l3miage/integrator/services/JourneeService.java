@@ -2,13 +2,8 @@ package fr.uga.l3miage.integrator.services;
 import antlr.ASTFactory;
 import ch.qos.logback.classic.Logger;
 
-import fr.uga.l3miage.integrator.components.EmployeComponent;
+import fr.uga.l3miage.integrator.components.*;
 
-import fr.uga.l3miage.integrator.components.CommandeComponent;
-
-import fr.uga.l3miage.integrator.components.JourneeComponent;
-import fr.uga.l3miage.integrator.components.LivraisonComponent;
-import fr.uga.l3miage.integrator.components.TourneeComponent;
 import fr.uga.l3miage.integrator.exceptions.rest.AddingTourneeRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
@@ -17,16 +12,12 @@ import fr.uga.l3miage.integrator.mappers.EmployeMapper;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
-import fr.uga.l3miage.integrator.models.EmployeEntity;
-import fr.uga.l3miage.integrator.models.JourneeEntity;
-import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.mappers.CommandeMapper;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
-import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
@@ -55,7 +46,7 @@ public class JourneeService {
     private final TourneeMapper tourneeMapper;
     private final LivraisonMapper livraisonMapper;
     private final EmployeComponent employeComponent;
-
+    private final CamionComponent camionComponent;
     private final CommandeComponent commandeComponent;
 
 
@@ -112,6 +103,12 @@ public class JourneeService {
 
                     tourneeEntity.getEmployeEntitySet().add(employe);
                 }
+                String refCamion=tournee.getRefCamion();
+                CamionEntity camion=camionComponent.getCamionByRef(refCamion);
+                System.out.println(camion);
+                tourneeEntity.setCamion(camion);
+                System.out.println(tourneeEntity.getCamion().getImmatriculation());
+
             }
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
         }catch (Exception e){
