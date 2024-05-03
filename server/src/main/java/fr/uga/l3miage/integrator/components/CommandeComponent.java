@@ -21,7 +21,7 @@ public class CommandeComponent {
     private final ClientRepository clientRepository;
 
     public CommandeEntity getCommandeByReference(String reference) {
-        return commandeRepository.findCommandeEntitiesByReference(reference);
+        return commandeRepository.findCommandeEntityByReference(reference);
     }
 
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){

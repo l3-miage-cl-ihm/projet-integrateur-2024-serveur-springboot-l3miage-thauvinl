@@ -9,8 +9,8 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface CommandeMapper {
 
-    @Mapping(target = "livraison", source = "livraison")
-    CommandeResponseDTO toResponseDTO(CommandeEntity entity);
+    @Mapping(target = "reference", source = "reference")
+    CommandeResponseDTO toResponse(CommandeEntity entity);
 
 
 

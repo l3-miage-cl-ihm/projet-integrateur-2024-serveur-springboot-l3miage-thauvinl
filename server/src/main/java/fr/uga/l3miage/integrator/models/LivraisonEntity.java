@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.models;
 
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -40,11 +41,28 @@ public class LivraisonEntity {
 
     @Column(nullable=true) private Integer tdmEffectif;
 
-    @OneToMany(mappedBy = "livraison")
+    @OneToMany(mappedBy = "livraison",cascade = CascadeType.ALL)
     private Set<CommandeEntity> commandes;
 
     @ManyToOne
     private TourneeEntity tournee;
 
+    public void addCommandesInLivraison(CommandeEntity commande){
+        Set<CommandeEntity> commandeEntities=this.getCommandes();
+        if (commandeEntities!=null ) {
+
+            commandeEntities.add(commande);
+
+
+            this.setCommandes(commandeEntities);
+            commande.setLivraison(this);
+        }
+        else{
+            Set<CommandeEntity> cmd2=new HashSet<>();
+            cmd2.add(commande);
+            this.setCommandes(cmd2);
+            commande.setLivraison(this);
+        }
+    }
 
 }

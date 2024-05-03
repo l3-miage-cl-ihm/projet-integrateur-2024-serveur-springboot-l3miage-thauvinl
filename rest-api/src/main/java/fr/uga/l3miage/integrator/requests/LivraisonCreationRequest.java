@@ -32,7 +32,8 @@ public class LivraisonCreationRequest {
 
         private Integer tdmEffectif;
 
-        private final Set<CommandeResponseDTO> commandes;
+        //private final Set<CommandeResponseDTO> commandes;
+        private final Set<String> refCommande;
 
     }
 

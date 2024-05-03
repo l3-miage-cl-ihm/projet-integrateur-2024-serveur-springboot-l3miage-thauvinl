@@ -45,6 +45,5 @@ public class CommandeResponseDTO {
     @Schema(description = "Durée de livraison de la commande")
     private Integer dureeDeLivraison;
 
-    @Schema(description = "Livraison associée à la commande")
-    private LivraisonResponseDTO livraison;
+
 }

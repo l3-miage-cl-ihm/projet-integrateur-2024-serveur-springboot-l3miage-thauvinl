@@ -1,21 +1,27 @@
 package fr.uga.l3miage.integrator.services;
 import antlr.ASTFactory;
 import ch.qos.logback.classic.Logger;
+import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.JourneeComponent;
+import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.components.TourneeComponent;
 import fr.uga.l3miage.integrator.exceptions.rest.AddingTourneeRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
+import fr.uga.l3miage.integrator.mappers.CommandeMapper;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
+import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.requests.LivraisonCreationRequest;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
+import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +37,12 @@ import java.util.stream.Collectors;
 public class JourneeService {
 
     private final JourneeComponent journeeComponent;
-    private final TourneeComponent tourneeComponent;
+    private final TourneeRepository tourneeRepository;
     private final JourneeMapper journeeMapper;
     private final TourneeMapper tourneeMapper;
     private final LivraisonMapper livraisonMapper;
+    private final LivraisonComponent livraisonComponent;
+    private final CommandeComponent commandeComponent;
 
     public JourneeResponseDTO addTourneeInJournee(String journeeReference, TourneeCreationRequest request){
         try {
@@ -57,17 +65,23 @@ public class JourneeService {
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         try{
             JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
-            System.out.println(journeeEntity.getReference());
+
             for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
                 TourneeEntity tourneeEntity = tourneeMapper.toEntity(tournee);
                 journeeEntity.addTournee(tourneeEntity);
-                System.out.println(tourneeEntity.getReference());
+
                 for(LivraisonCreationRequest livraison: tournee.getLivraisons()){
-                    System.out.println(livraison);
                     LivraisonEntity livraisonEntity = livraisonMapper.toEntity(livraison);
+
+
+                    for (String cmd : livraison.getRefCommande()) {
+                        CommandeEntity commande=commandeComponent.getCommandeByReference(cmd);
+                         livraisonEntity.addCommandesInLivraison(commande);
+
+                    }
                     tourneeEntity.addLivraison(livraisonEntity);
-                    System.out.println(livraisonEntity.getReference());
-                    System.out.println(tourneeEntity.getLivraisons().size());
+
+
                 }
             }
 
