@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CamionRepository extends JpaRepository<CamionEntity,Long> {
+public interface CamionRepository extends JpaRepository<CamionEntity,String> {
+    public CamionEntity findCamionEntityByImmatriculation(String ref);
 }

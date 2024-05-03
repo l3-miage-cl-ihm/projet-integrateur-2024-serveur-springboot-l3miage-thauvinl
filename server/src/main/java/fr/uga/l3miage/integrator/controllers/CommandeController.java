@@ -2,6 +2,7 @@ package fr.uga.l3miage.integrator.controllers;
 
 import fr.uga.l3miage.integrator.endpoints.CommandeEndpoint;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
+import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class CommandeController implements CommandeEndpoint {
     }
 
     @Override
-    public Map<String,Set<CommandeResponseDTO>> getCommandesGroupedByClient() {
+    public Map<AdresseResponseDTO,Set<CommandeResponseDTO>> getCommandesGroupedByClient() {
         return commandeService.getCommandesGroupedByClient();
     }
 

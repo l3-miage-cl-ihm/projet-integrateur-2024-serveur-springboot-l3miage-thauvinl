@@ -29,7 +29,7 @@ public class JourneeComponent {
 
 
     public JourneeEntity createJournee(JourneeEntity journee) {
-        return journeeRepository.save(journee);
+       return journeeRepository.save(journee);
     }
 
     public void deleteJournee(String reference) throws NotFoundJourneeEntityException{

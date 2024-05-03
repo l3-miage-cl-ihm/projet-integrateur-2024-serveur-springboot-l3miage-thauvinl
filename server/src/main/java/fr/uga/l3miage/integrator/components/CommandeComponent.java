@@ -21,7 +21,7 @@ public class CommandeComponent {
     private final ClientRepository clientRepository;
 
     public CommandeEntity getCommandeByReference(String reference) {
-        return commandeRepository.findCommandeEntitiesByReference(reference);
+        return commandeRepository.findCommandeEntityByReference(reference);
     }
 
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
@@ -29,7 +29,6 @@ public class CommandeComponent {
     }
     public ClientEntity findByCommandesReference(CommandeEntity commande){
         ClientEntity cl=clientRepository.findClientEntityByCommandes(commande);
-        //ClientEntity c=cl.stream().findFirst().orElse(null);
         return cl;
     }
     public Adresse findClientAdressByCommande(CommandeEntity commande) {
@@ -37,21 +36,21 @@ public class CommandeComponent {
         if (client != null) {
             return client.getAdresse();
         } else {
-            // Gérer le cas où la commande n'est pas associée à un client
+
             return null;
         }
     }
     public List<CommandeEntity> getAllCommandes(){
         return commandeRepository.findAll();
     }
-    private String getClientMail(CommandeEntity commande){
+    private Adresse getClientAdresse(CommandeEntity commande){
         ClientEntity client = findByCommandesReference(commande);
-        return client.getEmail();
+        return client.getAdresse();
     }
-    public Map<String, List<CommandeEntity>> getCommandesGroupedByClient() {
+    public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient() {
         List<CommandeEntity> commandes = commandeRepository.findAll();
-        Map<String, List<CommandeEntity>> commandesGroupedByClient = commandes.stream()
-                .collect(Collectors.groupingBy(this::getClientMail));
+        Map<Adresse, List<CommandeEntity>> commandesGroupedByClient = commandes.stream()
+                .collect(Collectors.groupingBy(this::getClientAdresse));
 
         return commandesGroupedByClient;
     }

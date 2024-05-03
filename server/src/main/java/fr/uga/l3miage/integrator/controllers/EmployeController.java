@@ -1,34 +1,41 @@
 package fr.uga.l3miage.integrator.controllers;
 
-import fr.uga.l3miage.integrator.components.EmployeComponent;
-import fr.uga.l3miage.integrator.models.EmployeEntity;
+import fr.uga.l3miage.integrator.endpoints.EmployeEndpoints;
+import fr.uga.l3miage.integrator.requests.EmployeCreationRequest;
+import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import fr.uga.l3miage.integrator.services.EmployeService;
-import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/livraisons")
-public class EmployeController {
-    @Autowired
-    private EmployeService employeService;
+@Controller
+@RequiredArgsConstructor
+public class EmployeController implements EmployeEndpoints {
 
-    @GetMapping("/employes/{tourneeId}/livreurs")
-    public ResponseEntity<Set<EmployeEntity>> getLivreursByTourneeId(@PathVariable String tourneeId) throws NotFoundException {
-        Set<EmployeEntity> livreurs = employeService.getLivreursByTourneeId(tourneeId);
-        return new ResponseEntity<>(livreurs, HttpStatus.OK);
-    }
+    private final EmployeService employeService;
 
-    @GetMapping("/employes/livreurs")
-    public ResponseEntity<Set<EmployeEntity>> getAllLivreurs() {
-        Set<EmployeEntity> livreurs = employeService.getAllLivreurs();
-        return new ResponseEntity<>(livreurs, HttpStatus.OK);
+    @Override
+    public Set<EmployeResponseDTO> getAllLivreurs() {
+        return employeService.getAllLivreurs();
     }
 
 
+    @Override
+    public EmployeResponseDTO createEmploye(EmployeCreationRequest request) {
+        return employeService.createEmploye(request);
+    }
+
+    @Override
+    public EmployeResponseDTO updateEmploye(String id, EmployeCreationRequest request) {
+        return employeService.updateEmploye(id, request);
+    }
+
+    @Override
+    public void deleteEmploye(String id) {
+        employeService.deleteEmploye(id);
+    }
 }

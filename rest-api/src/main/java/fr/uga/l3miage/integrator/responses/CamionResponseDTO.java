@@ -12,6 +12,4 @@ public class CamionResponseDTO {
     @Schema(description = "Immatriculation du camion")
     private String immatriculation;
 
-    //@Schema(description = "Position du camion")
-    //private GeoPosition position;
 }

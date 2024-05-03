@@ -2,14 +2,9 @@ package fr.uga.l3miage.integrator.mappers;
 
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LigneEntity;
-import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
-import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public abstract class CommandeMapperDecorator implements CommandeMapper{
     @Autowired

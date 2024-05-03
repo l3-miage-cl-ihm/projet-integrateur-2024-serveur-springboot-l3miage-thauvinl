@@ -33,7 +33,7 @@ public class EmployeService {
                     .map(employeMapper::toResponse)
                     .collect(Collectors.toSet());
         } catch (NotFoundException e) {
-            e.printStackTrace(); // ou logger l'erreur
+            e.printStackTrace();
             return Collections.emptySet();
         }
     }
@@ -45,11 +45,22 @@ public class EmployeService {
                 .collect(Collectors.toList());
     }
 
-    public EmployeResponseDTO getEmployeById(String id) {
-        Optional<EmployeEntity> optionalEmploye = employeComponent.getEmployeById(id);
-        return optionalEmploye.map(employeMapper::toResponse).orElse(null);
-
+    public EmployeResponseDTO getEmployeById(String id) throws NotFoundEmployeEntityException {
+        try {
+            EmployeEntity employeEntity = employeComponent.getEmployeById(id);
+            if (employeEntity != null) {
+                return employeMapper.toResponse(employeEntity);
+            } else {
+                throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
+            }
+        } catch (NotFoundEmployeEntityException e) {
+            // Handle NotFoundException here, or rethrow it if necessary
+            throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
+        }
     }
+
+
+
 
 
 

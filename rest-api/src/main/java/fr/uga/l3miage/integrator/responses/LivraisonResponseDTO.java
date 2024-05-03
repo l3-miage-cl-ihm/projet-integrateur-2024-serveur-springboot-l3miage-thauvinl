@@ -20,10 +20,10 @@ public class LivraisonResponseDTO {
     private String etat;
 
     @Schema(description = "Montant de la livraison")
-    private float montant;
+    private Double montant;
 
     @Schema(description = "Distance parcourue")
-    private float distanceParcourue;
+    private Double distanceParcourue;
 
     @Schema(description = "Temps de travail à l'aller")
     private Integer tdtALAller;
@@ -48,11 +48,9 @@ public class LivraisonResponseDTO {
     @Schema(description = "Temps de montage effectif")
     private Integer tdmEffectif;
 
-    //@Schema(description = "Liste des commandes associées à la livraison")
-    //private Set<CommandeResponseDTO> commandes;
+    @Schema(description = "les commanndes dans la livraison")
+    private Set<CommandeResponseDTO> commandes;
 
-    @Schema(description = "Tournee associée à la livraison")
-    private TourneeResponseDTO tournee;
 
 
 
