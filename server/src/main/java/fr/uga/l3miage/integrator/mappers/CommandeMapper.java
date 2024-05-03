@@ -11,5 +11,8 @@ import org.mapstruct.Mapping;
 @DecoratedWith(CommandeMapperDecorator.class)
 public interface CommandeMapper {
 
-    CommandeResponseDTO toResponseDTO(CommandeEntity entity);
+
+    @Mapping(target = "reference", source = "reference")
+    CommandeResponseDTO toResponse(CommandeEntity entity);
+
 }

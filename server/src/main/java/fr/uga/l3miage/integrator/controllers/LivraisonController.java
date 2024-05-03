@@ -6,6 +6,7 @@ import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.endpoints.LivraisonEndpoints;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
+import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
@@ -22,8 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-public class LivraisonController{
+
+public abstract class LivraisonController implements LivraisonEndpoints{
 
     @Autowired
     private LivraisonService livraisonService;
@@ -36,31 +37,33 @@ public class LivraisonController{
 
 
     //plugin sonarelint
-    @GetMapping("/AllLivraisons")
-    public ResponseEntity<List<LivraisonEntity>> getAllLivraisons() {
-        List<LivraisonEntity> livraisons = livraisonService.getAllLivraison();
-        return new ResponseEntity<>(livraisons, HttpStatus.OK);
-    }
-    /*
     @Override
-    public LivraisonResponseDTO getAllLivraisons(){
+    public List<LivraisonResponseDTO> getAllLivraisons() {
         return livraisonService.getAllLivraison();
-    }*/
 
-    @GetMapping("/{reference}")
-    public ResponseEntity<LivraisonEntity> getLivraisonByReference(@PathVariable String reference) {
-        LivraisonEntity livraison = livraisonService.getLivraisonByReference(reference);
-        if (livraison == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(livraison, HttpStatus.OK);
     }
 
 
-    @GetMapping("/count")
+    public LivraisonResponseDTO getLivraisonByReference(@PathVariable String reference) {
+        return livraisonService.getLivraisonByReference(reference);
+
+    }
+
+
+
     public ResponseEntity<Long> countLivraisons() {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
+
+    @Override
+    public AdresseResponseDTO getAdresseClientFromLivraison(String jsonData) throws JsonProcessingException {
+        return livraisonService.getAdresseClientFromLivraison(jsonData);
+    }/*
+    public LivraisonResponseDTO addCmdInLivraison(String refL, String refC){
+        return livraisonService.addCommandeInLivraison(refL,refC);
+
+    }*/
+
 /*
     @PostMapping("/adresseFromLivraison")
     public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {

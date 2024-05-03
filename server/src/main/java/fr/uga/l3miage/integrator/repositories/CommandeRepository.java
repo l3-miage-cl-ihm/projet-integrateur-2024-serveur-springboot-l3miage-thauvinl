@@ -9,7 +9,7 @@ import java.util.Set;
 @Repository
 public interface CommandeRepository extends JpaRepository<CommandeEntity, String> {
 
-    CommandeEntity findCommandeEntitiesByReference(String reference);
+    CommandeEntity findCommandeEntityByReference(String reference);
     Set<CommandeEntity> findCommandeEntitiesByLivraison(LivraisonEntity L);
 
 

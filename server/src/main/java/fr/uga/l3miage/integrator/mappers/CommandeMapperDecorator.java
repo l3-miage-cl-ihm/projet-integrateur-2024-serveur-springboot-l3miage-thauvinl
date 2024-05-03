@@ -16,8 +16,8 @@ public abstract class CommandeMapperDecorator implements CommandeMapper{
     @Qualifier("delegate")
     private CommandeMapper delegate;
     @Override
-    public CommandeResponseDTO toResponseDTO(CommandeEntity commande){
-        CommandeResponseDTO responseDTO = delegate.toResponseDTO(commande);
+    public CommandeResponseDTO toResponse(CommandeEntity commande){
+        CommandeResponseDTO responseDTO = delegate.toResponse(commande);
         if (commande.getLignesCommandes() == null || commande.getLignesCommandes().isEmpty()) {
             responseDTO.setTdmTheorique(0);
             responseDTO.setMontant(0.0);

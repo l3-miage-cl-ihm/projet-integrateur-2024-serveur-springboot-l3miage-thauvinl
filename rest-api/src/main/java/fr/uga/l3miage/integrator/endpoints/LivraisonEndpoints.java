@@ -64,7 +64,7 @@ public interface LivraisonEndpoints {
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/count")
-    Long countLivraisons();
+    ResponseEntity<Long> countLivraisons();
 
     @Operation(description = "get adresse from livraisons")
     @ApiResponse(
