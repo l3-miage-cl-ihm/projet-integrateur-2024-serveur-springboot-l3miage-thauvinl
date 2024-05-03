@@ -44,7 +44,7 @@ public class EmployeService {
                 .collect(Collectors.toList());
     }
 
-    public EmployeResponseDTO getEmployeById(String id) {
+    public EmployeResponseDTO getEmployeById(String id) throws NotFoundEmployeEntityException {
         Optional<EmployeEntity> optionalEmploye = employeComponent.getEmployeById(id);
         return optionalEmploye.map(employeMapper::toResponse).orElse(null);
     }
