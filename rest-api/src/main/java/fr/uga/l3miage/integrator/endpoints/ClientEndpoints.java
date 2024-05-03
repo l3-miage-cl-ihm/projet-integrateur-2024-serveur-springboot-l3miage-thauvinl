@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public interface ClientEndpoints {
 
+
     @Operation(description = "Créer un nouveau client")
     @ApiResponse(responseCode = "201", description = "Le client a été créé avec succès")
     @ApiResponse(responseCode = "400", description = "La demande de création de client est incorrecte")

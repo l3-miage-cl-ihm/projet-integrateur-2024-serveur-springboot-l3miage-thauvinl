@@ -21,6 +21,7 @@ public class ClientComponent {
         return clientRepository.findAll(); // Suppose que votre repository possède une méthode findAll pour récupérer tous les clients.
     }
 
+
     public ClientEntity createClient(ClientEntity clientEntity) {
         return clientRepository.save(clientEntity);
     }
