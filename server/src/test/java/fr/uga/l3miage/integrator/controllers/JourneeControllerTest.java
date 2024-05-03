@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@AutoConfigureTestDatabase
+/*@AutoConfigureTestDatabase
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
 public class JourneeControllerTest {
@@ -169,5 +169,5 @@ public class JourneeControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(expectedResponse);
         verify(journeeService, times(2)).addTourneeInJournee(any(String.class), any(String.class));
-    }*/
-}
+    }
+}*/

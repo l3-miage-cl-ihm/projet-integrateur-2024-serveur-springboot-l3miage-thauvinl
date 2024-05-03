@@ -11,11 +11,11 @@ import org.mapstruct.Mapping;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@Mapper
+@Mapper(uses = CommandeMapper.class)
 @DecoratedWith(LivraisonMapperDecorator.class)
 public interface LivraisonMapper {
-    //@Mapping(target = "commandes", ignore = true)
-    //@Mapping(target = "reference",ignore = true)
+    @Mapping(target = "commandes", ignore = true)
+    @Mapping(target = "reference",ignore = true)
     LivraisonEntity toEntity(LivraisonCreationRequest request);
 
     LivraisonResponseDTO toResponse(LivraisonEntity livraisonEntity);

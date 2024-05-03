@@ -47,5 +47,7 @@ public class TourneeComponent {
       tourneeEntity.setLivraisons(livraisons);
       return tourneeRepository.save(tourneeEntity);
    }
-
+   public TourneeEntity addTournee(TourneeEntity t){
+      return tourneeRepository.save(t);
+   }
 }

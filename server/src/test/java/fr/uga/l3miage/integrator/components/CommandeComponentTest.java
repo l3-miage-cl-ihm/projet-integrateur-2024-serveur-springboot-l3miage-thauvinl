@@ -35,12 +35,12 @@ public class CommandeComponentTest {
     public void testGetCommandeByReference() {
         // Given
         String reference = "REF123";
-        Set<CommandeEntity> expectedCommandes = new HashSet<>();
+        CommandeEntity expectedCommandes = new CommandeEntity();
         // Mocking the repository behavior
         when(commandeRepository.findCommandeEntitiesByReference(reference)).thenReturn(expectedCommandes);
 
         // When
-        Set<CommandeEntity> actualCommandes = commandeComponent.getCommandeByReference(reference);
+        CommandeEntity actualCommandes = commandeComponent.getCommandeByReference(reference);
 
         // Then
         assertEquals(expectedCommandes, actualCommandes);

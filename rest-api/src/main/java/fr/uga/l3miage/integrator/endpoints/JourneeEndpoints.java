@@ -28,7 +28,6 @@ public interface JourneeEndpoints {
 
 
     @Operation(description = "récuperer une journée")
-
     @ApiResponse(responseCode = "200", description = "La journée a été trouvée")
     @ApiResponse(responseCode = "404", description = "La journée est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = "application/json")})
 

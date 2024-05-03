@@ -1,6 +1,8 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.EmployeComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,11 @@ public class EmployeService {
     }
 
     public EmployeEntity getEmployeById(String id) {
-        Optional<EmployeEntity> optionalEmploye = employeComponent.getEmployeById(id);
-        return optionalEmploye.orElse(null);
+        try{
+            return employeComponent.getEmployeById(id);
+        }catch (NotFoundEmployeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
     }
 
     public EmployeEntity createEmploye(EmployeEntity employe) {

@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
@@ -38,8 +39,8 @@ public class EmployeComponent {
         return employeRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    public Optional<EmployeEntity> getEmployeById(String id) {
-        return employeRepository.findById(id);
+    public EmployeEntity getEmployeById(String trigramme) throws NotFoundEmployeEntityException {
+        return employeRepository.findByTrigramme(trigramme).orElseThrow(()->new NotFoundEmployeEntityException(String.format("L'employé d'id %s n'existe pas", trigramme)));
     }
 
     public EmployeEntity createEmploye(EmployeEntity employe) {

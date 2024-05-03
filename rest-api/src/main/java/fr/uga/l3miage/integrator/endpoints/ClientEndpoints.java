@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Tag(name = "Gestion des clients", description = "Tous les endpoints de gestion des clients")
 @RestController
@@ -26,7 +27,13 @@ public interface ClientEndpoints {
 
     @Operation(description = "Récupérer un client par son adresse email")
     @ApiResponse(responseCode = "200", description = "Le client a été trouvé")
-    @ApiResponse(responseCode = "404", description = "Le client n'a pas été trouvé", content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ApiResponse(responseCode = "404", description = "Le client n'a pas été trouvé")
     @GetMapping("/{email}")
     ClientResponseDTO getClientByEmail(@PathVariable String email);
+
+    @Operation(description = "Récupérer tous les clients")
+    @ApiResponse(responseCode = "200", description = "La liste des clients a été récupérée")
+    @ApiResponse(responseCode = "404", description = "Aucun client trouvé")
+    @GetMapping
+    List<ClientResponseDTO> getAllClients();
 }

@@ -17,6 +17,4 @@ public class CamionEntity {
     @Embedded
     private GeoPosition position;
 
-    //@OneToOne(mappedBy = "camion")
-   // private TourneeEntity tournee;
 }

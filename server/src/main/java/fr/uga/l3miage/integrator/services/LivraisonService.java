@@ -1,28 +1,51 @@
 package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
+import fr.uga.l3miage.integrator.mappers.AdresseMapper;
+import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Set;
-import java.util.List;
-import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
+import java.util.*;
+
 
 @Service
 @RequiredArgsConstructor
 public class LivraisonService {
     private final LivraisonComponent livraisonComponent;
+    private final LivraisonMapper livraisonMapper;
+    private final AdresseMapper adresseMapper;
 
-    
-    public List<LivraisonEntity> getAllLivraison() {
-        return livraisonComponent.getAllLivraison();
+    public List<LivraisonResponseDTO> getAllLivraison() {
+        List<LivraisonEntity> livraisons = livraisonComponent.getAllLivraison();
+        List<LivraisonResponseDTO> livraisonsDTO = new ArrayList<>();
+
+        for (LivraisonEntity livraison : livraisons) {
+            LivraisonResponseDTO livraisonDTO = livraisonMapper.toResponse(livraison);
+            livraisonsDTO.add(livraisonDTO);
+        }
+
+        return livraisonsDTO;
     }
 
-    public LivraisonEntity getLivraisonByReference(String reference) {
-        return livraisonComponent.getLivraisonByReference(reference);
+    public LivraisonResponseDTO getLivraisonByReference(String reference) {
+        return livraisonMapper.toResponse(livraisonComponent.getLivraisonByReference(reference));
     }
     public long countElementsInRepo(){
         return livraisonComponent.countElementsInRepo();
     }
+
+
+    public AdresseResponseDTO getAdresseClientFromLivraison(String ref){
+        try{
+            LivraisonEntity livraison=livraisonComponent.getLivraisonByReference(ref);
+            return adresseMapper.toResponse(livraisonComponent.getAdresseClientFromLivraison(livraison));
+        }
+        catch(Exception e){
+            throw new RuntimeException();
+        }
+    }
+
 
 }

@@ -29,6 +29,8 @@ public class TourneeResponseDTO {
     private Set<EmployeResponseDTO> employeResponseDTOS;
     @Schema(description = "Liste des employés effectuant une tournée")
     private Set<LivraisonResponseDTO> livraisonResponseDTOS;
+    @Schema(description = "Le camion")
+    private CamionResponseDTO camionResponseDTO;
 
 
 }

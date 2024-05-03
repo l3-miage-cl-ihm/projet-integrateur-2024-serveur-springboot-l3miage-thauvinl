@@ -1,32 +1,32 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.ClientComponent;
+import fr.uga.l3miage.integrator.mappers.ClientMapper;
 import fr.uga.l3miage.integrator.models.ClientEntity;
-import fr.uga.l3miage.integrator.repositories.ClientRepository;
+import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService {
 
-   /* Version sans component
-   private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
+    public final ClientComponent clientComponent;
 
-    @Autowired
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ClientResponseDTO getClientByEmail(String email){
+        ClientEntity clientEntity = clientComponent.getClientByEmail(email);
+        return clientMapper.toResponse(clientEntity);
     }
 
-    public Optional<ClientEntity> getClientByEmail(String email) {
-        return clientRepository.findById(email);
-    }*/
-    public final ClientComponent clientComponent;
-    public ClientEntity getClientByEmail(String email){
-        return clientComponent.getClientByEmail(email);
+    public List<ClientResponseDTO> getAllClients() {
+        List<ClientEntity> clients = clientComponent.getAllClients();
+        return clients.stream()
+                .map(clientMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
 }
