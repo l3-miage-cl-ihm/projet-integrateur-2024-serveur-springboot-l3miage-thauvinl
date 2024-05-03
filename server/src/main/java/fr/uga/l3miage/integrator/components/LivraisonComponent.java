@@ -17,8 +17,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class LivraisonComponent {
     private final LivraisonRepository livraisonRepository;
-    private final CommandeRepository commandeRepository;
-    private final CommandeService commandeService;
+    private final CommandeComponent commandeComponent;
     public List<LivraisonEntity> getAllLivraison() {
         return livraisonRepository.findAll();
     }
@@ -30,16 +29,10 @@ public class LivraisonComponent {
         return livraisonRepository.count();
     }
 
-    public LivraisonEntity addLivraison(LivraisonEntity livraisonEntity){
-
-            return livraisonRepository.save(livraisonEntity);
-
-        }
-
 
     public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity){
         Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
         CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
-        return commandeService.findClientAdressByCommande(cm_tmp);
+        return commandeComponent.findClientAdressByCommande(cm_tmp);
     }
 }

@@ -29,12 +29,6 @@ public abstract class LivraisonController implements LivraisonEndpoints{
     @Autowired
     private LivraisonService livraisonService;
 
-    @Autowired
-    private CommandeService commandeService;
-
-    @Autowired
-    private ObjectMapper objectMapper; //object pour mapper valeur envoyé par API angular
-
 
     //plugin sonarelint
     @Override
@@ -43,45 +37,18 @@ public abstract class LivraisonController implements LivraisonEndpoints{
 
     }
 
-
     public LivraisonResponseDTO getLivraisonByReference(@PathVariable String reference) {
         return livraisonService.getLivraisonByReference(reference);
 
     }
-
-
 
     public ResponseEntity<Long> countLivraisons() {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
 
     @Override
-    public AdresseResponseDTO getAdresseClientFromLivraison(String jsonData) throws JsonProcessingException {
+    public AdresseResponseDTO getAdresseClientFromLivraison(String jsonData){
         return livraisonService.getAdresseClientFromLivraison(jsonData);
-    }/*
-    public LivraisonResponseDTO addCmdInLivraison(String refL, String refC){
-        return livraisonService.addCommandeInLivraison(refL,refC);
-
-    }*/
-
-/*
-    @PostMapping("/adresseFromLivraison")
-    public ResponseEntity<Adresse> getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException {
-
-        String id_livraison=objectMapper.writeValueAsString(jsonData); //mapper jsonData en un string qui est la ref
-        LivraisonEntity livraisonEntity=livraisonService.getLivraisonByReference(id_livraison);
-        if (livraisonEntity== null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Set<CommandeResponseDTO> commandeEntitySet=commandeService.getAllCommandeByLivraison(livraisonEntity);
-        CommandeEntity cm_tmp=commandeEntitySet.stream().findFirst().orElse(null);
-        if (cm_tmp == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Adresse add = commandeService.findClientAdressByCommande(cm_tmp);
-        return new ResponseEntity<>(add, HttpStatus.OK);
-
-    }*/
+    }
 
 }
