@@ -18,5 +18,4 @@ public class AdresseResponseDTO {
     @Schema(description = "Ville")
     private String ville;
 
-    // Constructeurs, getters et setters peuvent être ajoutés selon les besoins
 }
