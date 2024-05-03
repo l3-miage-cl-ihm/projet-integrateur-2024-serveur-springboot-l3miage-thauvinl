@@ -1,51 +1,74 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.EmployeComponent;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.mappers.EmployeMapper;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
+import fr.uga.l3miage.integrator.requests.EmployeCreationRequest;
+import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeService {
 
     private final EmployeComponent employeComponent;
+    private final EmployeMapper employeMapper;
 
-    @Autowired
-    public EmployeService(EmployeComponent employeComponent) {
-        this.employeComponent = employeComponent;
+
+    public Set<EmployeResponseDTO> getLivreursByTourneeId(String tourneeId) {
+        try {
+            Set<EmployeEntity> livreurs = employeComponent.getLivreursByTourneeId(tourneeId);
+            return livreurs.stream()
+                    .map(employeMapper::toResponse)
+                    .collect(Collectors.toSet());
+        } catch (NotFoundException e) {
+            e.printStackTrace(); // ou logger l'erreur
+            return Collections.emptySet();
+        }
     }
 
-    public Set<EmployeEntity> getLivreursByTourneeId(String tourneeId) throws NotFoundException {
-        return employeComponent.getLivreursByTourneeId(tourneeId);
+    public List<EmployeResponseDTO> getAllEmployes() {
+        List<EmployeEntity> employes = employeComponent.getAllEmployes();
+        return employes.stream()
+                .map(employeMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public List<EmployeEntity> getAllEmployes() {
-        return employeComponent.getAllEmployes();
-    }
-
-    public EmployeEntity getEmployeById(String id) {
+    public EmployeResponseDTO getEmployeById(String id) {
         Optional<EmployeEntity> optionalEmploye = employeComponent.getEmployeById(id);
-        return optionalEmploye.orElse(null);
+        return optionalEmploye.map(employeMapper::toResponse).orElse(null);
     }
 
-    public EmployeEntity createEmploye(EmployeEntity employe) {
-        return employeComponent.createEmploye(employe);
+    public EmployeResponseDTO createEmploye(EmployeCreationRequest request) {
+        EmployeEntity employe = employeMapper.toEntity(request);
+        EmployeEntity createdEmploye = employeComponent.createEmploye(employe);
+        return employeMapper.toResponse(createdEmploye);
     }
 
-    public EmployeEntity updateEmploye(String id, EmployeEntity employe) {
-        return employeComponent.updateEmploye(id, employe);
+    public EmployeResponseDTO updateEmploye(String id, EmployeCreationRequest request) {
+        EmployeEntity employe = employeMapper.toEntity(request);
+        EmployeEntity updatedEmploye = employeComponent.updateEmploye(id, employe);
+        return employeMapper.toResponse(updatedEmploye);
     }
 
     public void deleteEmploye(String id) {
         employeComponent.deleteEmploye(id);
     }
 
-    public Set<EmployeEntity> getAllLivreurs(){
-        return employeComponent.getAllLivreurs();
+    public Set<EmployeResponseDTO> getAllLivreurs() {
+        Set<EmployeEntity> livreurs = employeComponent.getAllLivreurs();
+        return livreurs.stream()
+                .map(employeMapper::toResponse)
+                .collect(Collectors.toSet());
     }
 }
