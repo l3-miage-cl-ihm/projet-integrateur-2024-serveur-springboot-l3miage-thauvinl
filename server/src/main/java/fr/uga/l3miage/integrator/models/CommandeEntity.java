@@ -2,12 +2,8 @@ package fr.uga.l3miage.integrator.models;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.*;
 
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass.EtatDeCommande;
 import lombok.*;
@@ -40,6 +36,9 @@ public class CommandeEntity {
 
     @ManyToOne()
     private LivraisonEntity livraison;
+
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<LigneEntity> lignesCommandes;
 
 
 }
