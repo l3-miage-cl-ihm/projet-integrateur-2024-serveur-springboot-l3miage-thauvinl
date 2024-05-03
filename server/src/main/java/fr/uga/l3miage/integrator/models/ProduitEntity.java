@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.awt.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,7 +16,7 @@ import java.awt.*;
 @NoArgsConstructor
 public class ProduitEntity {
     @Id
-    private String Id;
+    private String reference;
     //@Embedded
     //private Image photo;
     private String titre;
@@ -27,5 +25,7 @@ public class ProduitEntity {
     private Double prix;
     private Boolean optionDeMontage;
     private Integer tempsDeMontageTheorique;
+    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<LigneEntity> lignesProduits;
 
 }
