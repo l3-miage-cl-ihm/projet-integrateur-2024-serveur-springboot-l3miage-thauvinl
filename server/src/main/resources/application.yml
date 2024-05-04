@@ -16,4 +16,4 @@ l3:
   miage:
     webservice:
       rest:
-        url: "http://localhost:8081"
+        url: "http://localhost:8080"
