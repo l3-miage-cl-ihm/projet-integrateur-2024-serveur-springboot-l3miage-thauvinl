@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface ClientMapper {
 
-    //@Mapping(target = "clientResponseDTOS", source = "client")
+    @Mapping(target = "clientResponseDTOS", source = "client")
     ClientResponseDTO toResponse(ClientEntity client);
 
-    //@Mapping(target = "client", ignore = true)
+    @Mapping(target = "client", ignore = true)
     ClientEntity toEntity (ClientCreationRequest request);
 }
 

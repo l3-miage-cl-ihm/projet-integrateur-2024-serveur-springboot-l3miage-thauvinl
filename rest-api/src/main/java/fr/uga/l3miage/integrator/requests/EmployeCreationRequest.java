@@ -1,6 +1,6 @@
 package fr.uga.l3miage.integrator.requests;
 
-//import fr.uga.l3miage.integrator.models.enums.Emploi;
+
 import lombok.Builder;
 import lombok.Data;
 
