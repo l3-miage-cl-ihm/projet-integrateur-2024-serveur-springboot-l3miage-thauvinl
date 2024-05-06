@@ -50,5 +50,9 @@ public class LivraisonController implements LivraisonEndpoints{
     public AdresseResponseDTO getAdresseClientFromLivraison(String reference){
         return livraisonService.getAdresseClientFromLivraison(reference);
     }
+    @Override
+    public LivraisonResponseDTO updateTdmEffectifLivraison(String reference, Integer tdmEffectif){
+        return livraisonService.updateTdmEffectifLivraison(reference, tdmEffectif);
+    }
 
 }

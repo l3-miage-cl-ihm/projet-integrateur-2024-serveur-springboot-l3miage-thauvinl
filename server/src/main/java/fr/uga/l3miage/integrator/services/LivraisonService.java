@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
@@ -44,6 +45,16 @@ public class LivraisonService {
         }
         catch(Exception e){
             throw new RuntimeException();
+        }
+    }
+
+    public LivraisonResponseDTO updateTdmEffectifLivraison(String reference, Integer tdmEffectif){
+        try {
+            LivraisonEntity livraison = livraisonComponent.getLivraisonByReference(reference);
+            livraison.setTdmEffectif(tdmEffectif);
+            return livraisonMapper.toResponse(livraison);
+        }catch (Exception e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 

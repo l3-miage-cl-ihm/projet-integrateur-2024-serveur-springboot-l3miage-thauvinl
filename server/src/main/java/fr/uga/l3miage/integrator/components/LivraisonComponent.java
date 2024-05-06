@@ -18,6 +18,7 @@ import java.util.*;
 public class LivraisonComponent {
     private final LivraisonRepository livraisonRepository;
     private final CommandeComponent commandeComponent;
+
     public List<LivraisonEntity> getAllLivraison() {
         return livraisonRepository.findAll();
     }
@@ -25,14 +26,17 @@ public class LivraisonComponent {
     public LivraisonEntity getLivraisonByReference(String reference) {
         return livraisonRepository.findLivraisonEntityByReference(reference);
     }
-    public long countElementsInRepo(){
+
+    public long countElementsInRepo() {
         return livraisonRepository.count();
     }
 
 
-    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity){
-        Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
-        CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
+    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) {
+        Set<CommandeEntity> commandes = livraisonEntity.getCommandes();
+        CommandeEntity cm_tmp = commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cm_tmp);
     }
+
+
 }
