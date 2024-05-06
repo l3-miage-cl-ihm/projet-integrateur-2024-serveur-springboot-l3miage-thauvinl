@@ -1,7 +1,7 @@
 package fr.uga.l3miage.integrator.models;
 
 import fr.uga.l3miage.integrator.dataType.Adresse;
-import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass;
+import fr.uga.l3miage.integrator.models.enums.EtatDeClient;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class ClientEntity {
     private String prenom;
     private String nom;
     @Enumerated(EnumType.ORDINAL)
-    private EtatDeCommandeClass.EtatDeClient etat;
+    private EtatDeClient etat;
     private Float montantTotal;
     @Embedded
     private Adresse adresse;

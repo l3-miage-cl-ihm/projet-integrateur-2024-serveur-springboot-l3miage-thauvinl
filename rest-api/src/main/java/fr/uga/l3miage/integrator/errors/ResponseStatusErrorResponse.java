@@ -9,12 +9,12 @@ import lombok.Data;
 public class ResponseStatusErrorResponse {
     @Schema(
             description = "end point call",
-            example = "/api/tournees/"
+            example = "/api/journees/create"
     )
     private final String uri;
     @Schema(
             description = "error message",
-            example = "Failed to create journee/tournee"
+            example = "Failed to create journee"
     )
     private final String errorMessage;
     ResponseStatusErrorResponse(final String uri, final String errorMessage) {

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.*;
 
-import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass.EtatDeCommande;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import lombok.*;
 
 @Entity

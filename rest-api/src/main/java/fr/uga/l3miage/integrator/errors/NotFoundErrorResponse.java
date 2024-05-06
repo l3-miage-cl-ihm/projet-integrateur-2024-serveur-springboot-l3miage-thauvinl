@@ -8,12 +8,12 @@ import lombok.Data;
 public class NotFoundErrorResponse {
     @Schema(
             description = "end point call",
-            example = "/api/journees/"
+            example = "/api/journees"
     )
     private final String uri;
     @Schema(
             description = "error message",
-            example = "La journée [J001] n'a pas été trouvée"
+            example = "La journée [j001G] n'a pas été trouvée"
     )
     private final String errorMessage;
 
