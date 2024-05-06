@@ -10,6 +10,8 @@ import java.util.Set;
 @Data
 @Builder
 public class JourneeCreationRequest {
+    @Schema(description = "La reference d'une journée", example="J0201")
+    private final String reference;
     @Schema(description = "Date de la journée planifiée", example = "2024-04-01")
     private final Date date;
     @Schema(description = "Ensemble des tournées prévues sur la journée")

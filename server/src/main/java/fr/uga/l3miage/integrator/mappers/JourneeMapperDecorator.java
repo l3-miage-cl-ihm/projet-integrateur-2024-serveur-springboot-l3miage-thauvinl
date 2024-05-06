@@ -25,9 +25,11 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
     public JourneeEntity toEntity(JourneeCreationRequest request){
 
         JourneeEntity journee = delegate.toEntity(request);
+        journee.setReference(request.getReference());
+        /* VERSION REFERENCE CALCULÉ PAR ANGULAR
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
         String day = sdf.format(journee.getDate());
-        journee.setReference("j0" + day + "G");
+        journee.setReference("j0" + day + "G");*/
         journee.setTournees(new HashSet<>());
         return journee;
     }

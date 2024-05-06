@@ -45,6 +45,6 @@ public class TourneeEntity {
     public void addLivraison(LivraisonEntity livraison){
         this.livraisons.add(livraison);
         livraison.setTournee(this);
-        livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
+        //livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
     }
 }
