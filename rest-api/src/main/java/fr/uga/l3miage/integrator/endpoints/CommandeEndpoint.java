@@ -57,5 +57,17 @@ public interface CommandeEndpoint {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/CommandesByClient")
     Map<AdresseResponseDTO,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;
+    @Operation(description = "update commande etat")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La commande a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de updateEtat de commande"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateEtat/{reference}/{nvEtat}")
+    CommandeResponseDTO updateEtat(@PathVariable String reference,@PathVariable String nvEtat);
 
 }
