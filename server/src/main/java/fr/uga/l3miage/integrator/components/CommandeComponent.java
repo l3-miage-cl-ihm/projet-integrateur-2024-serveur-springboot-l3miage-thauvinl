@@ -89,6 +89,6 @@ public class CommandeComponent {
         CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
         EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
         commande.setEtat(etat);
-        return commande;
+        return commandeRepository.save(commande);
     }
 }
