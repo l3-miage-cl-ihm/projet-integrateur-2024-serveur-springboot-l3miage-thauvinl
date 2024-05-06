@@ -1,6 +1,5 @@
 package fr.uga.l3miage.integrator.mappers;
 
-import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
@@ -13,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class TourneeMapperDecorator implements TourneeMapper {
+
     @Autowired
     @Qualifier("delegate")
     private TourneeMapper delegate;
@@ -33,10 +33,8 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     @Override
     public TourneeResponseDTO toResponse(TourneeEntity tournee){
         TourneeResponseDTO responseDTO = delegate.toResponse(tournee);
-        // Utiliser le mapper délégué pour le début de la conversion
         responseDTO.setCamionResponseDTO(camionMapper.toResponse(tournee.getCamion()));
 
-        // Transformer chaque LivraisonEntity en LivraisonResponseDTO
         if (tournee.getLivraisons() == null || tournee.getLivraisons().isEmpty()) {
             responseDTO.setTempsDeMontageTheorique(0);
             responseDTO.setMontant(0.0);
@@ -44,9 +42,9 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
         }
         else {
             Set<LivraisonResponseDTO> livraisonResponses = tournee.getLivraisons().stream()
-                    .map(livraisonMapper::toResponse) // Utilisation de LivraisonMapper pour convertir
-                    .collect(Collectors.toSet()); // Collecter les résultats dans un Set
-            responseDTO.setLivraisonResponseDTOS(livraisonResponses); // Affecter les DTOs de livraison au DTO de la tournée
+                    .map(livraisonMapper::toResponse)
+                    .collect(Collectors.toSet());
+            responseDTO.setLivraisonResponseDTOS(livraisonResponses);
             responseDTO.setTempsDeMontageTheorique(responseDTO.getLivraisonResponseDTOS().stream()
                     .mapToInt(LivraisonResponseDTO::getTdmTheorique)
                     .sum());
@@ -57,7 +55,6 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
                     .mapToDouble(LivraisonResponseDTO::getDistanceParcourue)
                     .sum());
         }
-
         return responseDTO;
     }
 }

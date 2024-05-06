@@ -1,9 +1,9 @@
 package fr.uga.l3miage.integrator.endpoints;
 
-import fr.uga.l3miage.integrator.errors.AddJourneeErrorResponse;
+
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
+import fr.uga.l3miage.integrator.errors.ResponseStatusErrorResponse;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
-import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public interface JourneeEndpoints {
     @Operation(description = "Création d'une journée")
     @ApiResponse(responseCode = "201", description = "La journée a bien été créée")
-    @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête")
+    @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête", content = {@Content(schema = @Schema(implementation = ResponseStatusErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);
@@ -29,18 +29,10 @@ public interface JourneeEndpoints {
 
     @Operation(description = "récuperer une journée")
     @ApiResponse(responseCode = "200", description = "La journée a été trouvée")
-    @ApiResponse(responseCode = "404", description = "La journée est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = "application/json")})
+    @ApiResponse(responseCode = "404", description = "La journée est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{idJournee}")
+    @GetMapping("/{idJournee}")
     JourneeResponseDTO getJournee(@PathVariable(name = "idJournee") String idJournee);
 
-
-
-    @Operation(description = "Ajouter une tournée à la journée")
-    @ApiResponse(responseCode = "200", description = "La tournée a été ajoutée à la journée")
-    @ApiResponse(responseCode = "404", description = "Une erreur s'est produite, la journée ou la tournée demandée n'a pas été trouvée", content = @Content(schema = @Schema(implementation = AddJourneeErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE))
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/{idJournee}/add")
-    JourneeResponseDTO addTourneeInJournee(@PathVariable(name = "idJournee") String idJournee, @RequestBody TourneeCreationRequest request);
 }

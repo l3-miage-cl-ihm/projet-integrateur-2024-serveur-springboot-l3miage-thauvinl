@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
+import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
 import lombok.*;
 
-import fr.uga.l3miage.integrator.models.enums.EtatDeLivraisonClass.EtatDeLivraison;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

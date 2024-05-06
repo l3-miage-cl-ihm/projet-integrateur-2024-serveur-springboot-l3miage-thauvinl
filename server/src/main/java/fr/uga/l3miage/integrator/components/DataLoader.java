@@ -3,7 +3,7 @@ package fr.uga.l3miage.integrator.components;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
-import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.LigneRepository;
@@ -48,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
                         String[] dataCmd = line.split(",");
                         CommandeEntity commande = new CommandeEntity();
                         commande.setReference(dataCmd[0]);
-                        commande.setEtat(EtatDeCommandeClass.EtatDeCommande.ouverte);
+                        commande.setEtat(EtatDeCommande.ouverte);
                         commande.setNote(Integer.parseInt(dataCmd[4]));
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         commande.setDateDeCreation(LocalDateTime.parse(dataCmd[2], formatter));

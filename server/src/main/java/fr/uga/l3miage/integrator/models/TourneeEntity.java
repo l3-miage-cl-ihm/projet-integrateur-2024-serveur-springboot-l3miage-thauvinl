@@ -1,12 +1,11 @@
 package fr.uga.l3miage.integrator.models;
 
-import fr.uga.l3miage.integrator.models.enums.EtatDeCommandeClass;
+import fr.uga.l3miage.integrator.models.enums.EtatDeTournee;
 import lombok.*;
 
 import javax.persistence.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -16,14 +15,18 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Tournee")
 public class TourneeEntity {
     @Id
     private String reference;
+
     @Enumerated(EnumType.STRING)
-    private EtatDeCommandeClass.EtatsDeTournee etatsDeTournee;
+    private EtatDeTournee etatsDeTournee;
+
     @Column(nullable = false)
     private String lettre;
     private Integer tempsDeMontageEffectif;
+
     @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private Double distanceDeRetour;
 
@@ -44,6 +47,4 @@ public class TourneeEntity {
         livraison.setTournee(this);
         livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
     }
-
-
 }

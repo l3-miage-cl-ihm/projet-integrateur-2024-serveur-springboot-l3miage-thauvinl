@@ -2,7 +2,6 @@ package fr.uga.l3miage.integrator.mappers;
 
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
-import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class JourneeMapperDecorator implements  JourneeMapper{
+
     @Autowired
     @Qualifier("delegate")
     private JourneeMapper delegate;
+
     @Autowired
     private TourneeMapper tourneeMapper;
 
     @Override
     public JourneeEntity toEntity(JourneeCreationRequest request){
+
         JourneeEntity journee = delegate.toEntity(request);
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
         String day = sdf.format(journee.getDate());
@@ -32,9 +34,9 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
 
     @Override
     public JourneeResponseDTO toResponseWithTournees(JourneeEntity journee){
+
         JourneeResponseDTO responseDTO = delegate.toResponseWithTournees(journee);
 
-        // Transformer chaque LivraisonEntity en LivraisonResponseDTO
         if (journee.getTournees() == null || journee.getTournees().isEmpty()) {
             responseDTO.setTempsDeMontageTheorique(0);
             responseDTO.setMontant(0.0);
@@ -57,5 +59,6 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
         }
 
         return responseDTO;
+
     }
 }
