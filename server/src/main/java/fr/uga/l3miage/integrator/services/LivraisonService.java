@@ -1,8 +1,9 @@
 package fr.uga.l3miage.integrator.services;
+
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
-import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
+import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
@@ -11,8 +12,9 @@ import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.print.DocFlavor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 

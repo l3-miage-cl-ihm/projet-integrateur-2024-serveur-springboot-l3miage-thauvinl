@@ -79,7 +79,7 @@ public class CommandeComponent {
 
             }
         }
-        System.out.println("fin de commande component");
+
         return totalProduits;
 
     }
