@@ -47,8 +47,8 @@ public class LivraisonController implements LivraisonEndpoints{
         return new ResponseEntity<>(count, HttpStatus.OK);}
 
     @Override
-    public AdresseResponseDTO getAdresseClientFromLivraison(String jsonData){
-        return livraisonService.getAdresseClientFromLivraison(jsonData);
+    public AdresseResponseDTO getAdresseClientFromLivraison(String reference){
+        return livraisonService.getAdresseClientFromLivraison(reference);
     }
 
 }
