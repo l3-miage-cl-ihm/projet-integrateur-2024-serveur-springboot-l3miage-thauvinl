@@ -48,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
                         String[] dataCmd = line.split(",");
                         CommandeEntity commande = new CommandeEntity();
                         commande.setReference(dataCmd[0]);
-                        commande.setEtat(EtatDeCommandeClass.EtatDeCommande.ouverte);
+                        commande.setEtat(EtatDeCommande.ouverte);
                         commande.setNote(Integer.parseInt(dataCmd[4]));
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                         commande.setDateDeCreation(LocalDateTime.parse(dataCmd[2], formatter));

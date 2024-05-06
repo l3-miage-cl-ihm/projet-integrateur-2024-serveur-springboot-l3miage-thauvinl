@@ -3,10 +3,8 @@ package fr.uga.l3miage.integrator.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,8 +17,10 @@ import java.util.Set;
 public class JourneeEntity {
     @Id
     private String reference;
+
     @Column(nullable = false)
     private Date date;
+
     @OneToMany(mappedBy ="journee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TourneeEntity> tournees = new HashSet<>();
 

@@ -11,15 +11,15 @@ import java.util.Set;
 @Builder
 @Schema(description = "Représente une journée")
 public class JourneeResponseDTO {
-    @Schema(description = "Référence de la journée")
+    @Schema(description = "Référence de la journée" , example = "j001G")
     private String reference;
-    @Schema(description = "Date de la journée")
+    @Schema(description = "Date de la journée", example = "2024-04-01T00:00:00.000+00:00")
     private Date date;
-    @Schema(description = "Distance à parcourir pendant la journée")
+    @Schema(description = "Distance à parcourir pendant la journée", example = "200.6")
     private Double distanceAParcourir;
-    @Schema(description = "Montant total des tournées de la journée")
+    @Schema(description = "Montant total des tournées de la journée", example = "1568.2")
     private Double montant;
-    @Schema(description = "Temps de montage théorique total de la journée")
+    @Schema(description = "Temps de montage théorique total de la journée", example = "70")
     private Integer tempsDeMontageTheorique;
     @Schema(description = "La liste des tournées de la journée")
     private Set<TourneeResponseDTO> tourneeResponseDTOS;

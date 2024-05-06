@@ -6,7 +6,6 @@ import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 @Mapper(uses = LivraisonMapper.class)
 @DecoratedWith(TourneeMapperDecorator.class)

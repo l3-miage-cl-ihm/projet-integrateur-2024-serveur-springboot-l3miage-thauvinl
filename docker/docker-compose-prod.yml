@@ -23,12 +23,12 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "50:50"
+      - "80:80"
 
   integrator-project:
     container_name: integrator_project
     build: ..
     ports:
-      - "5050:5050"
+      - "8080:8080"
     depends_on:
       - integrator-db
