@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -71,4 +72,7 @@ public class EmployeComponent {
     public Set<EmployeEntity> getAllLivreurs() {
         return employeRepository.findAllByEmploi(Emploi.livreur);
     }
+
+
+
 }
