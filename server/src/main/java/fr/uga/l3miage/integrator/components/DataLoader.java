@@ -10,6 +10,7 @@ import fr.uga.l3miage.integrator.repositories.LigneRepository;
 import fr.uga.l3miage.integrator.repositories.ProduitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 
 @Component
 @AllArgsConstructor
+@Profile("!test")
 public class DataLoader implements CommandLineRunner {
 
     private final ClientRepository clientRepository;
