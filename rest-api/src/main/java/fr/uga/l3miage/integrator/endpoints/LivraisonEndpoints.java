@@ -76,8 +76,8 @@ public interface LivraisonEndpoints {
             description = "Une erreur s'est produite avec la requête de getAdresseClientFromLivraison"
             )
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/adresseFromLivraison")
-    AdresseResponseDTO getAdresseClientFromLivraison(@RequestBody String jsonData) throws JsonProcessingException ;
+    @GetMapping("/adresseFromLivraison/{reference}")
+    AdresseResponseDTO getAdresseClientFromLivraison(@PathVariable String reference) throws JsonProcessingException ;
 
 
 
