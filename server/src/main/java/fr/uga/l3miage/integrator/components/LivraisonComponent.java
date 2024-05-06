@@ -5,6 +5,7 @@ import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityExcep
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import fr.uga.l3miage.integrator.services.CommandeService;
@@ -18,7 +19,6 @@ import java.util.*;
 public class LivraisonComponent {
     private final LivraisonRepository livraisonRepository;
     private final CommandeComponent commandeComponent;
-
     public List<LivraisonEntity> getAllLivraison() {
         return livraisonRepository.findAll();
     }
@@ -26,17 +26,26 @@ public class LivraisonComponent {
     public LivraisonEntity getLivraisonByReference(String reference) {
         return livraisonRepository.findLivraisonEntityByReference(reference);
     }
-
-    public long countElementsInRepo() {
+    public long countElementsInRepo(){
         return livraisonRepository.count();
     }
 
 
-    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) {
-        Set<CommandeEntity> commandes = livraisonEntity.getCommandes();
-        CommandeEntity cm_tmp = commandes.stream().findFirst().orElse(null);
+    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity){
+        Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
+        CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cm_tmp);
     }
+    public Map<ProduitEntity,Integer> getProduitsGrpdByQuantité(String ref) throws Exception {
+        LivraisonEntity livraison=livraisonRepository.findLivraisonEntityByReference(ref);
 
+       try{
+                Map<ProduitEntity,Integer> produitsQuantite=commandeComponent.getProduitsGroupedByQtt(livraison.getCommandes());
 
+         return produitsQuantite;
+       }catch (Exception e){
+           throw new Exception("erreur grp produits grped by");
+       }
+
+    }
 }

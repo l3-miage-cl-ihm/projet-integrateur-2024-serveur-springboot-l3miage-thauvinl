@@ -1,17 +1,13 @@
 package fr.uga.l3miage.integrator.components;
 
-import fr.uga.l3miage.integrator.models.CommandeEntity;
-import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
-import fr.uga.l3miage.integrator.models.ClientEntity;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -53,5 +49,38 @@ public class CommandeComponent {
                 .collect(Collectors.groupingBy(this::getClientAdresse));
 
         return commandesGroupedByClient;
+    }
+    public Map<ProduitEntity, Integer> getProduitsGroupedByQtt(Set<CommandeEntity> commandes){
+        Map<ProduitEntity,Integer> totalProduits = new HashMap<>();
+
+        for (CommandeEntity commande : commandes) {
+            for (LigneEntity ligne : commande.getLignesCommandes()) {
+                ProduitEntity produit = ligne.getProduit();
+                Integer quantiteLigne = ligne.getQuantite();
+
+
+
+                if (totalProduits.containsKey(produit)) {
+
+                    Iterator<Map.Entry<ProduitEntity, Integer>> iterator = totalProduits.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry<ProduitEntity, Integer> entry = iterator.next();
+                        if (entry.getKey().equals(produit)) {
+                            Integer nouvelleQuantite = entry.getValue() + quantiteLigne;
+
+                            entry.setValue(nouvelleQuantite);
+                        }
+                    }
+                }
+                    else {
+
+                    totalProduits.put(produit,quantiteLigne);
+                }
+
+            }
+        }
+
+        return totalProduits;
+
     }
 }

@@ -9,6 +9,7 @@ import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
+import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -53,6 +56,12 @@ public class LivraisonController implements LivraisonEndpoints{
     @Override
     public LivraisonResponseDTO updateTdmEffectifLivraison(String reference, Integer tdmEffectif){
         return livraisonService.updateTdmEffectifLivraison(reference, tdmEffectif);
+    }
+
+    @Override
+    public Map<ProduitResponseDTO,Integer> getProduitsGrpedByQtt(String reference) throws Exception {
+
+        return livraisonService.getProduitsGrpByQtt(reference);
     }
 
 }
