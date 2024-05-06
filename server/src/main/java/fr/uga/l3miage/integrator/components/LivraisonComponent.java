@@ -5,6 +5,7 @@ import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityExcep
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import fr.uga.l3miage.integrator.services.CommandeService;
@@ -34,5 +35,17 @@ public class LivraisonComponent {
         Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
         CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cm_tmp);
+    }
+    public Map<ProduitEntity,Integer> getProduitsGrpdByQuantité(String ref) throws Exception {
+        LivraisonEntity livraison=livraisonRepository.findLivraisonEntityByReference(ref);
+
+       try{
+                Map<ProduitEntity,Integer> produitsQuantite=commandeComponent.getProduitsGroupedByQtt(livraison.getCommandes());
+
+         return produitsQuantite;
+       }catch (Exception e){
+           throw new Exception("erreur grp produits grped by");
+       }
+
     }
 }
