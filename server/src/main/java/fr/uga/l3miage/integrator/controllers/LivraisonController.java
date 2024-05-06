@@ -24,7 +24,7 @@ import java.util.Set;
 
 @RestController
 
-public abstract class LivraisonController implements LivraisonEndpoints{
+public class LivraisonController implements LivraisonEndpoints{
 
     @Autowired
     private LivraisonService livraisonService;
@@ -36,12 +36,12 @@ public abstract class LivraisonController implements LivraisonEndpoints{
         return livraisonService.getAllLivraison();
 
     }
-
-    public LivraisonResponseDTO getLivraisonByReference(@PathVariable String reference) {
+    @Override
+    public LivraisonResponseDTO getLivraisonByReference( String reference) {
         return livraisonService.getLivraisonByReference(reference);
 
     }
-
+    @Override
     public ResponseEntity<Long> countLivraisons() {
         long count = livraisonService.countElementsInRepo();
         return new ResponseEntity<>(count, HttpStatus.OK);}
