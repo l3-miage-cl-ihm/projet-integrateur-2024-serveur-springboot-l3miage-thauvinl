@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -23,7 +24,7 @@ public class EmployeController implements EmployeEndpoints {
         return employeService.getAllLivreurs();
     }
 
-
+/*
     @Override
     public EmployeResponseDTO createEmploye(EmployeCreationRequest request) {
         return employeService.createEmploye(request);
@@ -38,4 +39,11 @@ public class EmployeController implements EmployeEndpoints {
     public void deleteEmploye(String id) {
         employeService.deleteEmploye(id);
     }
+
+ */
+@Override
+public List<EmployeResponseDTO> getAllEmployes() {
+    return employeService.getAllEmployes();
+}
+
 }
