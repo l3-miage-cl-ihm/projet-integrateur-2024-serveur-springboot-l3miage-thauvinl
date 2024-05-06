@@ -18,14 +18,14 @@ import java.util.Set;
 @RequestMapping("/api/camions")
 public interface CamionEndpoints {
     @Operation(description = "Get tous les camions")
-    @ApiResponses({@ApiResponse(
+    @ApiResponse(
             responseCode = "201",
             description = "Les camions ont été récupérés"
-    ),
-            @ApiResponse(
+    )
+    @ApiResponse(
                     responseCode = "400",
                     description = "Une erreur s'est produite avec la requête de getAllCamions"
-            )})
+            )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllCamions")
     public List<CamionResponseDTO> getAllCamions();

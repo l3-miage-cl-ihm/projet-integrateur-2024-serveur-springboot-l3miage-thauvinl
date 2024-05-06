@@ -17,8 +17,6 @@ import java.util.Set;
 public class ProduitEntity {
     @Id
     private String reference;
-    //@Embedded
-    //private Image photo;
     private String titre;
     @Column(columnDefinition = "TEXT")
     private String description;
