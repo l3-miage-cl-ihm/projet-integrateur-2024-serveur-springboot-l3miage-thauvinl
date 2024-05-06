@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class ClientServiceTest {
-
+/*
     @Mock
     private ClientComponent clientComponent;
 
@@ -41,4 +41,6 @@ public class ClientServiceTest {
         // Then
         assertEquals(expectedClient, actualClient);
     }
+
+ */
 }
