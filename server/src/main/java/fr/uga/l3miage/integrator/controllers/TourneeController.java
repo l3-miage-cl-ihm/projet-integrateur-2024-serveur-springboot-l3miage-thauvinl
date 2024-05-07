@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.controllers;
 
 import fr.uga.l3miage.integrator.endpoints.TourneeEndpoints;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.TourneeService;
 import lombok.RequiredArgsConstructor;
@@ -14,5 +15,10 @@ public class TourneeController implements TourneeEndpoints {
     @Override
     public TourneeResponseDTO getTourneeByEmploye(String trigramme){
         return tourneeService.getTourneeByEmploye(trigramme);
+    }
+
+    @Override
+    public TourneeResponseDTO updateTdmEffectifTournee(String reference, Integer tdmEffectif){
+        return tourneeService.updateTdmEffectifTournee(reference, tdmEffectif);
     }
 }

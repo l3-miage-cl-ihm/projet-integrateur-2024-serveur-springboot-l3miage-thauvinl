@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clients")
 public interface ClientEndpoints {
-
+/*
     @Operation(description = "Créer un nouveau client")
     @ApiResponse(responseCode = "201", description = "Le client a été créé avec succès")
     @ApiResponse(responseCode = "400", description = "La demande de création de client est incorrecte")
@@ -25,6 +25,8 @@ public interface ClientEndpoints {
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     ClientResponseDTO createClient(@Valid @RequestBody ClientCreationRequest clientCreationRequest);
 
+
+ */
     @Operation(description = "Récupérer un client par son adresse email")
     @ApiResponse(responseCode = "200", description = "Le client a été trouvé")
     @ApiResponse(responseCode = "404", description = "Le client n'a pas été trouvé")

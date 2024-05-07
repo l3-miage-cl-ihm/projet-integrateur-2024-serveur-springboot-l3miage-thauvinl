@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.endpoints;
 
 
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,4 +26,10 @@ public interface TourneeEndpoints {
     @GetMapping("/{employeId}")
     TourneeResponseDTO getTourneeByEmploye(@PathVariable(name = "employeId" ) @Parameter(name = "employeId", description = "Trigramme de l'employé", example = "AAA") String employeId);
 
+    @Operation(description = "Mettre à jour le temps de montage effectif d'une tournée")
+    @ApiResponse(responseCode = "200", description = "Le temps de montage effectif a pu être mis à jour")
+    @ApiResponse(responseCode = "404", description = "La tournée à mettre à jour est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{reference}")
+    TourneeResponseDTO updateTdmEffectifTournee(@PathVariable String reference, @RequestParam Integer tdmEffectif);
 }

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,7 +81,6 @@ public interface LivraisonEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/adresseFromLivraison/{reference}")
     AdresseResponseDTO getAdresseClientFromLivraison(@PathVariable String reference) throws JsonProcessingException ;
-
 
     @Operation(description = "get produits grouped by quantity from livraisons")
     @ApiResponse(
