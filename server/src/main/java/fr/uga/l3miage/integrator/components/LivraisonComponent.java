@@ -41,11 +41,11 @@ public class LivraisonComponent {
         CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cm_tmp);
     }
-    public Map<ProduitEntity,Integer> getProduitsGrpdByQuantité(String ref) throws Exception {
+    public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws Exception {
         LivraisonEntity livraison=livraisonRepository.findLivraisonEntityByReference(ref);
 
        try{
-                Map<ProduitEntity,Integer> produitsQuantite=commandeComponent.getProduitsGroupedByQtt(livraison.getCommandes());
+           Set<CommandeComponent.ProduitQuantite> produitsQuantite=commandeComponent.getProduitsGroupedByQtt(livraison.getCommandes());
 
          return produitsQuantite;
        }catch (Exception e){

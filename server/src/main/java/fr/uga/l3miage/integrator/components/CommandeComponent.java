@@ -63,38 +63,34 @@ public class CommandeComponent {
 
 
 
-    public Map<ProduitEntity, Integer> getProduitsGroupedByQtt(Set<CommandeEntity> commandes){
-        Map<ProduitEntity,Integer> totalProduits = new HashMap<>();
+    public Set<ProduitQuantite> getProduitsGroupedByQtt(Set<CommandeEntity> commandes) {
+        Set<ProduitQuantite> totalProduits = new HashSet<>();
 
         for (CommandeEntity commande : commandes) {
             for (LigneEntity ligne : commande.getLignesCommandes()) {
                 ProduitEntity produit = ligne.getProduit();
-                Integer quantiteLigne = ligne.getQuantite();
+                int quantiteLigne = ligne.getQuantite();
 
+                boolean produitExist = false;
 
-
-                if (totalProduits.containsKey(produit)) {
-
-                    Iterator<Map.Entry<ProduitEntity, Integer>> iterator = totalProduits.entrySet().iterator();
-                    while (iterator.hasNext()) {
-                        Map.Entry<ProduitEntity, Integer> entry = iterator.next();
-                        if (entry.getKey().equals(produit)) {
-                            Integer nouvelleQuantite = entry.getValue() + quantiteLigne;
-
-                            entry.setValue(nouvelleQuantite);
-                        }
+                // Vérifier si le produit existe déjà dans l'ensemble
+                for (ProduitQuantite pq : totalProduits) {
+                    if (pq.getProduit().equals(produit)) {
+                        // Mettre à jour la quantité
+                        pq.quantite += quantiteLigne;
+                        produitExist = true;
+                        break;
                     }
                 }
-                    else {
 
-                    totalProduits.put(produit,quantiteLigne);
+                // Si le produit n'existe pas encore, l'ajouter à l'ensemble
+                if (!produitExist) {
+                    totalProduits.add(new ProduitQuantite(produit, quantiteLigne));
                 }
-
             }
         }
 
         return totalProduits;
-
     }
 
     public CommandeEntity updateEtat(String reference,String Etat){
@@ -103,7 +99,7 @@ public class CommandeComponent {
         commande.setEtat(etat);
         return commandeRepository.save(commande);
     }
-    /***********************************CLASSE STATIC*************************/
+    /***********************************CLASSES STATIC*************************/
     public static class ClientCommandesPair {
         private final Adresse adresse;
         private final Set<CommandeEntity> commandes;
@@ -121,4 +117,22 @@ public class CommandeComponent {
             return commandes;
         }
     }
+    public static class ProduitQuantite {
+        private ProduitEntity produit;
+        private int quantite;
+
+        public ProduitQuantite(ProduitEntity produit, int quantite) {
+            this.produit = produit;
+            this.quantite = quantite;
+        }
+
+        public ProduitEntity getProduit() {
+            return produit;
+        }
+
+        public int getQuantite() {
+            return quantite;
+        }
+    }
+
 }
