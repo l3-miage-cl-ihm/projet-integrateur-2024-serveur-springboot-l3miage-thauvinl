@@ -51,5 +51,11 @@ public interface EmployeEndpoints {
     @GetMapping("/all")
     List<EmployeResponseDTO> getAllEmployes();
 
+    @Operation(description = "Récupère un livreur par son email")
+    @ApiResponse(responseCode = "200", description = "Livreur récupéré avec succès")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/livreurs/{email}")
+    EmployeResponseDTO getLivreurByEmail(@PathVariable String email);
+
 
 }

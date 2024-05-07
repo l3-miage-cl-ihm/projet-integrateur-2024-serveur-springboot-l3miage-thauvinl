@@ -46,4 +46,9 @@ public List<EmployeResponseDTO> getAllEmployes() {
     return employeService.getAllEmployes();
 }
 
+    @Override
+    public EmployeResponseDTO getLivreurByEmail(String email) {
+        return employeService.getLivreurByEmail(email);
+    }
+
 }
