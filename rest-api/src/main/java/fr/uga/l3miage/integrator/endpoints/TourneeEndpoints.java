@@ -32,4 +32,17 @@ public interface TourneeEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{reference}")
     TourneeResponseDTO updateTdmEffectifTournee(@PathVariable String reference, @RequestParam Integer tdmEffectif);
+
+    @Operation(description = "update tournée etat")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La tournée a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "La tournée n'a pas été trouvée"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateEtat/{reference}")
+    TourneeResponseDTO updateEtat(@PathVariable String reference, @RequestParam String nvEtat);
 }
