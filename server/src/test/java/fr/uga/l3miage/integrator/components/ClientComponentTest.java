@@ -7,22 +7,26 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@AutoConfigureTestDatabase
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@ActiveProfiles("test")
 public class ClientComponentTest {
-/*
+    /*
+
     @Mock
     private ClientRepository clientRepository;
 
-    @InjectMocks
+    @Autowired
     private ClientComponent clientComponent;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testGetClientByEmailSuccess() {
@@ -57,5 +61,7 @@ public class ClientComponentTest {
         assertEquals(null, actualClient);
     }
 
- */
+
+     */
+
 }
