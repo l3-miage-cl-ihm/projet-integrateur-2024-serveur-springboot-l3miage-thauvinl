@@ -35,6 +35,7 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
+    /*
     public ClientResponseDTO createClient(ClientCreationRequest clientCreationRequest){
         try {
             ClientEntity clientEntity = clientMapper.toEntity(clientCreationRequest);
@@ -50,5 +51,7 @@ public class ClientService {
             throw new RuntimeException("Failed to create client: " + e.getMessage(), e);
         }
     }
+
+     */
 
 }
