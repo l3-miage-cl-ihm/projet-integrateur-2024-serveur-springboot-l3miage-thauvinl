@@ -1,12 +1,19 @@
 package fr.uga.l3miage.integrator.service;
 
+import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
+import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
+import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.ProduitEntity;
+import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
+import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
+import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +27,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -27,7 +36,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ActiveProfiles("test")
 public class LivraisonTestService{
-    /*
+
 
     @MockBean
     private LivraisonComponent livraisonComponent;
@@ -35,14 +44,16 @@ public class LivraisonTestService{
     @SpyBean
     private LivraisonMapper livraisonMapper;
 
-    @MockBean
+    @SpyBean
     private AdresseMapper adresseMapper;
 
     @Autowired
     private LivraisonService livraisonService;
+    @SpyBean
+    private ProduitMapper produitMapper;
 
     @Test
-    void getAllLivraison() {
+    public void getAllLivraison() {
         // Given
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();
         LivraisonEntity livraisonEntity2 = new LivraisonEntity();
@@ -64,7 +75,7 @@ public class LivraisonTestService{
     }
 
     @Test
-    void getLivraisonByReference() throws NotFoundLivraisonEntityException {
+    public void getLivraisonByReference() throws NotFoundLivraisonEntityException {
         // Given
         String reference = "123";
         LivraisonEntity livraisonEntity = new LivraisonEntity();
@@ -78,6 +89,76 @@ public class LivraisonTestService{
         // Then
         assertEquals(livraisonResponseDTO, result);
     }
+    @Test
+    public void countElementsInRepo(){
+        //Given
+        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
+        LivraisonEntity livraisonEntity2 = new LivraisonEntity();
+        livraisonComponent.save(livraisonEntity1);
+        livraisonComponent.save(livraisonEntity2);
+        //when
+        when(livraisonComponent.countElementsInRepo()).thenReturn(2L);
+        long nb= livraisonService.countElementsInRepo();
+        //then
+        assertEquals(2L,nb);
 
-     */
+    }
+    @Test
+    public void getAdresseClientFromLivraison() throws NotFoundLivraisonEntityException {
+        //Given
+        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
+        livraisonComponent.save(livraisonEntity1);
+        Adresse adresse=new Adresse();
+        adresse.setAdresse("rue central");
+        AdresseResponseDTO adresseResponseDTO=AdresseResponseDTO.builder().build();
+
+        //when
+        when(livraisonComponent.getLivraisonByReference(any())).thenReturn(livraisonEntity1);
+        when(livraisonComponent.getAdresseClientFromLivraison(any())).thenReturn(adresse);
+        when(adresseMapper.toResponse(any())).thenReturn(adresseResponseDTO);
+
+        //then
+        AdresseResponseDTO adresseResponseDTO2=livraisonService.getAdresseClientFromLivraison("ref123");
+        assertEquals(adresseResponseDTO,adresseResponseDTO2);
+
+    }
+    @Test
+    public void getProduitsGrpByQtt() throws Exception {
+        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
+        livraisonComponent.save(livraisonEntity1);
+        ProduitEntity prod= ProduitEntity.builder().build();
+        ProduitResponseDTO produitResponseDTO=ProduitResponseDTO.builder().build();
+
+        when(livraisonComponent.getLivraisonByReference(any())).thenReturn(livraisonEntity1);
+        Set<CommandeComponent.ProduitQuantite> totalProd= Set.of(new CommandeComponent.ProduitQuantite(prod,1));
+        when(livraisonComponent.getProduitsGrpdByQuantité(any())).thenReturn(totalProd);
+        when(produitMapper.toResponse(any())).thenReturn(produitResponseDTO);
+
+        Set<ProduitQuantiteResponseDTO> totProd=livraisonService.getProduitsGrpByQtt("ref123");
+        ProduitResponseDTO produitResp = totProd.stream()
+                .map(ProduitQuantiteResponseDTO::getProduit) // Utilisez la référence de méthode pour accéder à la méthode getProduit
+                .findFirst() // Obtenez le premier ProduitResponseDTO du flux
+                .orElse(null);
+        assertEquals(produitResponseDTO, produitResp);
+
+    }
+
+    @Test
+    public void updateEtat() throws NotFoundLivraisonEntityException {
+        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
+        livraisonComponent.save(livraisonEntity1);
+        livraisonEntity1.setEtat(EtatDeLivraison.enDechargement);
+        LivraisonEntity livraisonEntity2 = new LivraisonEntity();
+        LivraisonResponseDTO livraisonResponseDTO= LivraisonResponseDTO.builder().build();
+        when(livraisonComponent.updateEtat(any(),anyString())).thenReturn(livraisonEntity2);
+        when(livraisonMapper.toResponse(any())).thenReturn(livraisonResponseDTO);
+
+        LivraisonResponseDTO livraisonResponseDTO1=livraisonService.updateEtat("r432","planifiee");
+        assertEquals(livraisonResponseDTO,livraisonResponseDTO1);
+
+
+    }
+
+
+
 }
