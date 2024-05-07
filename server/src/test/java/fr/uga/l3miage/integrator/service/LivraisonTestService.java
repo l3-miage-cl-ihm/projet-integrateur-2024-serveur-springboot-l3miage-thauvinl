@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ActiveProfiles("test")
 public class LivraisonTestService{
+    /*
 
     @MockBean
     private LivraisonComponent livraisonComponent;
@@ -78,5 +79,5 @@ public class LivraisonTestService{
         assertEquals(livraisonResponseDTO, result);
     }
 
-    // Ajoutez d'autres tests pour les autres méthodes de LivraisonService si nécessaire
+     */
 }

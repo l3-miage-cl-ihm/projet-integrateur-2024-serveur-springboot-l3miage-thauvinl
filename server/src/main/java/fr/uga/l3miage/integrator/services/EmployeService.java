@@ -111,5 +111,14 @@ public Set<EmployeResponseDTO> getAllLivreurs() {
             .map(employeMapper::toResponse)
             .collect(Collectors.toSet());
 }
+    public EmployeResponseDTO getLivreurByEmail(String email) {
+        try {
+            EmployeEntity livreur = employeComponent.getLivreurByEmail(email);
+            return employeMapper.toResponse(livreur);
+        } catch (NotFoundEmployeEntityException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
