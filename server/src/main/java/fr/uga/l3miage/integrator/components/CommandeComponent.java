@@ -5,6 +5,7 @@ import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 
@@ -44,13 +45,24 @@ public class CommandeComponent {
         ClientEntity client = findByCommandesReference(commande);
         return client.getAdresse();
     }
-    public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient() {
+    public Set<ClientCommandesPair> getCommandesGroupedByClient() {
         List<CommandeEntity> commandes = commandeRepository.findAll();
-        Map<Adresse, List<CommandeEntity>> commandesGroupedByClient = commandes.stream()
-                .collect(Collectors.groupingBy(this::getClientAdresse));
 
-        return commandesGroupedByClient;
+
+        Set<ClientCommandesPair> result = commandes.stream()
+                .collect(Collectors.groupingBy(this::getClientAdresse,
+                        Collectors.toSet()))
+                .entrySet().stream()
+                .map(entry -> new ClientCommandesPair(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toSet());
+
+        return result;
     }
+
+
+
+
+
     public Map<ProduitEntity, Integer> getProduitsGroupedByQtt(Set<CommandeEntity> commandes){
         Map<ProduitEntity,Integer> totalProduits = new HashMap<>();
 
@@ -89,6 +101,24 @@ public class CommandeComponent {
         CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
         EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
         commande.setEtat(etat);
-        return commande;
+        return commandeRepository.save(commande);
+    }
+    /***********************************CLASSE STATIC*************************/
+    public static class ClientCommandesPair {
+        private final Adresse adresse;
+        private final Set<CommandeEntity> commandes;
+
+        public ClientCommandesPair(Adresse adresse, Set<CommandeEntity> commandes) {
+            this.adresse = adresse;
+            this.commandes = commandes;
+        }
+
+        public Adresse getAdresse() {
+            return adresse;
+        }
+
+        public Set<CommandeEntity> getCommandes() {
+            return commandes;
+        }
     }
 }
