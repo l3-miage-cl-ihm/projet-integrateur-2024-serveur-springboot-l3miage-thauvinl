@@ -73,6 +73,14 @@ public class EmployeComponent {
         return employeRepository.findAllByEmploi(Emploi.livreur);
     }
 
+    public EmployeEntity getLivreurByEmail(String email) throws NotFoundEmployeEntityException {
+        Optional<EmployeEntity> optionalEmploye = employeRepository.findByEmailAndEmploi(email, Emploi.livreur);
+        if (optionalEmploye.isPresent()) {
+            return optionalEmploye.get();
+        } else {
+            throw new NotFoundEmployeEntityException("Livreur non trouvé avec l'email: " + email);
+        }
+    }
 
 
 }

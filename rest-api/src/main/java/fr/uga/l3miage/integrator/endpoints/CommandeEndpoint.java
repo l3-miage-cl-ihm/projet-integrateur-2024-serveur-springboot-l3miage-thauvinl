@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.endpoints;
 
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
+import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public interface CommandeEndpoint {
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/CommandesByClient")
-    Map<AdresseResponseDTO,Set<CommandeResponseDTO>> getCommandesGroupedByClient() ;
+    Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient() ;
     @Operation(description = "update commande etat")
     @ApiResponse(
             responseCode = "201",
