@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
@@ -23,11 +24,15 @@ public class LivraisonComponent {
         return livraisonRepository.findAll();
     }
 
-    public LivraisonEntity getLivraisonByReference(String reference) {
+    public LivraisonEntity getLivraisonByReference(String reference)  {
         return livraisonRepository.findLivraisonEntityByReference(reference);
     }
     public long countElementsInRepo(){
         return livraisonRepository.count();
+    }
+
+    public LivraisonEntity save(LivraisonEntity livraison){
+        return livraisonRepository.save(livraison);
     }
 
 

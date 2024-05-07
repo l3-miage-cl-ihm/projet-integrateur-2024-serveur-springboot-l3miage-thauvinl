@@ -82,13 +82,6 @@ public interface LivraisonEndpoints {
     @GetMapping("/adresseFromLivraison/{reference}")
     AdresseResponseDTO getAdresseClientFromLivraison(@PathVariable String reference) throws JsonProcessingException ;
 
-    @Operation(description = "Mettre à jour le temps de montage effectif d'une livraison")
-    @ApiResponse(responseCode = "200", description = "Le temps de montage effectif a pu être mis à jour")
-    @ApiResponse(responseCode = "404", description = "La livraison à mettre à jour est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/livraisons/{reference}")
-    LivraisonResponseDTO updateTdmEffectifLivraison(@PathVariable String reference, @RequestParam Integer tempsMontageEffectif);
-
     @Operation(description = "get produits grouped by quantity from livraisons")
     @ApiResponse(
             responseCode = "201",

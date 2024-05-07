@@ -67,15 +67,7 @@ public class LivraisonService {
         return result;
     }
 
-    public LivraisonResponseDTO updateTdmEffectifLivraison(String reference, Integer tdmEffectif){
-        try {
-            LivraisonEntity livraison = livraisonComponent.getLivraisonByReference(reference);
-            livraison.setTdmEffectif(tdmEffectif);
-            return livraisonMapper.toResponse(livraison);
-        }catch (Exception e){
-            throw new NotFoundEntityRestException(e.getMessage());
-        }
-    }
+
 
 
 }

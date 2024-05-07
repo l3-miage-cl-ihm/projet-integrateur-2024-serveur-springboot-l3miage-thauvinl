@@ -6,6 +6,9 @@ import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityExcep
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
+import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,14 @@ public class TourneeService {
         } catch (NotFoundTourneeEntityException | NotFoundEmployeEntityException e) {
             throw new NotFoundEntityRestException(e.getMessage());
 
+        }
+    }
+
+    public TourneeResponseDTO updateTdmEffectifTournee(String reference, Integer tdmEffectif){
+        try {
+            return tourneeMapper.toResponse(tourneeComponent.updateTdm(reference, tdmEffectif));
+        }catch ( NotFoundTourneeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 

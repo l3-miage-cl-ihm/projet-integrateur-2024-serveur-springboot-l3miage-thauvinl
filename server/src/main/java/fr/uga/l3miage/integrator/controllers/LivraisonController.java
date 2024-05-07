@@ -53,10 +53,6 @@ public class LivraisonController implements LivraisonEndpoints{
     public AdresseResponseDTO getAdresseClientFromLivraison(String reference){
         return livraisonService.getAdresseClientFromLivraison(reference);
     }
-    @Override
-    public LivraisonResponseDTO updateTdmEffectifLivraison(String reference, Integer tdmEffectif){
-        return livraisonService.updateTdmEffectifLivraison(reference, tdmEffectif);
-    }
 
     @Override
     public Map<ProduitResponseDTO,Integer> getProduitsGrpedByQtt(String reference) throws Exception {
