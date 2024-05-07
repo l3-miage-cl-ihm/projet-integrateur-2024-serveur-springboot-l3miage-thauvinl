@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.endpoints;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
+import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -94,6 +95,19 @@ public interface LivraisonEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/produitsByQtt/{reference}")
     Map<ProduitResponseDTO,Integer> getProduitsGrpedByQtt(@PathVariable String reference) throws Exception;
+
+    @Operation(description = "update livraison etat")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La livraison a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "La livraison n'a pas été trouvée"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateEtat/{reference}")
+    LivraisonResponseDTO updateEtat(@PathVariable String reference, @RequestParam String nvEtat);
 
 
 

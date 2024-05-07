@@ -2,6 +2,7 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
@@ -39,7 +40,12 @@ public class LivraisonService {
     }
 
     public LivraisonResponseDTO getLivraisonByReference(String reference) {
-        return livraisonMapper.toResponse(livraisonComponent.getLivraisonByReference(reference));
+        try{
+            return livraisonMapper.toResponse(livraisonComponent.getLivraisonByReference(reference));
+        }catch(NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+
     }
     public long countElementsInRepo(){
         return livraisonComponent.countElementsInRepo();
@@ -67,6 +73,13 @@ public class LivraisonService {
         return result;
     }
 
+    public LivraisonResponseDTO updateEtat(String reference, String nvEtat){
+        try{
+            return livraisonMapper.toResponse(livraisonComponent.updateEtat(reference, nvEtat));
+        }catch (NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+    }
 
 
 

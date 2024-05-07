@@ -1,8 +1,12 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
+import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
+import fr.uga.l3miage.integrator.models.enums.EtatDeTournee;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +42,11 @@ public class TourneeComponent {
    public void deleteTournee(String ref) throws NotFoundTourneeEntityException{
       TourneeEntity tournee = tourneeRepository.findByReference(ref).orElseThrow(()->new NotFoundTourneeEntityException("Tournée introuvable"));
       tourneeRepository.delete(tournee);
+   }
+
+   public TourneeEntity updateEtat(String reference, String nvEtat) throws NotFoundTourneeEntityException {
+      TourneeEntity tournee = tourneeRepository.findByReference(reference).orElseThrow(()-> new NotFoundTourneeEntityException(String.format("La tournée de référence %s est introuvable", reference)));
+      tournee.setEtatsDeTournee(EtatDeTournee.valueOf(nvEtat));
+      return tourneeRepository.save(tournee);
    }
 }
