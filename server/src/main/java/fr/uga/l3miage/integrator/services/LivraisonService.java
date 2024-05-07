@@ -67,7 +67,7 @@ public class LivraisonService {
         }
     }
     public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference) throws Exception {
-        Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
+        Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantite(reference);
 
         Set<ProduitQuantiteResponseDTO> result = totalProd.stream()
                 .map(prodQuant -> ProduitQuantiteResponseDTO.builder()

@@ -131,13 +131,13 @@ public class LivraisonTestService{
 
         when(livraisonComponent.getLivraisonByReference(any())).thenReturn(livraisonEntity1);
         Set<CommandeComponent.ProduitQuantite> totalProd= Set.of(new CommandeComponent.ProduitQuantite(prod,1));
-        when(livraisonComponent.getProduitsGrpdByQuantité(any())).thenReturn(totalProd);
+        when(livraisonComponent.getProduitsGrpdByQuantite(any())).thenReturn(totalProd);
         when(produitMapper.toResponse(any())).thenReturn(produitResponseDTO);
 
         Set<ProduitQuantiteResponseDTO> totProd=livraisonService.getProduitsGrpByQtt("ref123");
         ProduitResponseDTO produitResp = totProd.stream()
-                .map(ProduitQuantiteResponseDTO::getProduit) // Utilisez la référence de méthode pour accéder à la méthode getProduit
-                .findFirst() // Obtenez le premier ProduitResponseDTO du flux
+                .map(ProduitQuantiteResponseDTO::getProduit)
+                .findFirst()
                 .orElse(null);
         assertEquals(produitResponseDTO, produitResp);
 

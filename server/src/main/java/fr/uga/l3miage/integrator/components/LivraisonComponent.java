@@ -43,7 +43,7 @@ public class LivraisonComponent {
         return commandeComponent.findClientAdressByCommande(cm_tmp);
     }
 
-    public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws Exception {
+    public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantite(String ref) throws Exception {
         try {
             Optional<LivraisonEntity> livraison = livraisonRepository.findLivraisonEntityByReference(ref);
 
