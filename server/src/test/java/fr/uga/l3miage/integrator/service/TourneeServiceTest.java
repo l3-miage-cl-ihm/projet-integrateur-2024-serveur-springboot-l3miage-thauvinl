@@ -51,7 +51,7 @@ public class TourneeServiceTest {
                 .reference("test")
                 .employeEntitySet(set)
                 .build();
-        when(tourneeComponent.getTourneeByEmploye("AAA")).thenReturn(tournee);
+        when(tourneeComponent.getTourneeByEmploye(any(String.class))).thenReturn(tournee);
         TourneeResponseDTO expected = tourneeMapper.toResponse(tournee);
         TourneeResponseDTO actual = tourneeService.getTourneeByEmploye("AAA");
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
@@ -60,13 +60,13 @@ public class TourneeServiceTest {
 
     @Test
     public void getTourneeByEmployeTestNotFoundEmploye() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
-        when(tourneeComponent.getTourneeByEmploye("AAA")).thenThrow(NotFoundEmployeEntityException.class);
+        when(tourneeComponent.getTourneeByEmploye(any(String.class))).thenThrow(NotFoundEmployeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.getTourneeByEmploye("AAA"));
     }
 
     @Test
     public void getTourneeByEmployeTestNotFoundTournee() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
-        when(tourneeComponent.getTourneeByEmploye("AAA")).thenThrow(NotFoundTourneeEntityException.class);
+        when(tourneeComponent.getTourneeByEmploye(any(String.class))).thenThrow(NotFoundTourneeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.getTourneeByEmploye("AAA"));
     }
 
@@ -77,11 +77,36 @@ public class TourneeServiceTest {
                 .etatsDeTournee(EtatDeTournee.enChargement)
                 .build();
         String nouvelEtat = "planifiee";
-        when(tourneeComponent.updateEtat("test", nouvelEtat)).thenReturn(tournee);
+        when(tourneeComponent.updateEtat(any(String.class), any(String.class))).thenReturn(tournee);
         tournee.setEtatsDeTournee(EtatDeTournee.valueOf(nouvelEtat));
         TourneeResponseDTO expected = tourneeMapper.toResponse(tournee);
         TourneeResponseDTO actual = tourneeService.updateEtat("test", nouvelEtat);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
+    @Test
+    public void updateEtatTourneeNotFound() throws NotFoundTourneeEntityException {
+        when(tourneeComponent.updateEtat(any(String.class), any(String.class))).thenThrow(NotFoundTourneeEntityException.class);
+        assertThrows(NotFoundEntityRestException.class, () -> tourneeService.updateEtat("test", "planifiee"));
+    }
+
+    @Test
+    public void updateTdmTest() throws NotFoundTourneeEntityException {
+        TourneeEntity tournee = TourneeEntity.builder()
+                .reference("test")
+                .tempsDeMontageEffectif(0)
+                .build();
+        Integer nouveauTdm = 60;
+        when(tourneeComponent.updateTdm(any(String.class), any(Integer.class))).thenReturn(tournee);
+        tournee.setTempsDeMontageEffectif(nouveauTdm);
+        TourneeResponseDTO expected = tourneeMapper.toResponse(tournee);
+        TourneeResponseDTO actual = tourneeService.updateTdmEffectifTournee("test", nouveauTdm);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void updateTdmTourneeNotFound() throws NotFoundTourneeEntityException {
+        when(tourneeComponent.updateTdm(any(String.class), any(Integer.class))).thenThrow(NotFoundTourneeEntityException.class);
+        assertThrows(NotFoundEntityRestException.class, () -> tourneeService.updateTdmEffectifTournee("test", 60));
+    }
 }
