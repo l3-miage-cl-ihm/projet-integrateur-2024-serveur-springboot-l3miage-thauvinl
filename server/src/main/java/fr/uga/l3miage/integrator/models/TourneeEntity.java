@@ -36,7 +36,7 @@ public class TourneeEntity {
     @ManyToOne
     private  JourneeEntity journee;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private Set<EmployeEntity> employeEntitySet = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
