@@ -1,39 +1,45 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ClientComponentTest {/*
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase
+public class ClientComponentTest {
 
-    @Mock
+    @MockBean
     private ClientRepository clientRepository;
 
-    @InjectMocks
+    @Autowired
+    @MockBean
     private ClientComponent clientComponent;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
-    public void testGetClientByEmailSuccess() {
+    public void testGetClientByEmailSuccess() throws NotFoundClientEntityExeption {
         // Given
         String email = "test@example.com";
-        ClientEntity expectedClient = new ClientEntity();
-        expectedClient.setEmail(email);
-        expectedClient.setNom("John Doe");
+        ClientEntity expectedClient = ClientEntity.builder()
+                .email(email)
+                .nom("King Julian")
+                .build();
 
-        // Set up mock behavior
-        when(clientRepository.findClientEntityByEmail(email)).thenReturn(expectedClient);
+        when(clientRepository.findClientEntityByEmail(email)).thenReturn(Optional.of((expectedClient)));
 
         // When
         ClientEntity actualClient = clientComponent.getClientByEmail(email);
@@ -43,12 +49,12 @@ public class ClientComponentTest {/*
     }
 
     @Test
-    public void testGetClientByEmailNotFound() {
+    public void testGetClientByEmailNotFound() throws NotFoundClientEntityExeption {
         // Given
         String email = "nonexistent@example.com";
 
-        // Set up mock behavior to return null when client is not found
-        when(clientRepository.findClientEntityByEmail(email)).thenReturn(null);
+        // Mocking behavior of clientRepository to return empty optional
+        when(clientRepository.findClientEntityByEmail(email)).thenReturn(Optional.empty());
 
         // When
         ClientEntity actualClient = clientComponent.getClientByEmail(email);
@@ -56,7 +62,4 @@ public class ClientComponentTest {/*
         // Then
         assertEquals(null, actualClient);
     }
-
-   */
-
 }
