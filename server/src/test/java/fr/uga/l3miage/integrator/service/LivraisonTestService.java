@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.service;
 import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
@@ -104,7 +105,7 @@ public class LivraisonTestService{
 
     }
     @Test
-    public void getAdresseClientFromLivraison() throws NotFoundLivraisonEntityException {
+    public void getAdresseClientFromLivraison() throws NotFoundLivraisonEntityException, NotFoundClientEntityExeption {
         //Given
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();
         livraisonComponent.save(livraisonEntity1);
@@ -158,6 +159,8 @@ public class LivraisonTestService{
 
 
     }
+
+
 
 
 

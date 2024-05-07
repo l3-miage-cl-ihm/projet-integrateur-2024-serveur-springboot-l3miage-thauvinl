@@ -53,24 +53,20 @@ public class CommandeService {
         }
     }
 
-    public Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient(){
-        try{
-            try {
-                Set<CommandeComponent.ClientCommandesPair> commandesGroupedByClient = commandeComponent.getCommandesGroupedByClient();
+    public Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient() {
+        try {
+            Map<Adresse, List<CommandeEntity>> commandesGroupedByClient = commandeComponent.getCommandesGroupedByClient();
 
-                return commandesGroupedByClient.stream()
-                        .map(pair -> new ClientCommandesPairResponseDTO(
-                                adresseMapper.toResponse(pair.getAdresse()),
-                                pair.getCommandes().stream()
-                                        .map(commandeMapper::toResponse)
-                                        .collect(Collectors.toSet())
-                        ))
-                        .collect(Collectors.toSet());
-            } catch (Exception e) {
-                throw new RuntimeException("commande service cmdGrpedByclient 1"+e);
-            }
-        }catch (Exception e){
-            throw new RuntimeException("commande service cmdGrpedByclient 2"+e);
+            return commandesGroupedByClient.entrySet().stream()
+                    .map(entry -> new ClientCommandesPairResponseDTO(
+                            adresseMapper.toResponse(entry.getKey()),
+                            entry.getValue().stream()
+                                    .map(commandeMapper::toResponse)
+                                    .collect(Collectors.toSet())
+                    ))
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la récupération des commandes groupées par client", e);
         }
     }
 

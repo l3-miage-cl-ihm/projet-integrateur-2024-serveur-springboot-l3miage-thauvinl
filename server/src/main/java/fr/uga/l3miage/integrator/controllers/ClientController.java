@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.endpoints.ClientEndpoints;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.requests.ClientCreationRequest;
 import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import fr.uga.l3miage.integrator.services.ClientService;

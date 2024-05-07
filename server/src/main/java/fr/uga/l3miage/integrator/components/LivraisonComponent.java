@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.ClientEntity;
@@ -37,7 +38,7 @@ public class LivraisonComponent {
     }
 
 
-    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity){
+    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) throws NotFoundClientEntityExeption {
         Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
         CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cm_tmp);
