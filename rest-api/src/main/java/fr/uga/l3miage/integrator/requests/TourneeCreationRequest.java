@@ -9,6 +9,8 @@ import java.util.Set;
 @Data
 @Builder
 public class TourneeCreationRequest {
+    @Schema(description = "La reference d'une tournée", example="t001G-A")
+    private final String reference;
     @Schema(description = "Description de l'état de la tournée, dépend de l'état des livraisons", example = "planifiee")
     private final String etatsDeTournee;
     @Schema(description = "Lettre associée à la tourné pour rendre sa référence unique", example = "A")
