@@ -1,6 +1,5 @@
 package fr.uga.l3miage.integrator.controllers;
 
-import fr.uga.l3miage.integrator.mappers.ClientMapper;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import fr.uga.l3miage.integrator.services.ClientService;
@@ -9,19 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class ClientControllerTest {
-    /*
+class ClientControllerTest {
+/*
     @Mock
     private ClientService clientService;
-
-    @Mock
-    private ClientMapper clientMapper;
 
     @InjectMocks
     private ClientController clientController;
@@ -30,42 +27,61 @@ public class ClientControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-/*
+
     @Test
-    void getClientByEmail_ClientFound_ReturnsClientResponseDTO() {
-        // Arrange
-        String email = "test@example.com";
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setEmail(email);
+    void testGetClientByEmailSuccess() {
 
-        ClientResponseDTO clientResponseDTO = new ClientResponseDTO();
-        clientResponseDTO.setEmail(email);
+        String email = "test@mail.com";
 
-        when(clientService.getClientByEmail(email)).thenReturn(clientEntity);
-        when(clientMapper.toResponse(clientEntity)).thenReturn(clientResponseDTO);
+        // Given
+        ClientEntity expectedClient = ClientEntity
+                .builder()
+                .email(email)
+                .nom("Damiano")
+                .build();
 
-        // Act
-        ResponseEntity<ClientResponseDTO> response = clientController.getClientByEmail(email);
 
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(clientResponseDTO, response.getBody());
+        when(clientService.getClientByEmail(email)).thenReturn(
+                ClientResponseDTO.builder()
+                        .email(expectedClient.getEmail())
+                        .prenom("John")
+                        .nom(expectedClient.getNom())
+                        .etat("active")
+                        .montantTotal(100.0f)
+                        .adresse(null)
+                        .build()
+        );
+
+        // When
+        ClientResponseDTO actualClient = clientController.getClientByEmail(email);
+
+        // Then
+        assertEquals(expectedClient.getEmail(), actualClient.getEmail());
+        assertEquals(expectedClient.getNom(), actualClient.getNom());
     }
 
- */
-/*
+
     @Test
-    void getClientByEmail_ClientNotFound_ReturnsNotFound() {
-        // Arrange
-        String email = "nonexistent@example.com";
-        when(clientService.getClientByEmail(email)).thenReturn(null);
+    void testGetAllClients() {
+        // Given
+        List<ClientResponseDTO> expectedClients = Arrays.asList(
+                ClientResponseDTO.builder().email("client1@example.com").nom("Client 1").build(),
+                ClientResponseDTO.builder().email("client2@example.com").nom("Client 2").build()
+        );
 
-        // Act
-        ResponseEntity<ClientResponseDTO> response = clientController.getClientByEmail(email);
 
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        when(clientService.getAllClients()).thenReturn(expectedClients);
+
+        // When
+        List<ClientResponseDTO> actualClients = clientController.getAllClients();
+
+        // Then
+        assertEquals(expectedClients.size(), actualClients.size());
+        for (int i = 0; i < expectedClients.size(); i++) {
+            assertEquals(expectedClients.get(i).getEmail(), actualClients.get(i).getEmail());
+            assertEquals(expectedClients.get(i).getNom(), actualClients.get(i).getNom());
+        }
     }
-    
+
  */
 }
