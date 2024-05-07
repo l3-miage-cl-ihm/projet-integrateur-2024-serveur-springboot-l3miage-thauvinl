@@ -60,4 +60,9 @@ public class LivraisonController implements LivraisonEndpoints{
         return livraisonService.getProduitsGrpByQtt(reference);
     }
 
+    @Override
+    public LivraisonResponseDTO updateEtat(String reference, String nvEtat) {
+        return livraisonService.updateEtat(reference, nvEtat);
+    }
+
 }

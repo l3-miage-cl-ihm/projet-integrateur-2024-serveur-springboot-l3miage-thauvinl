@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.service;
 
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
@@ -63,7 +64,7 @@ public class LivraisonTestService{
     }
 
     @Test
-    void getLivraisonByReference() {
+    void getLivraisonByReference() throws NotFoundLivraisonEntityException {
         // Given
         String reference = "123";
         LivraisonEntity livraisonEntity = new LivraisonEntity();
