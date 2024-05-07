@@ -6,10 +6,7 @@ import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.endpoints.LivraisonEndpoints;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
-import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
-import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
-import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
-import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
+import fr.uga.l3miage.integrator.responses.*;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +52,7 @@ public class LivraisonController implements LivraisonEndpoints{
     }
 
     @Override
-    public Map<ProduitResponseDTO,Integer> getProduitsGrpedByQtt(String reference) throws Exception {
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(String reference) throws Exception {
 
         return livraisonService.getProduitsGrpByQtt(reference);
     }
