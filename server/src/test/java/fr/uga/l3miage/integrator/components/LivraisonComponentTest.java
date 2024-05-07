@@ -38,8 +38,7 @@ public class LivraisonComponentTest {
 
     @MockBean
     private LivraisonRepository livraisonRepository;
-    @MockBean
-    private CommandeRepository commandeRepository;
+
     @MockBean
     private ClientRepository clientRepository;
     @MockBean
@@ -85,9 +84,9 @@ public class LivraisonComponentTest {
         // Given
         LivraisonEntity livraisonEntityToSave = new LivraisonEntity();
 
+        // When
         when(livraisonRepository.save(livraisonEntityToSave)).thenReturn(livraisonEntityToSave);
 
-        // When
         LivraisonEntity savedLivraisonEntity = livraisonComponent.save(livraisonEntityToSave);
 
         // Then

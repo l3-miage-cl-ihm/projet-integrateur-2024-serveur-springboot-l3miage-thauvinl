@@ -73,10 +73,9 @@ public class CommandeComponent {
 
                 boolean produitExist = false;
 
-                // Vérifier si le produit existe déjà dans l'ensemble
                 for (ProduitQuantite pq : totalProduits) {
                     if (pq.getProduit().equals(produit)) {
-                        // Mettre à jour la quantité
+
                         pq.quantite += quantiteLigne;
                         produitExist = true;
                         break;

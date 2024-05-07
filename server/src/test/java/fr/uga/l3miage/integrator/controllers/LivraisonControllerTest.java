@@ -1,10 +1,12 @@
-/*package fr.uga.l3miage.integrator.controllers;
+package fr.uga.l3miage.integrator.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,54 +31,54 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-
+@AutoConfigureTestDatabase
+@AutoConfigureWebTestClient
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
+@ActiveProfiles("test")
 public class LivraisonControllerTest {
 
-    @Mock
+    @SpyBean
     private LivraisonService livraisonService;
+    @SpyBean
+    private LivraisonComponent livraisonComponent;
 
-    @Mock
-    private CommandeService commandeService;
-
-    @Mock
-    private ObjectMapper objectMapper;
-
-    @InjectMocks
+    @Autowired
     private LivraisonController livraisonController;
 
-    @BeforeEach
+   /* @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-    }
+    }*/
 
     @Test
-    void testGetAllLivraisons() {
-        // Mocking
-        List<LivraisonEntity> livraisons = Collections.singletonList(new LivraisonEntity());
+    void canGetAllLivraisons() {
+        // Given
+        List<LivraisonResponseDTO> livraisons = List.of(LivraisonResponseDTO.builder().build(), LivraisonResponseDTO.builder().build());
         when(livraisonService.getAllLivraison()).thenReturn(livraisons);
 
-        // Test
-        ResponseEntity<List<LivraisonEntity>> response = livraisonController.getAllLivraisons();
+        // When
+        List<LivraisonResponseDTO> result = livraisonController.getAllLivraisons();
 
-        // Assertion
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(livraisons, response.getBody());
+        // Then
+        assertEquals(livraisons, result);
     }
 
     @Test
-    void testGetLivraisonByReference() {
-        // Mocking
-        LivraisonEntity livraison = new LivraisonEntity();
-        when(livraisonService.getLivraisonByReference("reference")).thenReturn(livraison);
+    void canGetLivraisonByReference() {
+        // Given
+        String reference = "ref123";
+        LivraisonResponseDTO livraison = LivraisonResponseDTO.builder().build();
+        LivraisonEntity livraisonEntity=LivraisonEntity.builder().reference("ref123").build();
+        livraisonComponent.save(livraisonEntity);
+        when(livraisonService.getLivraisonByReference(reference)).thenReturn(livraison);
 
-        // Test
-        ResponseEntity<LivraisonEntity> response = livraisonController.getLivraisonByReference("reference");
+        // When
+        LivraisonResponseDTO result = livraisonController.getLivraisonByReference(reference);
 
-        // Assertion
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(livraison, response.getBody());
+        // Then
+        assertEquals(livraison, result);
     }
-
+/*
     @Test
     void testCountLivraisons() {
         // Mocking
@@ -107,5 +115,5 @@ public class LivraisonControllerTest {
         // Assertion
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(adresse, response.getBody());
-    }
-}*/
+    }*/
+}
