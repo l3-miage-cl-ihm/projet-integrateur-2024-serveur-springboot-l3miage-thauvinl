@@ -12,22 +12,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureTestDatabase
+@ActiveProfiles("test")
 public class ClientComponentTest {
 
     @MockBean
     private ClientRepository clientRepository;
 
     @Autowired
-    @MockBean
     private ClientComponent clientComponent;
 
     @Test
@@ -49,17 +51,17 @@ public class ClientComponentTest {
     }
 
     @Test
-    public void testGetClientByEmailNotFound() throws NotFoundClientEntityExeption {
+    public void testGetClientByEmailNotFound() {
         // Given
         String email = "nonexistent@example.com";
 
         // Mocking behavior of clientRepository to return empty optional
         when(clientRepository.findClientEntityByEmail(email)).thenReturn(Optional.empty());
 
-        // When
-        ClientEntity actualClient = clientComponent.getClientByEmail(email);
-
-        // Then
-        assertEquals(null, actualClient);
+        // When/Then
+        assertThrows(NotFoundClientEntityExeption.class, () -> {
+            clientComponent.getClientByEmail(email);
+        });
     }
+
 }

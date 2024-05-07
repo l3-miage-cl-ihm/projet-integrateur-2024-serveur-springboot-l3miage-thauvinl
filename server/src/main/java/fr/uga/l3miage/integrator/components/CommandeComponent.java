@@ -1,5 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
@@ -24,11 +26,12 @@ public class CommandeComponent {
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
         return commandeRepository.findCommandeEntitiesByLivraison(L);
     }
-    public ClientEntity findByCommandesReference(CommandeEntity commande){
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande);
+    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
+
+        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));
         return cl;
     }
-    public Adresse findClientAdressByCommande(CommandeEntity commande) {
+    public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityExeption {
         ClientEntity client = findByCommandesReference(commande);
         if (client != null) {
             return client.getAdresse();
@@ -40,17 +43,28 @@ public class CommandeComponent {
     public List<CommandeEntity> getAllCommandes(){
         return commandeRepository.findAll();
     }
-    private Adresse getClientAdresse(CommandeEntity commande){
+    private Adresse getClientAdresse(CommandeEntity commande) throws NotFoundClientEntityExeption {
+
         ClientEntity client = findByCommandesReference(commande);
         return client.getAdresse();
     }
-    public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient() {
-        List<CommandeEntity> commandes = commandeRepository.findAll();
-        Map<Adresse, List<CommandeEntity>> commandesGroupedByClient = commandes.stream()
-                .collect(Collectors.groupingBy(this::getClientAdresse));
 
-        return commandesGroupedByClient;
+    public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient(){
+
+            List<CommandeEntity> commandes = commandeRepository.findAll();
+        return commandes.stream()
+                    .collect(Collectors.groupingBy(com -> {
+                        try {
+                            return getClientAdresse(com);
+                        } catch (NotFoundClientEntityExeption e) {
+                            throw new RuntimeException(e);
+                        }
+                    }));
+
+
     }
+
+
     public Map<ProduitEntity, Integer> getProduitsGroupedByQtt(Set<CommandeEntity> commandes){
         Map<ProduitEntity,Integer> totalProduits = new HashMap<>();
 
