@@ -60,6 +60,5 @@ public class ClientComponentTest {/*
 
    */
 
-=======
->>>>>>> .merge_file_mMPhF4
+
 }
