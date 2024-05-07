@@ -1,83 +1,39 @@
 package fr.uga.l3miage.integrator.components;
+
+import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.when;
 
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 public class LivraisonComponentTest {
-/*
-    @Mock
+
+    @MockBean
     private LivraisonRepository livraisonRepository;
 
-    @InjectMocks
+    @Autowired
     private LivraisonComponent livraisonComponent;
 
     @Test
-    public void testGetAllLivraison() {
-        // Given
-        LivraisonEntity livraison1 = new LivraisonEntity();
-        LivraisonEntity livraison2 = new LivraisonEntity();
-        List<LivraisonEntity> expectedLivraisons = Arrays.asList(livraison1, livraison2);
-
-        // Mocking the repository behavior
-        when(livraisonRepository.findAll()).thenReturn(expectedLivraisons);
-
-        // When
-        List<LivraisonEntity> actualLivraisons = livraisonComponent.getAllLivraison();
-
-        // Then
-        assertEquals(expectedLivraisons, actualLivraisons);
-        verify(livraisonRepository, times(1)).findAll();
+    public void getAllLivraisonOK(){
+        LivraisonEntity livraison=LivraisonEntity.builder().build();
+        when(livraisonRepository.findAll()).thenReturn(List.of(livraison));
+        // when - then
+        assertDoesNotThrow(()->livraisonComponent.getAllLivraison());
     }
-
-    @Test
-    public void testGetLivraisonByReference() {
-        // Given
-        String reference = "REF123";
-        LivraisonEntity expectedLivraison = new LivraisonEntity();
-
-        // Mocking the repository behavior
-        when(livraisonRepository.findLivraisonEntityByReference(reference)).thenReturn(expectedLivraison);
-
-        // When
-        LivraisonEntity actualLivraison = livraisonComponent.getLivraisonByReference(reference);
-
-        // Then
-        assertEquals(expectedLivraison, actualLivraison);
-        verify(livraisonRepository, times(1)).findLivraisonEntityByReference(reference);
-    }
-
-    @Test
-    public void testCountElementsInRepo() {
-        // Given
-        long expectedCount = 5;
-
-        // Mocking the repository behavior
-        when(livraisonRepository.count()).thenReturn(expectedCount);
-
-        // When
-        long actualCount = livraisonComponent.countElementsInRepo();
-
-        // Then
-        assertEquals(expectedCount, actualCount);
-        verify(livraisonRepository, times(1)).count();
-    }
-
- */
 
 }

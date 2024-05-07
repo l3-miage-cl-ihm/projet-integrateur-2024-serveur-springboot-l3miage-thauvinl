@@ -28,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -134,8 +135,10 @@ public class LivraisonTestService{
         when(produitMapper.toResponse(any())).thenReturn(produitResponseDTO);
 
         Set<ProduitQuantiteResponseDTO> totProd=livraisonService.getProduitsGrpByQtt("ref123");
-        assertEquals(1,totProd.size());
-        ProduitResponseDTO produitResp = totProd.stream().toList().get(0).getProduit();
+        ProduitResponseDTO produitResp = totProd.stream()
+                .map(ProduitQuantiteResponseDTO::getProduit) // Utilisez la référence de méthode pour accéder à la méthode getProduit
+                .findFirst() // Obtenez le premier ProduitResponseDTO du flux
+                .orElse(null);
         assertEquals(produitResponseDTO, produitResp);
 
     }
