@@ -70,5 +70,8 @@ public class CommandeService {
             throw new RuntimeException(e);
         }
     }
+    public CommandeResponseDTO updateEtat(String ref, String etat){
+        return commandeMapper.toResponse(commandeComponent.updateEtat(ref, etat));
+         }
     }
 

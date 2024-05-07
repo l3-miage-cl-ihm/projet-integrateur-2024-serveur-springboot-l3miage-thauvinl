@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.models.*;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import lombok.RequiredArgsConstructor;
@@ -82,5 +83,12 @@ public class CommandeComponent {
 
         return totalProduits;
 
+    }
+
+    public CommandeEntity updateEtat(String reference,String Etat){
+        CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
+        EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
+        commande.setEtat(etat);
+        return commande;
     }
 }

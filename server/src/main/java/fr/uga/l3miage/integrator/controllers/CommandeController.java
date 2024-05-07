@@ -38,5 +38,10 @@ public class CommandeController implements CommandeEndpoint {
         return commandeService.getCommandesGroupedByClient();
     }
 
+    @Override
+    public CommandeResponseDTO updateEtat(String reference, String nvEtat) {
+        return commandeService.updateEtat(reference,nvEtat);
+    }
+
 
 }
