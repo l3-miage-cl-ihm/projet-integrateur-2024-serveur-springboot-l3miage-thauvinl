@@ -27,8 +27,9 @@ public class JourneeEntity {
     public void addTournee(TourneeEntity tournee){
         this.tournees.add(tournee);
         tournee.setJournee(this);
+        /* VERSION OU ON CALCULE REFERENCE D'UNE TOURNÉE
         tournee.setLettre(String.valueOf((char) ('A'+ (this.tournees.size()-1))));
-        tournee.setReference(this.reference.replaceFirst("^j", "t")+ "-" + tournee.getLettre());
+        tournee.setReference(this.reference.replaceFirst("^j", "t")+ "-" + tournee.getLettre());*/
     }
 
 }

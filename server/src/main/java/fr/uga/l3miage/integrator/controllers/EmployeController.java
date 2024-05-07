@@ -24,26 +24,31 @@ public class EmployeController implements EmployeEndpoints {
         return employeService.getAllLivreurs();
     }
 
-/*
+    /*
+        @Override
+        public EmployeResponseDTO createEmploye(EmployeCreationRequest request) {
+            return employeService.createEmploye(request);
+        }
+
+        @Override
+        public EmployeResponseDTO updateEmploye(String id, EmployeCreationRequest request) {
+            return employeService.updateEmploye(id, request);
+        }
+
+        @Override
+        public void deleteEmploye(String id) {
+            employeService.deleteEmploye(id);
+        }
+
+     */
     @Override
-    public EmployeResponseDTO createEmploye(EmployeCreationRequest request) {
-        return employeService.createEmploye(request);
+    public List<EmployeResponseDTO> getAllEmployes() {
+        return employeService.getAllEmployes();
     }
 
     @Override
-    public EmployeResponseDTO updateEmploye(String id, EmployeCreationRequest request) {
-        return employeService.updateEmploye(id, request);
+    public EmployeResponseDTO getLivreurByEmail(String email) {
+        return employeService.getLivreurByEmail(email);
     }
-
-    @Override
-    public void deleteEmploye(String id) {
-        employeService.deleteEmploye(id);
-    }
-
- */
-@Override
-public List<EmployeResponseDTO> getAllEmployes() {
-    return employeService.getAllEmployes();
-}
 
 }

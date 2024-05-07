@@ -23,6 +23,7 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
     @Override
     public LivraisonEntity toEntity(LivraisonCreationRequest request) {
         LivraisonEntity livraisonEntity = livraisonMapper.toEntity(request);
+        livraisonEntity.setReference(request.getReference());
         Set<CommandeEntity> cmd=new HashSet<>();
         livraisonEntity.setCommandes(cmd);
         return livraisonEntity;

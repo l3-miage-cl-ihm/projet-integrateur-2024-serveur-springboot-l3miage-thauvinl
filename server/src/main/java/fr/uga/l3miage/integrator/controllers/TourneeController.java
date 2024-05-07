@@ -21,4 +21,9 @@ public class TourneeController implements TourneeEndpoints {
     public TourneeResponseDTO updateTdmEffectifTournee(String reference, Integer tdmEffectif){
         return tourneeService.updateTdmEffectifTournee(reference, tdmEffectif);
     }
+
+    @Override
+    public TourneeResponseDTO updateEtat(String reference, String nvEtat) {
+        return tourneeService.updateEtat(reference, nvEtat);
+    }
 }
