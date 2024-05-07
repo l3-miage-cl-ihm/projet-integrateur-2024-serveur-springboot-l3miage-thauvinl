@@ -23,7 +23,7 @@ public class TourneeEntity {
     @Enumerated(EnumType.STRING)
     private EtatDeTournee etatsDeTournee;
 
-    @Column(nullable = false)
+
     private String lettre;
     private Integer tempsDeMontageEffectif;
 
@@ -46,5 +46,14 @@ public class TourneeEntity {
         this.livraisons.add(livraison);
         livraison.setTournee(this);
         livraison.setReference(this.reference.replaceFirst("^t", "l")+ (livraisons.size()));
+    }
+
+    public void setTempsDeMontageEffectif(Integer tempsDeMontageEffectif) throws IllegalArgumentException{
+        if (tempsDeMontageEffectif == null || tempsDeMontageEffectif < 0 || tempsDeMontageEffectif < this.tempsDeMontageEffectif) {
+            throw new IllegalArgumentException("Le temps de montage effectif doit être un entier naturel.");
+        }
+        else{
+            this.tempsDeMontageEffectif = tempsDeMontageEffectif;
+        }
     }
 }

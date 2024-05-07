@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
@@ -65,6 +66,8 @@ public class LivraisonService {
 
         return result;
     }
+
+
 
 
 }
