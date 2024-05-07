@@ -13,6 +13,7 @@ import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class LivraisonService {
+    @Autowired
     private final LivraisonComponent livraisonComponent;
     private final LivraisonMapper livraisonMapper;
     private final AdresseMapper adresseMapper;
