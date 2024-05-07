@@ -89,13 +89,11 @@ class ClientControllerTest {
     }
 
  */
-=======
-        // Assert
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-  }
+
+}
     
 
-   */
 
->>>>>>> .merge_file_MCBJLS
-}
+
+
+
