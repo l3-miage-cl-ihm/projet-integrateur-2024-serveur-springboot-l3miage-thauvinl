@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ActiveProfiles("test")
 public class LivraisonTestService{
-    /*
+
 
     @MockBean
     private LivraisonComponent livraisonComponent;
@@ -78,6 +78,19 @@ public class LivraisonTestService{
         // Then
         assertEquals(livraisonResponseDTO, result);
     }
+    @Test
+    void countElementsInRepo(){
+        //Given
+        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
+        LivraisonEntity livraisonEntity2 = new LivraisonEntity();
+        livraisonComponent.save(livraisonEntity1);
+        livraisonComponent.save(livraisonEntity2);
+        //when
+        when(livraisonComponent.countElementsInRepo()).thenReturn(2L);
+        long nb= livraisonService.countElementsInRepo();
+        //then
+        assertEquals(2L,nb);
 
-     */
+    }
+
 }
