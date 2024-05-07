@@ -4,10 +4,15 @@ import fr.uga.l3miage.integrator.requests.ClientCreationRequest;
 import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import fr.uga.l3miage.integrator.services.ClientService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -19,16 +24,23 @@ public class ClientController implements ClientEndpoints {
 
     private final ClientService clientService;
 
+
 /*
+=======
+
+>>>>>>> .merge_file_b9XlOh
     @Override
     public ClientResponseDTO createClient(@Valid @RequestBody ClientCreationRequest clientCreationRequest) {
         return clientService.createClient(clientCreationRequest);
     }
 
+<<<<<<< .merge_file_SLzV8a
  */
 
+
+
     @Override
-    public ClientResponseDTO getClientByEmail(String email) {
+    public ClientResponseDTO getClientByEmail(@PathVariable String email) {
         return clientService.getClientByEmail(email);
     }
 

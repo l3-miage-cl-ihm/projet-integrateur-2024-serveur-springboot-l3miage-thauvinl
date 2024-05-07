@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.services;
 
+import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
@@ -10,19 +11,23 @@ import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
+import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
 public class LivraisonService {
+    @Autowired
     private final LivraisonComponent livraisonComponent;
     private final LivraisonMapper livraisonMapper;
     private final AdresseMapper adresseMapper;
@@ -61,14 +66,15 @@ public class LivraisonService {
             throw new RuntimeException();
         }
     }
-    public Map< ProduitResponseDTO,Integer> getProduitsGrpByQtt(String reference) throws Exception {
-        Map<ProduitEntity, Integer> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference) throws Exception {
+        Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
 
-        Map<ProduitResponseDTO,Integer> result = totalProd.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> produitMapper.toResponse(entry.getKey()),
-                        Map.Entry::getValue
-                ));
+        Set<ProduitQuantiteResponseDTO> result = totalProd.stream()
+                .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
+                        .produit(produitMapper.toResponse(prodQuant.getProduit()))
+                        .quantite(prodQuant.getQuantite())
+                        .build())
+                .collect(Collectors.toSet());
 
         return result;
     }

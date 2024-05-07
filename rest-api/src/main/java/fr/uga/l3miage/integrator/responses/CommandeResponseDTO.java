@@ -1,14 +1,11 @@
 package fr.uga.l3miage.integrator.responses;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Data

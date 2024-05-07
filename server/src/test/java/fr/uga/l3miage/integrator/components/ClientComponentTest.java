@@ -56,7 +56,10 @@ public class ClientComponentTest {/*
         // Then
         assertEquals(null, actualClient);
     }
+<<<<<<< .merge_file_LuP6l0
 
    */
 
+=======
+>>>>>>> .merge_file_mMPhF4
 }
