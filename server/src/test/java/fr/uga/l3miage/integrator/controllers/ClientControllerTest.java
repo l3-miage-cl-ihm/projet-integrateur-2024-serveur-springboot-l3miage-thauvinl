@@ -28,6 +28,10 @@ class ClientControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
+<<<<<<< .merge_file_PAXR1R
+=======
+/*
+>>>>>>> .merge_file_MCBJLS
     @Test
     void testGetClientByEmailSuccess() {
 
@@ -70,6 +74,7 @@ class ClientControllerTest {
         );
 
 
+<<<<<<< .merge_file_PAXR1R
         when(clientService.getAllClients()).thenReturn(expectedClients);
 
         // When
@@ -84,4 +89,13 @@ class ClientControllerTest {
     }
 
  */
+=======
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+  }
+    
+
+   */
+
+>>>>>>> .merge_file_MCBJLS
 }

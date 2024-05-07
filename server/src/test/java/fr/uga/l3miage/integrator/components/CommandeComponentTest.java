@@ -82,6 +82,4 @@ public class CommandeComponentTest {
         assertEquals(expectedAdresse, actualAdresse);
         verify(clientRepository, times(1)).findClientEntityByCommandes(commandeEntity);
     }
-
- */
 }

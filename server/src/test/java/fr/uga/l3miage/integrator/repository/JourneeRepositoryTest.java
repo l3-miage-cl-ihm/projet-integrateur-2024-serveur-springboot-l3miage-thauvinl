@@ -14,10 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class JourneeRepositoryTest {
-/*
+
     @Autowired
     private JourneeRepository journeeRepository;
 
+    /*
     @Test
     void findJourneeByReference(){
         JourneeEntity journee = JourneeEntity.builder()
@@ -31,5 +32,5 @@ public class JourneeRepositoryTest {
         assertThat(vide).isEmpty();
     }
 
- */
+     */
 }

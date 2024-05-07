@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
 public class TourneeControllerTest {
-    /*
     @Autowired
     TourneeRepository tourneeRepository;
     @Autowired
@@ -31,6 +30,7 @@ public class TourneeControllerTest {
         tourneeRepository.deleteAll();
         journeeRepository.deleteAll();
     }
+    /*
     @Test
     public void createTourneeDansJourneeSuccess(){
         JourneeEntity journee= new JourneeEntity();
@@ -74,5 +74,7 @@ public class TourneeControllerTest {
         // Autres assertions pour vérifier la logique de votre application
 
     }
-*/
+
+     */
+
 }
