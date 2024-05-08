@@ -1,6 +1,6 @@
 package fr.uga.l3miage.integrator.endpoints;
 
-import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
+
 import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 
@@ -8,11 +8,9 @@ import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 import java.util.Set;
 
 

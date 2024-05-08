@@ -1,6 +1,5 @@
 package fr.uga.l3miage.integrator.repositories;
 import java.util.Optional;
-import java.util.Set;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

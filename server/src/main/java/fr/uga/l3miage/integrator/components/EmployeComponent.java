@@ -10,7 +10,7 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,7 +61,8 @@ public class EmployeComponent {
             // Enregistrer l'employé mis à jour
             return employeRepository.save(existingEmploye);
         } else {
-            return null; // Ou gérer le cas où l'employé avec l'ID donné n'existe pas
+            // gérer le cas où l'employé avec l'ID donné n'existe pas
+            return null;
         }
     }
 

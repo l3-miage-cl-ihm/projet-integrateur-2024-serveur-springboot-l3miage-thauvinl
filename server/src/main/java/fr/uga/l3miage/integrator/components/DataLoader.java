@@ -61,8 +61,8 @@ public class DataLoader implements CommandLineRunner {
                     });
         }
 
-        List<String> lines_employes = Files.readAllLines(pathEmployes);
-        List<EmployeEntity> employes = lines_employes.stream().skip(1) // Skip header line
+        List<String> linesEmployes = Files.readAllLines(pathEmployes);
+        List<EmployeEntity> employes = linesEmployes.stream().skip(1) // Skip header line
                 .map(line -> line.split(","))
                 .map(data -> {
                     EmployeEntity employe = new EmployeEntity();
@@ -103,8 +103,8 @@ public class DataLoader implements CommandLineRunner {
                 .collect(Collectors.toList());
         clientRepository.saveAll(clients);
 
-        List<String> product_lines = Files.readAllLines(pathProduits);
-        List<ProduitEntity> produits = product_lines.stream().skip(1) // Skip header line
+        List<String> productLines = Files.readAllLines(pathProduits);
+        List<ProduitEntity> produits = productLines.stream().skip(1) // Skip header line
                 .map(line -> line.split(";"))
                 .map(data -> {
                     ProduitEntity p = new ProduitEntity();
@@ -120,8 +120,8 @@ public class DataLoader implements CommandLineRunner {
         produitRepository.saveAll(produits);
 
 
-            Stream<String> stream = Files.lines(pathLignes);
-            stream.skip(1) // Skip header
+        try (Stream<String> ligneStream = Files.lines(pathLignes)) {
+            ligneStream.skip(1) // Skip header
                     .forEach(line -> {
                         String[] data = line.split(",");
                         String commandeRef = data[1];
@@ -136,6 +136,7 @@ public class DataLoader implements CommandLineRunner {
                             ligneRepository.save(ligne);
                         }
                     });
+        }
 
 
 

@@ -3,7 +3,6 @@ package fr.uga.l3miage.integrator.endpoints;
 
 
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
-import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
