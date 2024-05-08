@@ -6,7 +6,6 @@ import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 
 @Component
@@ -19,11 +18,5 @@ public class ClientComponent {
         return clientRepository.findClientEntityByEmail(email).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le client dont l' email est %s est introuvable",email)));
 
     }
-
-    public List<ClientEntity> getAllClients() {
-        return clientRepository.findAll();
-    }
-
-
 
 }
