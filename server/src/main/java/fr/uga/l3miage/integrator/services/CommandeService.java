@@ -2,6 +2,8 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.ClientMapper;
 import fr.uga.l3miage.integrator.models.ClientEntity;
@@ -71,7 +73,21 @@ public class CommandeService {
     }
 
     public CommandeResponseDTO updateEtat(String ref, String etat){
-        return commandeMapper.toResponse(commandeComponent.updateEtat(ref, etat));
-         }
+        try {
+            return commandeMapper.toResponse(commandeComponent.updateEtat(ref, etat));
+        }catch (NotFoundCommandeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
     }
+
+    public CommandeResponseDTO updateDateDeLivraison(String reference, String date){
+        try{
+            return commandeMapper.toResponse(commandeComponent.updateDateDeLivraison(reference, date));
+        }catch (NotFoundCommandeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+    }
+}
+
+
 

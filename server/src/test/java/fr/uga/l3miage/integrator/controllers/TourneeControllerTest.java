@@ -10,6 +10,7 @@ import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
@@ -43,6 +45,11 @@ public class TourneeControllerTest {
     public void clearDataBase(){
         tourneeRepository.deleteAll();
         employeRepository.deleteAll();
+    }
+
+    @BeforeEach
+    public void setup(){
+        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
 
     @Test
@@ -143,11 +150,14 @@ public class TourneeControllerTest {
 
         TourneeResponseDTO expected = TourneeResponseDTO.builder()
                 .reference("test")
-                .montant(60.0)
+                .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
+                .employeResponseDTOS(new HashSet<>())
+                .tempsDeMontageEffectif(60)
                 .build();
-        ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/{reference}?tdmEffectif={tdmEffectif}", HttpMethod.PATCH, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
+        ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/updateTdm/{reference}?tdmEffectif={tdmEffectif}"
+                , HttpMethod.PATCH, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
 
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);

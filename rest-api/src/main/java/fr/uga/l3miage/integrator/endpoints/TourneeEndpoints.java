@@ -30,7 +30,7 @@ public interface TourneeEndpoints {
     @ApiResponse(responseCode = "200", description = "Le temps de montage effectif a pu être mis à jour")
     @ApiResponse(responseCode = "404", description = "La tournée à mettre à jour est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping("/{reference}")
+    @PatchMapping("updateTdm/{reference}")
     TourneeResponseDTO updateTdmEffectifTournee(@PathVariable String reference, @RequestParam Integer tdmEffectif);
 
     @Operation(description = "update tournée etat")
