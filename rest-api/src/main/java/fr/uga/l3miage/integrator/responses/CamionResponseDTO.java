@@ -1,6 +1,6 @@
 package fr.uga.l3miage.integrator.responses;
 
-//import fr.uga.l3miage.integrator.dataType.GeoPosition;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

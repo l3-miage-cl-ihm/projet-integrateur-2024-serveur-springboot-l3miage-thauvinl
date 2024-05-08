@@ -1,22 +1,15 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.CommandeComponent;
-import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
-import fr.uga.l3miage.integrator.mappers.ClientMapper;
-import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
-import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
-import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import lombok.RequiredArgsConstructor;
 import fr.uga.l3miage.integrator.mappers.CommandeMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,8 +27,8 @@ public class CommandeService {
     public CommandeResponseDTO getCommandeByReference(String reference) {
         try{
             CommandeEntity commande= commandeComponent.getCommandeByReference(reference);
-            CommandeResponseDTO commandeResponseDTO=commandeMapper.toResponse(commande);
-            return commandeResponseDTO;
+            return commandeMapper.toResponse(commande);
+
         } catch (Exception e){
             throw new RuntimeException();
         }
@@ -53,24 +46,28 @@ public class CommandeService {
         }
     }
 
-    public Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient(){
-        try{
-            try {
-                Set<CommandeComponent.ClientCommandesPair> commandesGroupedByClient = commandeComponent.getCommandesGroupedByClient();
+    public Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient() {
+        try {
+            return retrieveCommandesGroupedByClient();
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while retrieving commandes grouped by client: " + e.getMessage(), e);
+        }
+    }
 
-                return commandesGroupedByClient.stream()
-                        .map(pair -> new ClientCommandesPairResponseDTO(
-                                adresseMapper.toResponse(pair.getAdresse()),
-                                pair.getCommandes().stream()
-                                        .map(commandeMapper::toResponse)
-                                        .collect(Collectors.toSet())
-                        ))
-                        .collect(Collectors.toSet());
-            } catch (Exception e) {
-                throw new RuntimeException("commande service cmdGrpedByclient 1"+e);
-            }
-        }catch (Exception e){
-            throw new RuntimeException("commande service cmdGrpedByclient 2"+e);
+    private Set<ClientCommandesPairResponseDTO> retrieveCommandesGroupedByClient() {
+        try {
+            Set<CommandeComponent.ClientCommandesPair> commandesGroupedByClient = commandeComponent.getCommandesGroupedByClient();
+
+            return commandesGroupedByClient.stream()
+                    .map(pair -> new ClientCommandesPairResponseDTO(
+                            adresseMapper.toResponse(pair.getAdresse()),
+                            pair.getCommandes().stream()
+                                    .map(commandeMapper::toResponse)
+                                    .collect(Collectors.toSet())
+                    ))
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while retrieving commandes grouped by client: " + e.getMessage(), e);
         }
     }
 

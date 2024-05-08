@@ -36,18 +36,16 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
 
         if (livraisonEntity.getCommandes() == null || livraisonEntity.getCommandes().isEmpty()) {
 
-            // Si c'est le cas, affectez les valeurs par défaut
+
             responseDTO.setMontant(0.0);
             responseDTO.setTdmTheorique(0);
             responseDTO.setDistanceParcourue(0.0);
         } else {
-            // Si livraisonEntity.getCommandes() n'est pas vide, mappez les commandes en CommandeResponseDTO
+
             Set<CommandeResponseDTO> commandeResponseDTOS = livraisonEntity.getCommandes().stream()
-                    .map(commandeMapper::toResponse) // Utilisation de commandemapper pour convertir
-                    .collect(Collectors.toSet()); // Collecter les résultats dans un Set
+                    .map(commandeMapper::toResponse)
+                    .collect(Collectors.toSet());
             responseDTO.setCommandes(commandeResponseDTOS);
-            // Assurez-vous que vous utilisez les valeurs correctes pour setMontant, setTdmTheorique, etc.
-            // J'ai utilisé des valeurs arbitraires ici. Vous devriez utiliser les valeurs appropriées.
             responseDTO.setTdmTheorique(responseDTO.getCommandes().stream()
                     .mapToInt(CommandeResponseDTO::getTdmTheorique)
                     .sum());
@@ -57,7 +55,7 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
 
 
         }
-        return responseDTO;//
+        return responseDTO;
     }
 
 }

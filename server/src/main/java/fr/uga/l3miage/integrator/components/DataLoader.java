@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 @Component
 @AllArgsConstructor
 @Profile("!test")
@@ -32,10 +31,8 @@ public class DataLoader implements CommandLineRunner {
     private final LigneRepository ligneRepository;
     private final EmployeRepository employeRepository;
 
-
     @Override
-    public void run(String... args) throws Exception{
-
+    public void run(String... args) throws Exception {
         Path pathClient = Path.of("server/src/main/resources/Clients.csv");
         Path pathCommandes = Path.of("server/src/main/resources/Commandes_ouvertes.csv");
         Path pathProduits = Path.of("server/src/main/resources/Produits.csv");
@@ -44,7 +41,7 @@ public class DataLoader implements CommandLineRunner {
 
         Map<String, CommandeEntity> commandesDetails = new HashMap<>();
 
-        try(Stream<String> stream = Files.lines(pathCommandes)) {
+        try (Stream<String> stream = Files.lines(pathCommandes)) {
             stream.skip(1)
                     .forEach(line -> {
                         String[] dataCmd = line.split(",");
@@ -61,8 +58,9 @@ public class DataLoader implements CommandLineRunner {
                     });
         }
 
-        List<String> lines_employes = Files.readAllLines(pathEmployes);
-        List<EmployeEntity> employes = lines_employes.stream().skip(1) // Skip header line
+        // Parsing employes...
+        List<String> linesEmployes = Files.readAllLines(pathEmployes);
+        List<EmployeEntity> employes = linesEmployes.stream().skip(1) // Skip header line
                 .map(line -> line.split(","))
                 .map(data -> {
                     EmployeEntity employe = new EmployeEntity();
@@ -78,6 +76,7 @@ public class DataLoader implements CommandLineRunner {
 
         employeRepository.saveAll(employes);
 
+        // Parsing clients...
         List<String> lines = Files.readAllLines(pathClient);
         List<ClientEntity> clients = lines.stream().skip(1)
                 .map(line -> line.split(";"))
@@ -87,9 +86,9 @@ public class DataLoader implements CommandLineRunner {
                     client.setPrenom(data[1]);
                     client.setNom(data[2]);
                     client.setAdresse(Adresse.builder()
-                                    .adresse(data[3])
-                                    .codePostal(data[4])
-                                    .ville(data[5])
+                            .adresse(data[3])
+                            .codePostal(data[4])
+                            .ville(data[5])
                             .build());
                     if (data.length > 6 && !data[6].isEmpty()) {
                         List<CommandeEntity> commandes = Arrays.stream(data[6].split(","))
@@ -103,8 +102,9 @@ public class DataLoader implements CommandLineRunner {
                 .collect(Collectors.toList());
         clientRepository.saveAll(clients);
 
-        List<String> product_lines = Files.readAllLines(pathProduits);
-        List<ProduitEntity> produits = product_lines.stream().skip(1) // Skip header line
+        // Parsing produits...
+        List<String> productLines = Files.readAllLines(pathProduits);
+        List<ProduitEntity> produits = productLines.stream().skip(1) // Skip header line
                 .map(line -> line.split(";"))
                 .map(data -> {
                     ProduitEntity p = new ProduitEntity();
@@ -119,9 +119,9 @@ public class DataLoader implements CommandLineRunner {
                 .collect(Collectors.toList());
         produitRepository.saveAll(produits);
 
-
-            Stream<String> stream = Files.lines(pathLignes);
-            stream.skip(1) // Skip header
+        // Parsing lignes...
+        try (Stream<String> ligneStream = Files.lines(pathLignes)) {
+            ligneStream.skip(1) // Skip header
                     .forEach(line -> {
                         String[] data = line.split(",");
                         String commandeRef = data[1];
@@ -136,10 +136,6 @@ public class DataLoader implements CommandLineRunner {
                             ligneRepository.save(ligne);
                         }
                     });
-
-
-
-
+        }
     }
-
 }

@@ -22,12 +22,12 @@ public class CommandeComponent {
         return commandeRepository.findCommandeEntityByReference(reference);
     }
 
-    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
-        return commandeRepository.findCommandeEntitiesByLivraison(L);
+    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity livraison){
+        return commandeRepository.findCommandeEntitiesByLivraison(livraison);
     }
     public ClientEntity findByCommandesReference(CommandeEntity commande){
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande);
-        return cl;
+        return clientRepository.findClientEntityByCommandes(commande);
+
     }
     public Adresse findClientAdressByCommande(CommandeEntity commande) {
         ClientEntity client = findByCommandesReference(commande);
@@ -49,14 +49,14 @@ public class CommandeComponent {
         List<CommandeEntity> commandes = commandeRepository.findAll();
 
 
-        Set<ClientCommandesPair> result = commandes.stream()
+        return commandes.stream()
                 .collect(Collectors.groupingBy(this::getClientAdresse,
                         Collectors.toSet()))
                 .entrySet().stream()
                 .map(entry -> new ClientCommandesPair(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toSet());
 
-        return result;
+
     }
 
 
@@ -93,10 +93,10 @@ public class CommandeComponent {
         return totalProduits;
     }
 
-    public CommandeEntity updateEtat(String reference,String Etat){
+    public CommandeEntity updateEtat(String reference,String etat){
         CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
-        EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
-        commande.setEtat(etat);
+        EtatDeCommande etatDeCommande = EtatDeCommande.parseStringToEtat(etat);
+        commande.setEtat(etatDeCommande);
         return commandeRepository.save(commande);
     }
     /***********************************CLASSES STATIC*************************/

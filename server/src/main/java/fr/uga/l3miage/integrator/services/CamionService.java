@@ -18,9 +18,9 @@ public class CamionService {
 
     public List<CamionResponseDTO> getAllCamions(){
         List<CamionEntity> camionEntityList = camionComponent.getAllCamions();
-        List<CamionResponseDTO> camionResponseDTOList = camionEntityList.stream()
+        return camionEntityList.stream()
                 .map(camionMapper::toResponse)
                 .collect(Collectors.toList());
-        return camionResponseDTOList;
+
     }
 }

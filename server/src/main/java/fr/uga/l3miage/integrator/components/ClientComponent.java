@@ -18,7 +18,7 @@ public class ClientComponent {
     }
 
     public List<ClientEntity> getAllClients() {
-        return clientRepository.findAll(); // Suppose que votre repository possède une méthode findAll pour récupérer tous les clients.
+        return clientRepository.findAll();
     }
 
 

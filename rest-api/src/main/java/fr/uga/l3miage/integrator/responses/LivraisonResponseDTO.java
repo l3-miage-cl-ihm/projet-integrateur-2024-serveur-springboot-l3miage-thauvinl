@@ -6,7 +6,6 @@ import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
-import java.util.Date;
 import java.util.Set;
 
 @Data
