@@ -62,6 +62,7 @@ public class EmployeComponent {
             return employeRepository.save(existingEmploye);
         } else {
             return null; // Ou gérer le cas où l'employé avec l'ID donné n'existe pas
+            return null;
         }
     }
 

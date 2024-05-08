@@ -39,20 +39,21 @@ public class LivraisonComponent {
         return commandeComponent.findClientAdressByCommande(cmTmp);
     }
 
-    public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws Exception {
+    public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws NotFoundLivraisonEntityException {
         try {
-            Optional<LivraisonEntity> livraison = livraisonRepository.findLivraisonEntityByReference(ref);
-
-            if (livraison.isPresent()) {
-                return commandeComponent.getProduitsGroupedByQtt(livraison.get().getCommandes());
+            if (livraisonRepository.findLivraisonEntityByReference(ref).isPresent()) {
+                return commandeComponent.getProduitsGroupedByQtt(
+                        livraisonRepository.findLivraisonEntityByReference(ref).get().getCommandes()
+                );
             } else {
-
                 return Collections.emptySet();
             }
         } catch (Exception e) {
-            throw new Exception("Erreur lors de la récupération des produits groupés par quantité", e);
+            throw new NotFoundLivraisonEntityException("Erreur lors de la récupération des produits groupés par quantité");
         }
     }
+
+
 
     public LivraisonEntity updateEtat(String reference, String nvEtat) throws NotFoundLivraisonEntityException{
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
