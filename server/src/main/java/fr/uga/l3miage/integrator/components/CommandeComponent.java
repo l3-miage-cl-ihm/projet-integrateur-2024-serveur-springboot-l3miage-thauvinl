@@ -6,7 +6,6 @@ import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 
@@ -23,12 +22,12 @@ public class CommandeComponent {
         return commandeRepository.findCommandeEntityByReference(reference);
     }
 
-    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
-        return commandeRepository.findCommandeEntitiesByLivraison(L);
+    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity livraison){
+        return commandeRepository.findCommandeEntitiesByLivraison(livraison);
     }
     public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
-        return cl;
+       return clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));
+
     }
     public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityExeption {
         ClientEntity client = findByCommandesReference(commande);
@@ -95,10 +94,10 @@ public class CommandeComponent {
         return totalProduits;
     }
 
-    public CommandeEntity updateEtat(String reference,String Etat){
+    public CommandeEntity updateEtat(String reference,String etat){
         CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
-        EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
-        commande.setEtat(etat);
+        EtatDeCommande etatDeCommande= EtatDeCommande.parseStringToEtat(etat);
+        commande.setEtat(etatDeCommande);
         return commandeRepository.save(commande);
     }
     /***********************************CLASSES STATIC*************************/

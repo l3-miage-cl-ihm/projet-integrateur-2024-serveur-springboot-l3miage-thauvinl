@@ -1,12 +1,11 @@
 package fr.uga.l3miage.integrator.endpoints;
 
 
-import fr.uga.l3miage.integrator.requests.ClientCreationRequest;
+
 import fr.uga.l3miage.integrator.responses.ClientResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,17 +16,7 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public interface ClientEndpoints {
 
-/*
 
-    @Operation(description = "Créer un nouveau client")
-    @ApiResponse(responseCode = "201", description = "Le client a été créé avec succès")
-    @ApiResponse(responseCode = "400", description = "La demande de création de client est incorrecte")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(value = "/create")
-    ClientResponseDTO createClient(ClientCreationRequest clientCreationRequest);
-
-
- */
     @Operation(description = "Récupérer un client par son adresse email")
     @ApiResponse(responseCode = "200", description = "Le client a été trouvé")
     @ApiResponse(responseCode = "404", description = "Le client n'a pas été trouvé")

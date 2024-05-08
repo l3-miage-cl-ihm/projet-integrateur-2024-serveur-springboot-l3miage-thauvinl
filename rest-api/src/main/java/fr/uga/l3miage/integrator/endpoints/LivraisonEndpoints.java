@@ -1,28 +1,17 @@
 package fr.uga.l3miage.integrator.endpoints;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
-import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
-import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 

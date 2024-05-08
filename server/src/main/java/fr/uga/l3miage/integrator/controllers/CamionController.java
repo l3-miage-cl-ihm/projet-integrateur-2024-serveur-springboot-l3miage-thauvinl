@@ -4,12 +4,9 @@ import fr.uga.l3miage.integrator.endpoints.CamionEndpoints;
 import fr.uga.l3miage.integrator.responses.CamionResponseDTO;
 import fr.uga.l3miage.integrator.services.CamionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
