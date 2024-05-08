@@ -42,7 +42,7 @@ public class LivraisonController implements LivraisonEndpoints{
     }
 
     @Override
-    public Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(String reference) throws Exception {
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(String reference)  {
 
         return livraisonService.getProduitsGrpByQtt(reference);
     }
