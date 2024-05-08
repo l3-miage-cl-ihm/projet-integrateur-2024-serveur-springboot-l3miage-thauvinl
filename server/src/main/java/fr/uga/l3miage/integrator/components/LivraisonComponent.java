@@ -3,15 +3,10 @@ package fr.uga.l3miage.integrator.components;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
-import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
-import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
-import fr.uga.l3miage.integrator.services.CommandeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,8 +35,8 @@ public class LivraisonComponent {
 
     public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) throws NotFoundClientEntityExeption {
         Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
-        CommandeEntity cm_tmp=commandes.stream().findFirst().orElse(null);
-        return commandeComponent.findClientAdressByCommande(cm_tmp);
+        CommandeEntity cmTmp=commandes.stream().findFirst().orElse(null);
+        return commandeComponent.findClientAdressByCommande(cmTmp);
     }
 
     public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws Exception {
