@@ -23,18 +23,6 @@ public class EmployeService {
     private final EmployeMapper employeMapper;
 
 
-    public Set<EmployeResponseDTO> getLivreursByTourneeId(String tourneeId) {
-        try {
-            Set<EmployeEntity> livreurs = employeComponent.getLivreursByTourneeId(tourneeId);
-            return livreurs.stream()
-                    .map(employeMapper::toResponse)
-                    .collect(Collectors.toSet());
-        } catch (NotFoundTourneeEntityException e) {
-            //indique où l'exception a été levée et quelle était la séquence d'appels de méthode qui a conduit à cette exception
-            e.printStackTrace();
-            return Collections.emptySet();
-        }
-    }
 
     public List<EmployeResponseDTO> getAllEmployes() {
             List<EmployeEntity> employes = employeComponent.getAllEmployes();
@@ -43,18 +31,6 @@ public class EmployeService {
                     .collect(Collectors.toList());
     }
 
-    public EmployeResponseDTO getEmployeById(String id) throws NotFoundEmployeEntityException {
-        try {
-            EmployeEntity employeEntity = employeComponent.getEmployeById(id);
-            if (employeEntity != null) {
-                return employeMapper.toResponse(employeEntity);
-            } else {
-                throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
-            }
-        } catch (NotFoundEmployeEntityException e) {
-            throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
-        }
-    }
 
 
     public Set<EmployeResponseDTO> getAllLivreurs() {
