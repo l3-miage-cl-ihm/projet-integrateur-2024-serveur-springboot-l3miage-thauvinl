@@ -2,7 +2,10 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.*;
 
+import fr.uga.l3miage.integrator.exceptions.rest.BadRequestRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.JourneeMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
@@ -88,8 +91,10 @@ public class JourneeService {
 
             }
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to create journée: " + e.getMessage(), e);
+        }catch (IllegalArgumentException e){
+            throw new BadRequestRestException(e.getMessage());
+        }catch (NotFoundEmployeEntityException | NotFoundCommandeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 

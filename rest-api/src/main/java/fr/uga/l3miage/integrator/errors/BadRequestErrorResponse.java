@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class ResponseStatusErrorResponse {
+public class BadRequestErrorResponse {
     @Schema(
             description = "end point call",
             example = "/api/journees/create"
@@ -17,8 +17,5 @@ public class ResponseStatusErrorResponse {
             example = "Failed to create journee"
     )
     private final String errorMessage;
-    ResponseStatusErrorResponse(final String uri, final String errorMessage) {
-        this.uri = uri;
-        this.errorMessage = errorMessage;
-    }
+
 }

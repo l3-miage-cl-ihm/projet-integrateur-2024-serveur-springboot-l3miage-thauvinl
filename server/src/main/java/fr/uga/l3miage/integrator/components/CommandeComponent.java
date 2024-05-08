@@ -1,6 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
@@ -29,11 +29,11 @@ public class CommandeComponent {
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
         return commandeRepository.findCommandeEntitiesByLivraison(L);
     }
-    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
+    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityException {
+        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityException(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
         return cl;
     }
-    public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityExeption {
+    public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityException {
         ClientEntity client = findByCommandesReference(commande);
         if (client != null) {
             return client.getAdresse();
@@ -45,7 +45,7 @@ public class CommandeComponent {
     public List<CommandeEntity> getAllCommandes(){
         return commandeRepository.findAll();
     }
-    private Adresse getClientAdresse(CommandeEntity commande) throws NotFoundClientEntityExeption {
+    private Adresse getClientAdresse(CommandeEntity commande) throws NotFoundClientEntityException {
         ClientEntity client = findByCommandesReference(commande);
         return client.getAdresse();
     }
@@ -56,7 +56,7 @@ public class CommandeComponent {
                 .collect(Collectors.groupingBy(com -> {
                     try {
                         return getClientAdresse(com);
-                    } catch (NotFoundClientEntityExeption e) {
+                    } catch (NotFoundClientEntityException e) {
                         throw new RuntimeException(e);
                     }
                 }));

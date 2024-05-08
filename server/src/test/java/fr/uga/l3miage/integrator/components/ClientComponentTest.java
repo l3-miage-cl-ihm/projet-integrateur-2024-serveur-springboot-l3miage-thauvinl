@@ -1,12 +1,10 @@
 package fr.uga.l3miage.integrator.components;
 
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -33,7 +31,7 @@ public class ClientComponentTest {
     private ClientComponent clientComponent;
 
     @Test
-    public void testGetClientByEmailSuccess() throws NotFoundClientEntityExeption {
+    public void testGetClientByEmailSuccess() throws NotFoundClientEntityException {
         // Given
         String email = "test@example.com";
         ClientEntity expectedClient = ClientEntity.builder()
@@ -59,7 +57,7 @@ public class ClientComponentTest {
         when(clientRepository.findClientEntityByEmail(email)).thenReturn(Optional.empty());
 
         // When/Then
-        assertThrows(NotFoundClientEntityExeption.class, () -> {
+        assertThrows(NotFoundClientEntityException.class, () -> {
             clientComponent.getClientByEmail(email);
         });
     }

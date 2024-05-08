@@ -21,4 +21,6 @@ public class JourneeController implements JourneeEndpoints {
         return journeeService.createJournee(journeeCreationRequest);
     }
 
+
+
 }

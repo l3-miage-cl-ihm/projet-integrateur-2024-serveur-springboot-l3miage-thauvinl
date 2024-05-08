@@ -1,7 +1,9 @@
 package fr.uga.l3miage.integrator.service;
 
 import fr.uga.l3miage.integrator.components.TourneeComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.BadRequestRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.BadRequestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
@@ -40,7 +42,7 @@ public class TourneeServiceTest {
     TourneeComponent tourneeComponent;
 
     @Test
-    public void getTourneeByEmployeTest() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
+    public void getTourneeByEmployeSuccess() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
         EmployeEntity employe = EmployeEntity.builder()
                 .trigramme("AAA")
                 .email("test@test.fr")
@@ -59,19 +61,19 @@ public class TourneeServiceTest {
     }
 
     @Test
-    public void getTourneeByEmployeTestNotFoundEmploye() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
+    public void getTourneeByEmployeTestNotFoundEmployeShouldReturnNotFoundEntityRestException() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
         when(tourneeComponent.getTourneeByEmploye(any(String.class))).thenThrow(NotFoundEmployeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.getTourneeByEmploye("AAA"));
     }
 
     @Test
-    public void getTourneeByEmployeTestNotFoundTournee() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
+    public void getTourneeByEmployeNotFoundTourneeShouldReturnNotFoundEntityRestException() throws NotFoundEmployeEntityException, NotFoundTourneeEntityException {
         when(tourneeComponent.getTourneeByEmploye(any(String.class))).thenThrow(NotFoundTourneeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.getTourneeByEmploye("AAA"));
     }
 
     @Test
-    public void updateEtatTest() throws NotFoundTourneeEntityException {
+    public void updateEtatSucces() throws NotFoundTourneeEntityException {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
                 .etatsDeTournee(EtatDeTournee.enChargement)
@@ -85,28 +87,32 @@ public class TourneeServiceTest {
     }
 
     @Test
-    public void updateEtatTourneeNotFound() throws NotFoundTourneeEntityException {
+    public void updateEtatNotFoundTourneeShouldReturnNotFoundEntityRestException() throws NotFoundTourneeEntityException {
         when(tourneeComponent.updateEtat(any(String.class), any(String.class))).thenThrow(NotFoundTourneeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.updateEtat("test", "planifiee"));
     }
 
     @Test
-    public void updateTdmTest() throws NotFoundTourneeEntityException {
+    public void updateTdmSucces() throws NotFoundTourneeEntityException, BadRequestException {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
-                .tempsDeMontageEffectif(0)
                 .build();
         Integer nouveauTdm = 60;
         when(tourneeComponent.updateTdm(any(String.class), any(Integer.class))).thenReturn(tournee);
-        tournee.setTempsDeMontageEffectif(nouveauTdm);
         TourneeResponseDTO expected = tourneeMapper.toResponse(tournee);
         TourneeResponseDTO actual = tourneeService.updateTdmEffectifTournee("test", nouveauTdm);
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
-    public void updateTdmTourneeNotFound() throws NotFoundTourneeEntityException {
+    public void updateTdmTourneeNotFoundTourneeShouldReturnNotFoundEntityRestException() throws NotFoundTourneeEntityException, BadRequestException {
         when(tourneeComponent.updateTdm(any(String.class), any(Integer.class))).thenThrow(NotFoundTourneeEntityException.class);
         assertThrows(NotFoundEntityRestException.class, () -> tourneeService.updateTdmEffectifTournee("test", 60));
+    }
+
+    @Test
+    public void updateTdmInvalidTdmShouldThrowBadRequestRestException() throws BadRequestException, NotFoundTourneeEntityException {
+        when(tourneeComponent.updateTdm(any(String.class), any(Integer.class))).thenThrow(BadRequestException.class);
+        assertThrows(BadRequestRestException.class, () -> tourneeService.updateTdmEffectifTournee("test", -1));
     }
 }
