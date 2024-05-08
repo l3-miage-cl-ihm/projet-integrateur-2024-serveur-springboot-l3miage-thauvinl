@@ -72,7 +72,7 @@ public interface LivraisonEndpoints {
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/adresseFromLivraison/{reference}")
-    AdresseResponseDTO getAdresseClientFromLivraison(@PathVariable String reference) throws JsonProcessingException ;
+    AdresseResponseDTO getAdresseClientFromLivraison(@PathVariable String reference)  ;
 
     @Operation(description = "get produits grouped by quantity from livraisons")
     @ApiResponse(
@@ -85,7 +85,7 @@ public interface LivraisonEndpoints {
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/produitsByQtt/{reference}")
-    Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(@PathVariable String reference) throws Exception;
+    Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(@PathVariable String reference) ;
 
     @Operation(description = "update livraison etat")
     @ApiResponse(

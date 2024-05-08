@@ -64,16 +64,20 @@ public class LivraisonService {
             throw new RuntimeException();
         }
     }
-    public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference) throws Exception {
-        Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference)  {
+       try {
+           Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
 
-        return totalProd.stream()
-                .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
-                        .produit(produitMapper.toResponse(prodQuant.getProduit()))
-                        .quantite(prodQuant.getQuantite())
-                        .build())
-                .collect(Collectors.toSet());
-
+           return totalProd.stream()
+                   .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
+                           .produit(produitMapper.toResponse(prodQuant.getProduit()))
+                           .quantite(prodQuant.getQuantite())
+                           .build())
+                   .collect(Collectors.toSet());
+       }
+       catch (NotFoundLivraisonEntityException e){
+           throw new NotFoundEntityRestException(e.getMessage());
+       }
 
     }
 
