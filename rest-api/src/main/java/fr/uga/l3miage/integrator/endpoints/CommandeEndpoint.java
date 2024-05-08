@@ -4,6 +4,7 @@ package fr.uga.l3miage.integrator.endpoints;
 import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 
+import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -69,4 +70,16 @@ public interface CommandeEndpoint {
     @PatchMapping("/updateEtat/{reference}/{nvEtat}")
     CommandeResponseDTO updateEtat(@PathVariable String reference,@PathVariable String nvEtat);
 
+    @Operation(description = "update la date de livraison effective d'une commande ainsi que la durée de livraison")
+    @ApiResponse(
+            responseCode = "200",
+            description = "La commande a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "La commande n'a pas été trouvée"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateDate/{reference}")
+    CommandeResponseDTO updateDateDeLivraison(@PathVariable String reference, @RequestParam String date);
 }

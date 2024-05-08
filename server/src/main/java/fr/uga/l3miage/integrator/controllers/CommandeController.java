@@ -27,6 +27,11 @@ public class CommandeController implements CommandeEndpoint {
     }
 
     @Override
+    public CommandeResponseDTO updateDateDeLivraison(String reference, String date){
+        return commandeService.updateDateDeLivraison(reference, date);
+    }
+
+    @Override
     public Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient() {
         return commandeService.getCommandesGroupedByClient();
     }

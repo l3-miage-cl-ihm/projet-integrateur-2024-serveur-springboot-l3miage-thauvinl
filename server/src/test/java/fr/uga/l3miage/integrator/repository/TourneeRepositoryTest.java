@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 public class TourneeRepositoryTest {
-    /*
+
 
     @Autowired
     private TourneeRepository tourneeRepository;
@@ -41,6 +41,7 @@ public class TourneeRepositoryTest {
     void testFindByEmployeEntitySetContains(){
         EmployeEntity employe = EmployeEntity.builder()
                 .trigramme("AAA")
+                .email("test@test.fr")
                 .emploi(Emploi.livreur)
                 .build();
         Set<EmployeEntity> set = new HashSet<>();
@@ -49,10 +50,11 @@ public class TourneeRepositoryTest {
                 .reference("test")
                 .employeEntitySet(set)
                 .build();
+        tourneeRepository.save(tournee);
         Optional<TourneeEntity> response = tourneeRepository.findByEmployeEntitySetContains(employe);
         assertThat(response.get().getEmployeEntitySet().size()).isEqualTo(1);
 
     }
 
-     */
+
 }
