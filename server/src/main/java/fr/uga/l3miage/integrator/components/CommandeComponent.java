@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
@@ -9,6 +10,7 @@ import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,36 +31,27 @@ public class CommandeComponent {
     public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
         return commandeRepository.findCommandeEntitiesByLivraison(L);
     }
-    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityException {
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityException(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
+    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
+        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
         return cl;
     }
-    public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityException {
-        ClientEntity client = findByCommandesReference(commande);
-        if (client != null) {
-            return client.getAdresse();
-        } else {
-
-            return null;
+    public Adresse findClientAdressByCommande(CommandeEntity commande){
+        try{ClientEntity client = findByCommandesReference(commande);
+            return client.getAdresse();}
+        catch (NotFoundClientEntityExeption e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
     public List<CommandeEntity> getAllCommandes(){
         return commandeRepository.findAll();
     }
-    private Adresse getClientAdresse(CommandeEntity commande) throws NotFoundClientEntityException {
-        ClientEntity client = findByCommandesReference(commande);
-        return client.getAdresse();
-    }
+
     public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient(){
 
-        List<CommandeEntity> commandes = commandeRepository.findAll();
+        List<CommandeEntity> commandes = commandeRepository.findAll().stream().limit(30).collect(Collectors.toList());
         return commandes.stream()
                 .collect(Collectors.groupingBy(com -> {
-                    try {
-                        return getClientAdresse(com);
-                    } catch (NotFoundClientEntityException e) {
-                        throw new RuntimeException(e);
-                    }
+                    return findClientAdressByCommande(com);
                 }));
 
 
@@ -75,20 +68,14 @@ public class CommandeComponent {
             for (LigneEntity ligne : commande.getLignesCommandes()) {
                 ProduitEntity produit = ligne.getProduit();
                 int quantiteLigne = ligne.getQuantite();
-
                 boolean produitExist = false;
-
-                // Vérifier si le produit existe déjà dans l'ensemble
                 for (ProduitQuantite pq : totalProduits) {
                     if (pq.getProduit().equals(produit)) {
-                        // Mettre à jour la quantité
                         pq.quantite += quantiteLigne;
                         produitExist = true;
                         break;
                     }
                 }
-
-                // Si le produit n'existe pas encore, l'ajouter à l'ensemble
                 if (!produitExist) {
                     totalProduits.add(new ProduitQuantite(produit, quantiteLigne));
                 }

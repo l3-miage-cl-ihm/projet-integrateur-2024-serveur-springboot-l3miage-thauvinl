@@ -3,10 +3,10 @@ package fr.uga.l3miage.integrator.services;
 import fr.uga.l3miage.integrator.components.EmployeComponent;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.EmployeMapper;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +29,18 @@ public class EmployeService {
             return livreurs.stream()
                     .map(employeMapper::toResponse)
                     .collect(Collectors.toSet());
-        } catch (NotFoundException e) {
+        } catch (NotFoundTourneeEntityException e) {
+            //indique où l'exception a été levée et quelle était la séquence d'appels de méthode qui a conduit à cette exception
             e.printStackTrace();
             return Collections.emptySet();
         }
     }
 
     public List<EmployeResponseDTO> getAllEmployes() {
-        List<EmployeEntity> employes = employeComponent.getAllEmployes();
-        return employes.stream()
-                .map(employeMapper::toResponse)
-                .collect(Collectors.toList());
+            List<EmployeEntity> employes = employeComponent.getAllEmployes();
+            return employes.stream()
+                    .map(employeMapper::toResponse)
+                    .collect(Collectors.toList());
     }
 
     public EmployeResponseDTO getEmployeById(String id) throws NotFoundEmployeEntityException {
@@ -51,18 +52,18 @@ public class EmployeService {
                 throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
             }
         } catch (NotFoundEmployeEntityException e) {
-            // Handle NotFoundException here, or rethrow it if necessary
             throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
         }
     }
 
 
-public Set<EmployeResponseDTO> getAllLivreurs() {
-    Set<EmployeEntity> livreurs = employeComponent.getAllLivreurs();
-    return livreurs.stream()
-            .map(employeMapper::toResponse)
-            .collect(Collectors.toSet());
-}
+    public Set<EmployeResponseDTO> getAllLivreurs() {
+
+            Set<EmployeEntity> livreurs = employeComponent.getAllLivreurs();
+            return livreurs.stream()
+                    .map(employeMapper::toResponse)
+                    .collect(Collectors.toSet());
+    }
     public EmployeResponseDTO getLivreurByEmail(String email) {
         try {
             EmployeEntity livreur = employeComponent.getLivreurByEmail(email);

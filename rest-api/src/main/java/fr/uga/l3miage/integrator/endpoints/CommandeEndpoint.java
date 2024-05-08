@@ -4,7 +4,7 @@ package fr.uga.l3miage.integrator.endpoints;
 import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 
-import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
+
 import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

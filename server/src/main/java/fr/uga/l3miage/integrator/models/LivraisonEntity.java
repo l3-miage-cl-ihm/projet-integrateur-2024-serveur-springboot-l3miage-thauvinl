@@ -29,8 +29,6 @@ public class LivraisonEntity {
 
     private Integer tdtALAller;
 
-    private Integer tdpTheorique;
-    
     private Integer tddTheorique;
 
     private Integer tdmTheorique;
