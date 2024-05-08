@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
@@ -9,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,16 +22,16 @@ public class CommandeComponent {
     private final CommandeRepository commandeRepository;
     private final ClientRepository clientRepository;
 
-    public CommandeEntity getCommandeByReference(String reference) {
-        return commandeRepository.findCommandeEntityByReference(reference);
+    public CommandeEntity getCommandeByReference(String reference) throws NotFoundCommandeEntityException{
+        return commandeRepository.findCommandeEntityByReference(reference).orElseThrow(() -> new NotFoundCommandeEntityException(String.format("La commande de référence %s est introuvable", reference)));
     }
 
-    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity livraison){
-        return commandeRepository.findCommandeEntitiesByLivraison(livraison);
+    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
+        return commandeRepository.findCommandeEntitiesByLivraison(L);
     }
     public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
-       return clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));
-
+        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
+        return cl;
     }
     public Adresse findClientAdressByCommande(CommandeEntity commande) throws NotFoundClientEntityExeption {
         ClientEntity client = findByCommandesReference(commande);
@@ -94,10 +98,19 @@ public class CommandeComponent {
         return totalProduits;
     }
 
-    public CommandeEntity updateEtat(String reference,String etat){
-        CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference);
-        EtatDeCommande etatDeCommande= EtatDeCommande.parseStringToEtat(etat);
-        commande.setEtat(etatDeCommande);
+    public CommandeEntity updateEtat(String reference,String Etat) throws NotFoundCommandeEntityException{
+        CommandeEntity commande=commandeRepository.findCommandeEntityByReference(reference).orElseThrow(() -> new NotFoundCommandeEntityException(String.format("La commande de référence %s est introuvable", reference)));
+        EtatDeCommande etat= EtatDeCommande.parseStringToEtat(Etat);
+        commande.setEtat(etat);
+        return commandeRepository.save(commande);
+    }
+
+    public CommandeEntity updateDateDeLivraison(String reference, String date) throws NotFoundCommandeEntityException {
+        CommandeEntity commande = commandeRepository.findCommandeEntityByReference(reference).orElseThrow(() -> new NotFoundCommandeEntityException(String.format("La commande de référence %s est introuvable", reference)));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime dateDeLivraisonEffective = LocalDateTime.parse(date,formatter);
+        commande.setDateDeLivraisonEffective(dateDeLivraisonEffective);
+        commande.setDureeDeLivraison((int)ChronoUnit.DAYS.between(commande.getDateDeCreation(),commande.getDateDeLivraisonEffective()));
         return commandeRepository.save(commande);
     }
     /***********************************CLASSES STATIC*************************/

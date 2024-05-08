@@ -1,10 +1,16 @@
 package fr.uga.l3miage.integrator.controllers;
 
+import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
+import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
+import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
+import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,69 +18,148 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.test.context.ActiveProfiles;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureTestDatabase
 @AutoConfigureWebTestClient
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
 public class TourneeControllerTest {
     @Autowired
     TourneeRepository tourneeRepository;
+
     @Autowired
-    JourneeRepository journeeRepository;
+    EmployeRepository employeRepository;
+
     @Autowired
     TestRestTemplate testRestTemplate;
     @AfterEach
     public void clearDataBase(){
         tourneeRepository.deleteAll();
-        journeeRepository.deleteAll();
+        employeRepository.deleteAll();
     }
-    /*
-    @Test
-    public void createTourneeDansJourneeSuccess(){
-        JourneeEntity journee= new JourneeEntity();
-        journee.setReference("J123");
-        journeeRepository.save(journee);
-        TourneeEntity tournee = new TourneeEntity();
-        tournee.setReference("J123");
 
-        // Présumons que les détails de tournee sont configurés correctement ici
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<TourneeEntity> request = new HttpEntity<>(tournee, headers);
-
-        ResponseEntity<TourneeEntity> response = testRestTemplate.postForEntity("/api/tournees", request, TourneeEntity.class);
-
-        // Vérifiez le statut de la réponse et l'objet retourné
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        // Autres assertions pour vérifier la logique de votre application
-
+    @BeforeEach
+    public void setup(){
+        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
 
     @Test
-    public void createTourneeDansJourneeFail(){
-        JourneeEntity journee= new JourneeEntity();
-        journee.setReference("J123");
-        journeeRepository.save(journee);
-        TourneeEntity tournee = new TourneeEntity();
-        tournee.setReference("J456");
+    public void getTourneeByEmployeFound(){
+        EmployeEntity employe = EmployeEntity.builder()
+                .trigramme("AAA")
+                .email("test@test.fr")
+                .build();
+        employeRepository.save(employe);
+        Set<EmployeEntity> set = new HashSet<>();
+        set.add(employe);
+        TourneeEntity tournee = TourneeEntity.builder()
+                .reference("test")
+                .employeEntitySet(set)
+                .build();
+        tourneeRepository.save(tournee);
 
-        // Présumons que les détails de tournee sont configurés correctement ici
+        final HttpHeaders headers = new HttpHeaders();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<TourneeEntity> request = new HttpEntity<>(tournee, headers);
+        final Map<String, Object> urlParams = new HashMap<>();
+        urlParams.put("employeId", "AAA");
 
-        ResponseEntity<TourneeEntity> response = testRestTemplate.postForEntity("/api/tournees", request, TourneeEntity.class);
+        EmployeResponseDTO responseDTO = EmployeResponseDTO.builder()
+                .trigramme("AAA")
+                .email("test@test.fr")
+                .build();
 
-        // Vérifiez le statut de la réponse et l'objet retourné
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        // Autres assertions pour vérifier la logique de votre application
+        Set<EmployeResponseDTO> responseSet = new HashSet<>();
+        responseSet.add(responseDTO);
+
+        TourneeResponseDTO expected = TourneeResponseDTO.builder()
+                .reference("test")
+                .employeResponseDTOS(responseSet)
+                .montant(0.0)
+                .tempsDeMontageTheorique(0)
+                .distanceAParcourir(0.0)
+                .build();
+
+        ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/{employeId}", HttpMethod.GET, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
 
     }
 
-     */
+    @Test
+    public void testGetTourneeByEmployeNotFoundEmploye(){
+        final HttpHeaders headers = new HttpHeaders();
 
+        final Map<String, Object> urlParams = new HashMap<>();
+        urlParams.put("employeId", "AAA");
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/tournees/AAA")
+                .errorMessage("L'employé d'id AAA est introuvable")
+                .build();
+
+        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/tournees/{employeId}", HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void testGetTourneeByEmployeNotFoundTournee(){
+        EmployeEntity employe = EmployeEntity.builder()
+                .trigramme("AAA")
+                .email("test@test.fr")
+                .build();
+        employeRepository.save(employe);
+        final HttpHeaders headers = new HttpHeaders();
+
+        final Map<String, Object> urlParams = new HashMap<>();
+        urlParams.put("employeId", "AAA");
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/tournees/AAA")
+                .errorMessage("La tournée gérée par l'employé d'id AAA n'a pas été trouvée")
+                .build();
+
+        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/tournees/{employeId}", HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void updateTdmSucces(){
+        TourneeEntity tournee = TourneeEntity.builder()
+                .reference("test")
+                .tempsDeMontageEffectif(0)
+                .build();
+        tourneeRepository.save(tournee);
+
+        final HttpHeaders headers = new HttpHeaders();
+
+        final Map<String,Object> urlParams = new HashMap<>();
+        urlParams.put("reference", "test");
+        urlParams.put("tdmEffectif", 60);
+
+        TourneeResponseDTO expected = TourneeResponseDTO.builder()
+                .reference("test")
+                .montant(0.0)
+                .tempsDeMontageTheorique(0)
+                .distanceAParcourir(0.0)
+                .employeResponseDTOS(new HashSet<>())
+                .tempsDeMontageEffectif(60)
+                .build();
+        ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/updateTdm/{reference}?tdmEffectif={tdmEffectif}"
+                , HttpMethod.PATCH, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
 }
