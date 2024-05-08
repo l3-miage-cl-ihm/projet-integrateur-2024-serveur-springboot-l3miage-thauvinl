@@ -1,12 +1,12 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class EmployeComponent {
     private final EmployeRepository employeRepository;
     private final TourneeRepository tourneeRepository;
 
-    public Set<EmployeEntity> getLivreursByTourneeId(String tourneeId) throws NotFoundException {
+    public Set<EmployeEntity> getLivreursByTourneeId(String tourneeId) throws NotFoundTourneeEntityException {
         Optional<TourneeEntity> tourneeOptional = tourneeRepository.findById(tourneeId);
         if (tourneeOptional.isPresent()) {
             TourneeEntity tournee = tourneeOptional.get();
@@ -32,23 +32,20 @@ public class EmployeComponent {
                     .collect(Collectors.toSet());
         } else {
             // Gérer le cas où la tournée n'existe pas
-            throw new NotFoundException("Tournée non trouvée avec l'ID : " + tourneeId);
+            throw new NotFoundTourneeEntityException("Tournée non trouvée avec l'ID : " + tourneeId);
         }
     }
 
     public List<EmployeEntity> getAllEmployes() {
-        return employeRepository.findAll().stream().collect(Collectors.toList());
+            return employeRepository.findAll().stream().collect(Collectors.toList());
+
     }
 
     public EmployeEntity getEmployeById(String trigramme) throws NotFoundEmployeEntityException {
         return employeRepository.findByTrigramme(trigramme).orElseThrow(()->new NotFoundEmployeEntityException(String.format("L'employé d'id %s n'existe pas", trigramme)));
     }
 
-    public EmployeEntity createEmploye(EmployeEntity employe) {
-        return employeRepository.save(employe);
-    }
-
-    public EmployeEntity updateEmploye(String id, EmployeEntity employe) {
+    public EmployeEntity updateEmploye(String id, EmployeEntity employe) throws NotFoundEmployeEntityException {
         Optional<EmployeEntity> optionalEmploye = employeRepository.findById(id);
         if (optionalEmploye.isPresent()) {
             EmployeEntity existingEmploye = optionalEmploye.get();
@@ -62,17 +59,10 @@ public class EmployeComponent {
             return employeRepository.save(existingEmploye);
         } else {
             // gérer le cas où l'employé avec l'ID donné n'existe pas
-            return null;
+            throw new NotFoundEmployeEntityException("Employe introuvable");
         }
     }
 
-    public void deleteEmploye(String id) {
-        employeRepository.deleteById(id);
-    }
-
-    public Set<EmployeEntity> getAllLivreurs() {
-        return employeRepository.findAllByEmploi(Emploi.livreur);
-    }
 
     public EmployeEntity getLivreurByEmail(String email) throws NotFoundEmployeEntityException {
         Optional<EmployeEntity> optionalEmploye = employeRepository.findByEmailAndEmploi(email, Emploi.livreur);
@@ -82,6 +72,13 @@ public class EmployeComponent {
             throw new NotFoundEmployeEntityException("Livreur non trouvé avec l'email: " + email);
         }
     }
+
+    public Set<EmployeEntity> getAllLivreurs() {
+
+            return employeRepository.findAllByEmploi(Emploi.livreur);
+
+    }
+
 
 
 }
