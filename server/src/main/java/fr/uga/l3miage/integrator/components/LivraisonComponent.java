@@ -10,6 +10,7 @@ import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
 import java.util.*;
 
 @Component
@@ -58,6 +59,11 @@ public class LivraisonComponent {
     public LivraisonEntity updateEtat(String reference, String nvEtat) throws NotFoundLivraisonEntityException{
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
         livraison.setEtat(EtatDeLivraison.valueOf(nvEtat));
+        return livraisonRepository.save(livraison);
+    }
+    public LivraisonEntity updtateHeureEff(String reference, Time heure) throws NotFoundLivraisonEntityException{
+        LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
+        livraison.setHeureDeLivraisonEffective(heure);
         return livraisonRepository.save(livraison);
     }
 }

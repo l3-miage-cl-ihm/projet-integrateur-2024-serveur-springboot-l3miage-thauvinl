@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.sql.Time;
 import java.util.List;
 import java.util.Set;
 
@@ -100,7 +100,18 @@ public interface LivraisonEndpoints {
     @PatchMapping("/updateEtat/{reference}")
     LivraisonResponseDTO updateEtat(@PathVariable String reference, @RequestParam String nvEtat);
 
-
+    @Operation(description = "update livraison heure de livraison effective")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La livraison a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "La livraison n'a pas été trouvée"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateHeure/{reference}")
+    LivraisonResponseDTO updateHeure(@PathVariable String reference, @RequestBody Time heure);
 
 
 }
