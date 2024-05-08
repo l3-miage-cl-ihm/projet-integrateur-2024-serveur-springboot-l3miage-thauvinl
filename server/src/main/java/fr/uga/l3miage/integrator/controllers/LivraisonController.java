@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Time;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +50,16 @@ public class LivraisonController implements LivraisonEndpoints{
     @Override
     public LivraisonResponseDTO updateEtat(String reference, String nvEtat) {
         return livraisonService.updateEtat(reference, nvEtat);
+    }
+
+    @Override
+    public LivraisonResponseDTO updateHeure(String reference, Time heure) {
+        return livraisonService.updateHeureEff(reference,heure);
+    }
+
+    @Override
+    public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm) {
+        return livraisonService.updateTdmEff(reference,tdm);
     }
 
 }
