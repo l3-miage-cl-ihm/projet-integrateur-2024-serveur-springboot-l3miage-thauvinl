@@ -1,6 +1,5 @@
 package fr.uga.l3miage.integrator.models;
-import java.sql.Date;
-import java.sql.Time;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.*;

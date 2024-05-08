@@ -8,18 +8,15 @@ import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
-import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,14 +66,14 @@ public class LivraisonService {
     public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference) throws Exception {
         Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
 
-        Set<ProduitQuantiteResponseDTO> result = totalProd.stream()
+        return totalProd.stream()
                 .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
                         .produit(produitMapper.toResponse(prodQuant.getProduit()))
                         .quantite(prodQuant.getQuantite())
                         .build())
                 .collect(Collectors.toSet());
 
-        return result;
+
     }
 
     public LivraisonResponseDTO updateEtat(String reference, String nvEtat){

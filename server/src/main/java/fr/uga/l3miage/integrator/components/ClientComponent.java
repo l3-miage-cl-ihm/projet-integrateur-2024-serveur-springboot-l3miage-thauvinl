@@ -16,8 +16,8 @@ public class ClientComponent {
     private final ClientRepository clientRepository;
 
     public ClientEntity getClientByEmail(String email) throws NotFoundClientEntityExeption {
-        ClientEntity client = clientRepository.findClientEntityByEmail(email).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le client dont l' email est %s est introuvable",email)));
-        return client;
+        return clientRepository.findClientEntityByEmail(email).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le client dont l' email est %s est introuvable",email)));
+
     }
 
     public List<ClientEntity> getAllClients() {
