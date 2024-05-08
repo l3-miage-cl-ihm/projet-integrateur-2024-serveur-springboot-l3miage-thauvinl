@@ -113,5 +113,17 @@ public interface LivraisonEndpoints {
     @PatchMapping("/updateHeure/{reference}")
     LivraisonResponseDTO updateHeure(@PathVariable String reference, @RequestBody Time heure);
 
+    @Operation(description = "update livraison le tdm effective")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La livraison a été update"
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "La livraison n'a pas été trouvée"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/updateTdm/{reference}")
+    LivraisonResponseDTO updateTdmEff(@PathVariable String reference, @RequestBody Integer tdm);
 
 }

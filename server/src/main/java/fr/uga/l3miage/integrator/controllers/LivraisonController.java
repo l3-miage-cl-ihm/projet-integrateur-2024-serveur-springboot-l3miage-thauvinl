@@ -57,4 +57,9 @@ public class LivraisonController implements LivraisonEndpoints{
         return livraisonService.updateHeureEff(reference,heure);
     }
 
+    @Override
+    public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm) {
+        return livraisonService.updateTdmEff(reference,tdm);
+    }
+
 }

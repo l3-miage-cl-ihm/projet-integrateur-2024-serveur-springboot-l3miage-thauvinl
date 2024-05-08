@@ -93,6 +93,13 @@ public class LivraisonService {
             throw new NotFoundEntityRestException(e.getMessage());
         }
     }
+    public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm){
+        try{
+            return livraisonMapper.toResponse(livraisonComponent.updtateTDMEff(reference,tdm));
+        }catch(NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+    }
 
 
 
