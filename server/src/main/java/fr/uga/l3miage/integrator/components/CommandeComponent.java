@@ -47,7 +47,7 @@ public class CommandeComponent {
 
     public Map<Adresse, List<CommandeEntity>> getCommandesGroupedByClient(){
 
-        List<CommandeEntity> commandes = commandeRepository.findAll();
+        List<CommandeEntity> commandes = commandeRepository.findAll().stream().limit(30).collect(Collectors.toList());
         return commandes.stream()
                 .collect(Collectors.groupingBy(com -> {
                     return findClientAdressByCommande(com);
