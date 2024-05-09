@@ -47,6 +47,11 @@ public class TourneeEntity {
         livraison.setTournee(this);
     }
 
+    public void addEmploye(EmployeEntity employe){
+        this.employeEntitySet.add(employe);
+        employe.getTourneeEntitySet().add(this);
+    }
+
     public void setTempsDeMontageEffectif(Integer tempsDeMontageEffectif) throws IllegalArgumentException{
         if (tempsDeMontageEffectif == null || tempsDeMontageEffectif < 0 || tempsDeMontageEffectif < this.tempsDeMontageEffectif) {
             throw new IllegalArgumentException("Le temps de montage effectif doit être un entier naturel.");

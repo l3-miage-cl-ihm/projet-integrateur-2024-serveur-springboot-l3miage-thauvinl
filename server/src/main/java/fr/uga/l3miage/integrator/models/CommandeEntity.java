@@ -33,7 +33,7 @@ public class CommandeEntity {
 
    private Integer dureeDeLivraison;
 
-    @ManyToOne()
+    @ManyToOne
     private LivraisonEntity livraison;
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -40,27 +40,14 @@ public class LivraisonEntity {
     @Column(nullable=true) private Integer tdmEffectif;
 
     @OneToMany(mappedBy = "livraison",cascade = CascadeType.ALL)
-    private Set<CommandeEntity> commandes;
+    private Set<CommandeEntity> commandes = new HashSet<>();
 
     @ManyToOne
     private TourneeEntity tournee;
 
     public void addCommandesInLivraison(CommandeEntity commande){
-        Set<CommandeEntity> commandeEntities=this.getCommandes();
-        if (commandeEntities!=null ) {
-
-            commandeEntities.add(commande);
-
-
-            this.setCommandes(commandeEntities);
-            commande.setLivraison(this);
-        }
-        else{
-            Set<CommandeEntity> cmd2=new HashSet<>();
-            cmd2.add(commande);
-            this.setCommandes(cmd2);
-            commande.setLivraison(this);
-        }
+        this.commandes.add(commande);
+        commande.setLivraison(this);
     }
 
 }

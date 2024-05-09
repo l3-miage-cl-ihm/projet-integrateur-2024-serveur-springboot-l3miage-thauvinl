@@ -52,8 +52,8 @@ public class JourneeService {
 
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         try{
-            JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
-            for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
+            //JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
+            /*for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
                 TourneeEntity tourneeEntity = tourneeMapper.toEntity(tournee);
                 journeeEntity.addTournee(tourneeEntity);
 
@@ -89,12 +89,10 @@ public class JourneeService {
                 CamionEntity camion=camionComponent.getCamionByRef(refCamion);
                 tourneeEntity.setCamion(camion);
 
-            }
-            return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeEntity));
+            }*/
+            return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeMapper.toEntity(journeeCreationRequest)));
         }catch (IllegalArgumentException e){
             throw new BadRequestRestException(e.getMessage());
-        }catch (NotFoundEmployeEntityException | NotFoundCommandeEntityException e){
-            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 

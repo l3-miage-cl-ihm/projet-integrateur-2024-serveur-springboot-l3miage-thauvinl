@@ -20,7 +20,4 @@ public class JourneeController implements JourneeEndpoints {
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
         return journeeService.createJournee(journeeCreationRequest);
     }
-
-
-
 }
