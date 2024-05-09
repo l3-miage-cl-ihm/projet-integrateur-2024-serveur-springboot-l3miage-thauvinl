@@ -2,6 +2,7 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.EmployeComponent;
 
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.EmployeMapper;
@@ -23,16 +24,14 @@ public class EmployeService {
     private final EmployeMapper employeMapper;
 
 
-    public Set<EmployeResponseDTO> getLivreursByTourneeId(String tourneeId) {
+    public Set<EmployeResponseDTO> getLivreursByTourneeId(String tourneeId) throws NotFoundTourneeEntityException {
         try {
             Set<EmployeEntity> livreurs = employeComponent.getLivreursByTourneeId(tourneeId);
             return livreurs.stream()
                     .map(employeMapper::toResponse)
                     .collect(Collectors.toSet());
         } catch (NotFoundTourneeEntityException e) {
-            //indique où l'exception a été levée et quelle était la séquence d'appels de méthode qui a conduit à cette exception
-            e.printStackTrace();
-            return Collections.emptySet();
+            throw new NotFoundTourneeEntityException(e.getMessage());
         }
     }
 
@@ -69,8 +68,7 @@ public class EmployeService {
             EmployeEntity livreur = employeComponent.getLivreurByEmail(email);
             return employeMapper.toResponse(livreur);
         } catch (NotFoundEmployeEntityException e) {
-            e.printStackTrace();
-            return null;
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 
