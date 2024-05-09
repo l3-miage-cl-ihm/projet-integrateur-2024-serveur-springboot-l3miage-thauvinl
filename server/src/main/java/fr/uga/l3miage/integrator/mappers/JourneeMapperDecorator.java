@@ -32,4 +32,34 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
         return journee;
     }
 
+    @Override
+    public JourneeResponseDTO toResponseWithTournees(JourneeEntity journee){
+
+        JourneeResponseDTO responseDTO = delegate.toResponseWithTournees(journee);
+
+        if (journee.getTournees() == null || journee.getTournees().isEmpty()) {
+            responseDTO.setTempsDeMontageTheorique(0);
+            responseDTO.setMontant(0.0);
+            responseDTO.setDistanceAParcourir(0.0);
+        }
+        else{
+            Set<TourneeResponseDTO> tourneeResponseDTOS = journee.getTournees().stream()
+                    .map(tourneeMapper::toResponse)
+                    .collect(Collectors.toSet());
+            responseDTO.setTourneeResponseDTOS(tourneeResponseDTOS);
+            responseDTO.setTempsDeMontageTheorique(responseDTO.getTourneeResponseDTOS().stream()
+                    .mapToInt(TourneeResponseDTO::getTempsDeMontageTheorique)
+                    .sum());
+            responseDTO.setMontant(responseDTO.getTourneeResponseDTOS().stream()
+                    .mapToDouble(TourneeResponseDTO::getMontant)
+                    .sum());
+            responseDTO.setDistanceAParcourir(responseDTO.getTourneeResponseDTOS().stream()
+                    .mapToDouble(TourneeResponseDTO::getDistanceAParcourir)
+                    .sum());
+        }
+
+        return responseDTO;
+
+    }
+
 }

@@ -40,4 +40,32 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
         });
         return livraisonEntity;
     }
+
+    @Override
+    public LivraisonResponseDTO toResponse(LivraisonEntity livraisonEntity) {
+
+        LivraisonResponseDTO responseDTO =  livraisonMapper.toResponse(livraisonEntity);
+
+        if (livraisonEntity.getCommandes() == null || livraisonEntity.getCommandes().isEmpty()) {
+
+
+            responseDTO.setMontant(0.0);
+            responseDTO.setTdmTheorique(0);
+        } else {
+
+            Set<CommandeResponseDTO> commandeResponseDTOS = livraisonEntity.getCommandes().stream()
+                    .map(commandeMapper::toResponse)
+                    .collect(Collectors.toSet());
+            responseDTO.setCommandes(commandeResponseDTOS);
+            responseDTO.setTdmTheorique(responseDTO.getCommandes().stream()
+                    .mapToInt(CommandeResponseDTO::getTdmTheorique)
+                    .sum());
+            responseDTO.setMontant(responseDTO.getCommandes().stream()
+                    .mapToDouble(CommandeResponseDTO::getMontant)
+                    .sum());
+
+
+        }
+        return responseDTO;
+    }
 }

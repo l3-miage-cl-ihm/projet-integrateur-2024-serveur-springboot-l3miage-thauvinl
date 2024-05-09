@@ -23,8 +23,8 @@ public class TourneeEntity {
     @Enumerated(EnumType.STRING)
     private EtatDeTournee etatsDeTournee;
 
-
     private String lettre;
+
     private Integer tempsDeMontageEffectif;
 
     @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")

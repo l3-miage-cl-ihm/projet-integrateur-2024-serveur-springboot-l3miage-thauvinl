@@ -23,9 +23,9 @@ public class LivraisonEntity {
     @Enumerated(EnumType.ORDINAL)
     private EtatDeLivraison etat;
 
-    private float montant;
+    private Double montant;
 
-    private float distanceParcourue;
+    private Double distanceAParcourir;
 
     private Integer tdtALAller;
 
@@ -35,9 +35,11 @@ public class LivraisonEntity {
 
     private Time heureDeLivraisonTheorique;
     
-    @Column(nullable=true) private Time heureDeLivraisonEffective;
+    @Column
+    private Time heureDeLivraisonEffective;
 
-    @Column(nullable=true) private Integer tdmEffectif;
+    @Column
+    private Integer tdmEffectif;
 
     @OneToMany(mappedBy = "livraison",cascade = CascadeType.ALL)
     private Set<CommandeEntity> commandes = new HashSet<>();

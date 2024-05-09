@@ -50,4 +50,32 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
         tournee.setCamion(camionComponent.getCamionByRef(request.getRefCamion()));
         return tournee;
     }
+
+    @Override
+    public TourneeResponseDTO toResponse(TourneeEntity tournee){
+        TourneeResponseDTO responseDTO = delegate.toResponse(tournee);
+        responseDTO.setCamionResponseDTO(camionMapper.toResponse(tournee.getCamion()));
+
+        if (tournee.getLivraisons() == null || tournee.getLivraisons().isEmpty()) {
+            responseDTO.setTempsDeMontageTheorique(0);
+            responseDTO.setMontant(0.0);
+            responseDTO.setDistanceAParcourir(0.0);
+        }
+        else {
+            Set<LivraisonResponseDTO> livraisonResponses = tournee.getLivraisons().stream()
+                    .map(livraisonMapper::toResponse)
+                    .collect(Collectors.toSet());
+            responseDTO.setLivraisonResponseDTOS(livraisonResponses);
+            responseDTO.setTempsDeMontageTheorique(responseDTO.getLivraisonResponseDTOS().stream()
+                    .mapToInt(LivraisonResponseDTO::getTdmTheorique)
+                    .sum());
+            responseDTO.setMontant(responseDTO.getLivraisonResponseDTOS().stream()
+                    .mapToDouble(LivraisonResponseDTO::getMontant)
+                    .sum());
+            responseDTO.setDistanceAParcourir(responseDTO.getLivraisonResponseDTOS().stream()
+                    .mapToDouble(LivraisonResponseDTO::getDistanceAParcourir)
+                    .sum());
+        }
+        return responseDTO;
+    }
 }
