@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.BadRequestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
@@ -84,7 +85,7 @@ public class TourneeComponentTest {
     }
 
     @Test
-    public void updateTdmSucces() throws NotFoundTourneeEntityException {
+    public void updateTdmSucces() throws NotFoundTourneeEntityException, BadRequestException {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
                 .tempsDeMontageEffectif(0)
@@ -113,7 +114,7 @@ public class TourneeComponentTest {
         Integer tdmEffectif = -20;
         when(tourneeRepository.findByReference(any(String.class))).thenReturn(Optional.of(tournee));
         when(tourneeRepository.save(any(TourneeEntity.class))).thenReturn(tournee);
-        assertThrows(ResponseStatusException.class, () -> tourneeComponent.updateTdm("test", tdmEffectif));
+        assertThrows(BadRequestException.class, () -> tourneeComponent.updateTdm("test", tdmEffectif));
     }
 
     @Test

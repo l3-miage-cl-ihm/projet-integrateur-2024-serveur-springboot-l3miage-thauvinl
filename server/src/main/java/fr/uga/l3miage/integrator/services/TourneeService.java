@@ -1,7 +1,9 @@
 package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.TourneeComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.BadRequestRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.BadRequestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.TourneeMapper;
@@ -30,6 +32,8 @@ public class TourneeService {
             return tourneeMapper.toResponse(tourneeComponent.updateTdm(reference, tdmEffectif));
         }catch ( NotFoundTourneeEntityException e){
             throw new NotFoundEntityRestException(e.getMessage());
+        }catch (BadRequestException e){
+            throw new BadRequestRestException(e.getMessage());
         }
     }
 

@@ -21,7 +21,7 @@ public interface CommandeEndpoint {
 
     @Operation(description = "Get toutes les commandes")
     @ApiResponse(
-            responseCode = "201",
+            responseCode = "200",
             description = "Les commandes ont été récupérées"
     )
     @ApiResponse(
@@ -34,7 +34,7 @@ public interface CommandeEndpoint {
 
     @Operation(description = "Get commande by reference")
     @ApiResponse(
-            responseCode = "201",
+            responseCode = "200",
             description = "La commande a été récupérée par sa reference"
     )
     @ApiResponse(
@@ -47,7 +47,7 @@ public interface CommandeEndpoint {
 
     @Operation(description = "Get commandes group by client")
     @ApiResponse(
-            responseCode = "201",
+            responseCode = "200",
             description = "La commandes ont été récupérée "
     )
     @ApiResponse(
@@ -59,7 +59,7 @@ public interface CommandeEndpoint {
     Set<ClientCommandesPairResponseDTO> getCommandesGroupedByClient() ;
     @Operation(description = "update commande etat")
     @ApiResponse(
-            responseCode = "201",
+            responseCode = "200",
             description = "La commande a été update"
     )
     @ApiResponse(

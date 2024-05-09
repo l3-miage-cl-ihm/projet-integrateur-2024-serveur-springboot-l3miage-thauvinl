@@ -21,16 +21,13 @@ public class LivraisonResponseDTO {
     @Schema(description = "Montant de la livraison")
     private Double montant;
 
-    @Schema(description = "Distance parcourue")
-    private Double distanceParcourue;
+    @Schema(description = "Distance à parcourir")
+    private Double distanceAParcourir;
 
-    @Schema(description = "Temps de travail à l'aller")
+    @Schema(description = "Temps de trajet à l'aller")
     private Integer tdtALAller;
 
-    @Schema(description = "Temps de préparation théorique")
-    private Integer tdpTheorique;
-
-    @Schema(description = "Temps de déplacement théorique")
+    @Schema(description = "Temps de déchargement théorique")
     private Integer tddTheorique;
 
     @Schema(description = "Temps de montage théorique")
@@ -47,7 +44,7 @@ public class LivraisonResponseDTO {
     @Schema(description = "Temps de montage effectif")
     private Integer tdmEffectif;
 
-    @Schema(description = "les commanndes dans la livraison")
+    @Schema(description = "les commandes dans la livraison")
     private Set<CommandeResponseDTO> commandes;
 
 

@@ -1,7 +1,6 @@
 package fr.uga.l3miage.integrator.service;
 import fr.uga.l3miage.integrator.components.JourneeComponent;
 import fr.uga.l3miage.integrator.components.TourneeComponent;
-import fr.uga.l3miage.integrator.exceptions.rest.AddingTourneeRestException;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundJourneeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;

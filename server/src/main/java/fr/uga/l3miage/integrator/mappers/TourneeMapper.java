@@ -12,11 +12,12 @@ import org.mapstruct.Mapping;
 public interface TourneeMapper {
 
     @Mapping(target = "employeEntitySet", ignore = true)
-    @Mapping(target = "reference",ignore = true)
     @Mapping(target = "livraisons", ignore = true)
     TourneeEntity toEntity(TourneeCreationRequest request);
 
     @Mapping(target = "employeResponseDTOS", source = "employeEntitySet")
+    @Mapping(target = "livraisonResponseDTOS", source = "livraisons")
+    @Mapping(target = "camionResponseDTO", source = "camion")
     TourneeResponseDTO toResponse(TourneeEntity tourneeEntity);
 
 }

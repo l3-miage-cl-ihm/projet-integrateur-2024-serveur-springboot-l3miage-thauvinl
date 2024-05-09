@@ -6,22 +6,26 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@ActiveProfiles("test")
 public class JourneeRepositoryTest {
 
     @Autowired
     private JourneeRepository journeeRepository;
 
-    /*
+
     @Test
     void findJourneeByReference(){
         JourneeEntity journee = JourneeEntity.builder()
+                .date(new Date())
                 .reference("Test")
                 .build();
         journeeRepository.save(journee);
@@ -32,5 +36,5 @@ public class JourneeRepositoryTest {
         assertThat(vide).isEmpty();
     }
 
-     */
+
 }
