@@ -29,7 +29,7 @@ public class LivraisonEntity {
 
     private Integer tdtALAller;
 
-    private Integer tddTheorique;
+    //private Integer tddTheorique;
 
     private Integer tdmTheorique;
 

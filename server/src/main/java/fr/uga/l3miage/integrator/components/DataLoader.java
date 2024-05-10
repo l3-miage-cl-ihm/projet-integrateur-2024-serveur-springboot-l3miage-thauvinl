@@ -110,7 +110,7 @@ public class DataLoader implements CommandLineRunner {
                     p.setTitre(data[1]);
                     p.setDescription(data[2]);
                     p.setTempsDeMontageTheorique(data[3].isEmpty() ? null : Integer.parseInt(data[3]));
-                    p.setOptionDeMontage(Boolean.parseBoolean(data[4]));
+                    //p.setOptionDeMontage(Boolean.parseBoolean(data[4]));
                     p.setPrix(Double.parseDouble(data[5].replace("€", "").trim()));
                     return p;
                 })

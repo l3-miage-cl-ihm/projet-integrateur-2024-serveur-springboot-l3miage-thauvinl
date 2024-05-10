@@ -20,7 +20,6 @@ public class ProduitEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Double prix;
-    private Boolean optionDeMontage;
     private Integer tempsDeMontageTheorique;
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<LigneEntity> lignesProduits;
