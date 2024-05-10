@@ -4,10 +4,8 @@ import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
-import fr.uga.l3miage.integrator.repositories.ClientRepository;
-import fr.uga.l3miage.integrator.repositories.EmployeRepository;
-import fr.uga.l3miage.integrator.repositories.LigneRepository;
-import fr.uga.l3miage.integrator.repositories.ProduitRepository;
+import fr.uga.l3miage.integrator.repositories.*;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -31,7 +29,7 @@ public class DataLoader implements CommandLineRunner {
     private final ProduitRepository produitRepository;
     private final LigneRepository ligneRepository;
     private final EmployeRepository employeRepository;
-
+    private final CommandeRepository commandeRepository;
 
     @Override
     public void run(String... args) throws Exception{
@@ -134,6 +132,13 @@ public class DataLoader implements CommandLineRunner {
                             ligne.setMontant();
                             ligne.setOptionDeMontage(Boolean.parseBoolean(data[4]));
                             ligneRepository.save(ligne);
+                            CommandeEntity cmd= commandesDetails.get(commandeRef);
+                            ProduitEntity prod=produitRepository.findById(data[2]).orElse(null);
+                            cmd.setTdmTheorique(prod.getTempsDeMontageTheorique()+cmd.getTdmTheorique());
+                            cmd.setMontant(ligne.getQuantite()*prod.getPrix()+ cmd.getMontant());
+                            commandeRepository.save(cmd);
+
+
                         }
                     });
         }
