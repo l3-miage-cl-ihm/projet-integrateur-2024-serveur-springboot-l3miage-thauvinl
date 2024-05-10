@@ -1,25 +1,16 @@
 package fr.uga.l3miage.integrator.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import fr.uga.l3miage.integrator.dataType.Adresse;
+
 import fr.uga.l3miage.integrator.endpoints.LivraisonEndpoints;
-import fr.uga.l3miage.integrator.models.CommandeEntity;
-import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.responses.*;
-import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
-import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.Map;
+import java.sql.Time;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,7 +21,6 @@ public class LivraisonController implements LivraisonEndpoints{
     private LivraisonService livraisonService;
 
 
-    //plugin sonarelint
     @Override
     public List<LivraisonResponseDTO> getAllLivraisons() {
         return livraisonService.getAllLivraison();
@@ -52,7 +42,7 @@ public class LivraisonController implements LivraisonEndpoints{
     }
 
     @Override
-    public Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(String reference) throws Exception {
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpedByQtt(String reference)  {
 
         return livraisonService.getProduitsGrpByQtt(reference);
     }
@@ -60,6 +50,16 @@ public class LivraisonController implements LivraisonEndpoints{
     @Override
     public LivraisonResponseDTO updateEtat(String reference, String nvEtat) {
         return livraisonService.updateEtat(reference, nvEtat);
+    }
+
+    @Override
+    public LivraisonResponseDTO updateHeure(String reference, Time heure) {
+        return livraisonService.updateHeureEff(reference,heure);
+    }
+
+    @Override
+    public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm) {
+        return livraisonService.updateTdmEff(reference,tdm);
     }
 
 }

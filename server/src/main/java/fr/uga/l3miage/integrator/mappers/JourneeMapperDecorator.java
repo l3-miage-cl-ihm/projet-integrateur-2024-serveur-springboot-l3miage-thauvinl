@@ -7,7 +7,7 @@ import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.text.SimpleDateFormat;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,10 +26,6 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
 
         JourneeEntity journee = delegate.toEntity(request);
         journee.setReference(request.getReference());
-        /* VERSION REFERENCE CALCULÉ PAR ANGULAR
-        SimpleDateFormat sdf = new SimpleDateFormat("dd");
-        String day = sdf.format(journee.getDate());
-        journee.setReference("j0" + day + "G");*/
         journee.setTournees(new HashSet<>());
         return journee;
     }
@@ -46,9 +42,9 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
         }
         else{
             Set<TourneeResponseDTO> tourneeResponseDTOS = journee.getTournees().stream()
-                    .map(tourneeMapper::toResponse) // Utilisation de LivraisonMapper pour convertir
-                    .collect(Collectors.toSet()); // Collecter les résultats dans un Set
-            responseDTO.setTourneeResponseDTOS(tourneeResponseDTOS); // Affecter les DTOs de livraison au DTO de la tournée
+                    .map(tourneeMapper::toResponse)
+                    .collect(Collectors.toSet());
+            responseDTO.setTourneeResponseDTOS(tourneeResponseDTOS);
             responseDTO.setTempsDeMontageTheorique(responseDTO.getTourneeResponseDTOS().stream()
                     .mapToInt(TourneeResponseDTO::getTempsDeMontageTheorique)
                     .sum());

@@ -8,18 +8,16 @@ import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
-import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
-import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -66,23 +64,45 @@ public class LivraisonService {
             throw new RuntimeException();
         }
     }
-    public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference) throws Exception {
-        Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantite(reference);
 
-        Set<ProduitQuantiteResponseDTO> result = totalProd.stream()
-                .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
-                        .produit(produitMapper.toResponse(prodQuant.getProduit()))
-                        .quantite(prodQuant.getQuantite())
-                        .build())
-                .collect(Collectors.toSet());
+    public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference)  {
+       try {
+           Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
 
-        return result;
+           return totalProd.stream()
+                   .map(prodQuant -> ProduitQuantiteResponseDTO.builder()
+                           .produit(produitMapper.toResponse(prodQuant.getProduit()))
+                           .quantite(prodQuant.getQuantite())
+                           .build())
+                   .collect(Collectors.toSet());
+       }
+       catch (NotFoundLivraisonEntityException e){
+           throw new NotFoundEntityRestException(e.getMessage());
+       }
+
+
     }
 
     public LivraisonResponseDTO updateEtat(String reference, String nvEtat){
         try{
             return livraisonMapper.toResponse(livraisonComponent.updateEtat(reference, nvEtat));
         }catch (NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+    }
+
+
+    public LivraisonResponseDTO updateHeureEff(String reference, Time heure){
+        try{
+            return livraisonMapper.toResponse(livraisonComponent.updtateHeureEff(reference,heure));
+        }catch(NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+    }
+    public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm){
+        try{
+            return livraisonMapper.toResponse(livraisonComponent.updtateTDMEff(reference,tdm));
+        }catch(NotFoundLivraisonEntityException e){
             throw new NotFoundEntityRestException(e.getMessage());
         }
     }

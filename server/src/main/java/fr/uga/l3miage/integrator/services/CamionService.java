@@ -16,11 +16,10 @@ public class CamionService {
     private final CamionComponent camionComponent;
     private final CamionMapper camionMapper;
 
-    public List<CamionResponseDTO> getAllCamions(){
-        List<CamionEntity> camionEntityList = camionComponent.getAllCamions();
-        List<CamionResponseDTO> camionResponseDTOList = camionEntityList.stream()
-                .map(camionMapper::toResponse)
-                .collect(Collectors.toList());
-        return camionResponseDTOList;
+    public List<CamionResponseDTO> getAllCamions() {
+            List<CamionEntity> camionEntityList = camionComponent.getAllCamions();
+            return camionEntityList.stream()
+                    .map(camionMapper::toResponse)
+                    .collect(Collectors.toList());
     }
 }
