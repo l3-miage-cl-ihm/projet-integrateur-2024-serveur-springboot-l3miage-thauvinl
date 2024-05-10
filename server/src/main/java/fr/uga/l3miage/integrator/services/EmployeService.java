@@ -2,7 +2,6 @@ package fr.uga.l3miage.integrator.services;
 
 import fr.uga.l3miage.integrator.components.EmployeComponent;
 
-import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.mappers.EmployeMapper;
@@ -24,16 +23,6 @@ public class EmployeService {
     private final EmployeMapper employeMapper;
 
 
-    public Set<EmployeResponseDTO> getLivreursByTourneeId(String tourneeId) throws NotFoundTourneeEntityException {
-        try {
-            Set<EmployeEntity> livreurs = employeComponent.getLivreursByTourneeId(tourneeId);
-            return livreurs.stream()
-                    .map(employeMapper::toResponse)
-                    .collect(Collectors.toSet());
-        } catch (NotFoundTourneeEntityException e) {
-            throw new NotFoundTourneeEntityException(e.getMessage());
-        }
-    }
 
     public List<EmployeResponseDTO> getAllEmployes() {
             List<EmployeEntity> employes = employeComponent.getAllEmployes();
@@ -42,18 +31,6 @@ public class EmployeService {
                     .collect(Collectors.toList());
     }
 
-    public EmployeResponseDTO getEmployeById(String id) throws NotFoundEmployeEntityException {
-        try {
-            EmployeEntity employeEntity = employeComponent.getEmployeById(id);
-            if (employeEntity != null) {
-                return employeMapper.toResponse(employeEntity);
-            } else {
-                throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
-            }
-        } catch (NotFoundEmployeEntityException e) {
-            throw new NotFoundEmployeEntityException("Employé non trouvé avec l'ID: " + id);
-        }
-    }
 
 
     public Set<EmployeResponseDTO> getAllLivreurs() {
@@ -68,7 +45,8 @@ public class EmployeService {
             EmployeEntity livreur = employeComponent.getLivreurByEmail(email);
             return employeMapper.toResponse(livreur);
         } catch (NotFoundEmployeEntityException e) {
-            throw new NotFoundEntityRestException(e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 
