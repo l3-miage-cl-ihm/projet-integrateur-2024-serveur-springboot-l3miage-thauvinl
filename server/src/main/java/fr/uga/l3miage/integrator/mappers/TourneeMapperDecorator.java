@@ -1,6 +1,12 @@
 package fr.uga.l3miage.integrator.mappers;
 
+import fr.uga.l3miage.integrator.components.CamionComponent;
+import fr.uga.l3miage.integrator.components.EmployeComponent;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
@@ -21,15 +27,29 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     private LivraisonMapper livraisonMapper;
 
     @Autowired CamionMapper camionMapper;
+
+    @Autowired
+    private EmployeComponent employeComponent;
+
+    @Autowired
+    private CamionComponent camionComponent;
     @Override
     public TourneeEntity toEntity(TourneeCreationRequest request){
         TourneeEntity tournee= delegate.toEntity(request);
-        tournee.setReference(request.getReference());
         tournee.setLivraisons(new HashSet<>());
         tournee.setEmployeEntitySet(new HashSet<>());
+        request.getEmployesIds().forEach(id -> {
+            try {
+                EmployeEntity employe = employeComponent.getEmployeById(id);
+                tournee.addEmploye(employe);
+            }catch (NotFoundEmployeEntityException e){
+                throw new NotFoundEntityRestException(e.getMessage());
+            }
+        });
+        request.getLivraisons().stream().map(livraisonMapper::toEntity).forEach(tournee::addLivraison);
+        tournee.setCamion(camionComponent.getCamionByRef(request.getRefCamion()));
         return tournee;
     }
-
 
     @Override
     public TourneeResponseDTO toResponse(TourneeEntity tournee){
@@ -53,7 +73,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
                     .mapToDouble(LivraisonResponseDTO::getMontant)
                     .sum());
             responseDTO.setDistanceAParcourir(responseDTO.getLivraisonResponseDTOS().stream()
-                    .mapToDouble(LivraisonResponseDTO::getDistanceParcourue)
+                    .mapToDouble(LivraisonResponseDTO::getDistanceAParcourir)
                     .sum());
         }
         return responseDTO;

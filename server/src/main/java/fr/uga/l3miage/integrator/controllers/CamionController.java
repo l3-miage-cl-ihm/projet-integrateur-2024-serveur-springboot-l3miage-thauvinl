@@ -15,6 +15,4 @@ public class CamionController implements CamionEndpoints {
     public List<CamionResponseDTO> getAllCamions(){
         return camionService.getAllCamions();
     }
-
-
 }

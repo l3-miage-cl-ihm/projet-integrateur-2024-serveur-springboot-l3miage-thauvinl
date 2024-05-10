@@ -2,7 +2,7 @@ package fr.uga.l3miage.integrator.endpoints;
 
 
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
-import fr.uga.l3miage.integrator.errors.ResponseStatusErrorResponse;
+import fr.uga.l3miage.integrator.errors.BadRequestErrorResponse;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public interface JourneeEndpoints {
     @Operation(description = "Création d'une journée")
     @ApiResponse(responseCode = "201", description = "La journée a bien été créée")
-    @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête", content = {@Content(schema = @Schema(implementation = ResponseStatusErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête", content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);
@@ -34,5 +34,6 @@ public interface JourneeEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{idJournee}")
     JourneeResponseDTO getJournee(@PathVariable(name = "idJournee") String idJournee);
+
 
 }

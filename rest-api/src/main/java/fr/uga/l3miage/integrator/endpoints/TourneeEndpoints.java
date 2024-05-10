@@ -2,6 +2,7 @@ package fr.uga.l3miage.integrator.endpoints;
 
 
 
+import fr.uga.l3miage.integrator.errors.BadRequestErrorResponse;
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,12 @@ public interface TourneeEndpoints {
             responseCode = "404",
             description = "La tournée n'a pas été trouvée"
     )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Le tdm passé en paramètre n'est pas un entier naturel",
+            content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class))}
+    )
+
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/updateEtat/{reference}")
     TourneeResponseDTO updateEtat(@PathVariable String reference, @RequestParam String nvEtat);
