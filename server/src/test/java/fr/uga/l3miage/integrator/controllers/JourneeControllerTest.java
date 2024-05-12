@@ -8,6 +8,8 @@ import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
+import fr.uga.l3miage.integrator.requests.LivraisonCreationRequest;
+import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.JourneeService;
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -29,145 +32,136 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-/*@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
+@ActiveProfiles("test")
 public class JourneeControllerTest {
-    @Autowired
-    private TestRestTemplate testRestTemplate;
 
     @Autowired
     private JourneeRepository journeeRepository;
 
     @Autowired
-    TourneeRepository tourneeRepository;
-
-    @SpyBean
-    JourneeComponent journeeComponent;
-
-    @SpyBean
-    TourneeComponent tourneeComponent;
-
-    @SpyBean
-    JourneeService journeeService;
+    private TestRestTemplate testRestTemplate;
 
     @AfterEach
-    public void clearDatabase() {
+    void deleteAll(){
         journeeRepository.deleteAll();
-        tourneeRepository.deleteAll();
     }
-
     @Test
-    void createJourneeSuccess(){
-        //given
-        final HttpHeaders headers = new HttpHeaders();
-
-        final JourneeCreationRequest request = JourneeCreationRequest
-                .builder()
-                .reference("Test")
-                .tournees(Set.of())
+    public void getJourneeByRefSuccess(){
+        JourneeEntity journee = JourneeEntity.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
                 .build();
-
-        // when
-        ResponseEntity<JourneeResponseDTO> response = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request, headers), JourneeResponseDTO.class);
-
-        //then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(journeeRepository.count()).isEqualTo(1);
-        verify(journeeComponent, times(1)).createJournee(any(JourneeEntity.class));
-    }
-
-    @Test
-    void createJourneeFail(){
-        //given
-        final HttpHeaders headers = new HttpHeaders();
-
-        final JourneeCreationRequest request = JourneeCreationRequest
-                .builder()
-                .reference(null)
-                .tournees(Set.of())
-                .build();
-        //when
-        ResponseEntity<String> response = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request, headers), String.class);
-        //then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    void getJourneeSuccess(){
-        final JourneeCreationRequest request = JourneeCreationRequest
-                .builder()
-                .reference("Trouve")
-                .tournees(Set.of())
-                .build();
-
-        final HttpHeaders headers = new HttpHeaders();
-
-        final Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("idJournee", "Trouve");
-
-        JourneeResponseDTO expectedResponse= journeeService.createJournee(request);
-        ResponseEntity<JourneeResponseDTO> response = testRestTemplate.exchange("/api/journees/{idJournee}", HttpMethod.GET, new HttpEntity<>(null, headers), JourneeResponseDTO.class, urlParams);
-
-        //then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(expectedResponse);
-        verify(journeeService, times(1)).createJournee(any(JourneeCreationRequest.class));
-        verify(journeeComponent, times(1)).createJournee(any(JourneeEntity.class));
-    }
-
-    @Test
-    void getJourneeNotFound(){
-        //Given
-        final HttpHeaders headers = new HttpHeaders();
-
-        final Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("idJournee", "NonExistant");
-
-        NotFoundErrorResponse notFoundErrorResponseExpected = NotFoundErrorResponse
-                .builder()
-                .uri("/api/journees/NonExistant")
-                .errorMessage("La journée [NonExistant] n'a pas été trouvée")
-                .build();
-
-        //when
-        ResponseEntity<NotFoundErrorResponse> response = testRestTemplate.exchange("/api/journees/{idJournee}", HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
-
-        //then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody()).usingRecursiveComparison()
-                .isEqualTo(notFoundErrorResponseExpected);
-    }
-    /*@Transactional
-    @Test
-    void addTourneeInJourneeSucces() {
-        //Given
-        final JourneeCreationRequest request = JourneeCreationRequest.builder()
-                .reference("Test")
-                .tournees(Set.of())
-                .build();
-        final TourneeEntity tournee = TourneeEntity.builder()
-                .reference("T001")
-                .build();
-
+        journeeRepository.save(journee);
         final HttpHeaders headers = new HttpHeaders();
         final Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("idJournee", "Test");
-        urlParams.put("idTournee", "T001");
-
-        //When
-        JourneeResponseDTO journeeResponseDTO = journeeService.createJournee(request);
-        TourneeEntity registered = tourneeRepository.save(tournee);
-
-        //Add song to playlist through its service
-        JourneeResponseDTO expectedResponse = journeeService.addTourneeInJournee(journeeResponseDTO.getReference(), registered.getReference());
-
-        //targeting the endpoint
-        ResponseEntity<JourneeResponseDTO> response = testRestTemplate.exchange("/api/journees/{idJournee}/add?idTournee={idTournee}", HttpMethod.PATCH, new HttpEntity<>(headers), JourneeResponseDTO.class, urlParams);
-
-        //Then  -- assertions
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(expectedResponse);
-        verify(journeeService, times(2)).addTourneeInJournee(any(String.class), any(String.class));
+        urlParams.put("idJournee", "test");
+        JourneeResponseDTO expected = JourneeResponseDTO.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
+                .montant(0.0)
+                .tempsDeMontageTheorique(0)
+                .distanceAParcourir(0.0)
+                .tourneeResponseDTOS(new HashSet<>())
+                .build();
+        ResponseEntity<JourneeResponseDTO> actual = testRestTemplate.exchange("/api/journees/{idJournee}", HttpMethod.GET, new HttpEntity<>(null, headers), JourneeResponseDTO.class, urlParams);
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
     }
-}*/
+
+    @Test
+    public void getJourneeByRefShouldReturn404Status(){
+        final HttpHeaders headers = new HttpHeaders();
+        final Map<String, Object> urlParams = new HashMap<>();
+        urlParams.put("idJournee", "testNotFound");
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/journees/testNotFound")
+                .errorMessage("La journée [testNotFound] n'a pas été trouvée")
+                .build();
+        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/journees/{idJournee}", HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void createJourneeSuccess(){
+        JourneeCreationRequest request = JourneeCreationRequest.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
+                .tournees(Set.of())
+                .build();
+        final HttpHeaders headers = new HttpHeaders();
+        JourneeResponseDTO expected = JourneeResponseDTO.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
+                .montant(0.0)
+                .tempsDeMontageTheorique(0)
+                .distanceAParcourir(0.0)
+                .tourneeResponseDTOS(new HashSet<>())
+                .build();
+        ResponseEntity<JourneeResponseDTO> actual = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request,headers), JourneeResponseDTO.class);
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void createJourneeNotFoundEmployeShouldReturn404StatusCode(){
+        Set<String> employeIds = new HashSet<>();
+        employeIds.add("NotFound");
+        TourneeCreationRequest tourneeCreationRequest = TourneeCreationRequest.builder()
+                .reference("testTournee")
+                .employesIds(employeIds)
+                .build();
+        Set<TourneeCreationRequest> tournees = new HashSet<>();
+        tournees.add(tourneeCreationRequest);
+        JourneeCreationRequest request = JourneeCreationRequest.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
+                .tournees(tournees)
+                .build();
+        final HttpHeaders headers = new HttpHeaders();
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/journees/create")
+                .errorMessage("L'employé d'id NotFound n'existe pas")
+                .build();
+        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request, headers), NotFoundErrorResponse.class);
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    public void createJourneeCommandeNotFoundShouldReturn404StatusCode(){
+        Set<String> commandeRefs = new HashSet<>();
+        commandeRefs.add("NotFound");
+        Set<LivraisonCreationRequest> livraisons = new HashSet<>();
+        LivraisonCreationRequest livraisonCreationRequest = LivraisonCreationRequest.builder()
+                .reference("testLivraison")
+                .refCommande(commandeRefs)
+                .build();
+        livraisons.add(livraisonCreationRequest);
+        Set<TourneeCreationRequest> tournees = new HashSet<>();
+        TourneeCreationRequest tourneeCreationRequest = TourneeCreationRequest.builder()
+                .reference("testTournee")
+                .livraisons(livraisons)
+                .employesIds(Set.of())
+                .build();
+        tournees.add(tourneeCreationRequest);
+        JourneeCreationRequest request = JourneeCreationRequest.builder()
+                .reference("test")
+                .date(new Date(2024,01,04))
+                .tournees(tournees)
+                .build();
+
+        final  HttpHeaders headers = new HttpHeaders();
+
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/journees/create")
+                .errorMessage("La commande de référence NotFound est introuvable")
+                .build();
+        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request, headers), NotFoundErrorResponse.class);
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
+    }
+}

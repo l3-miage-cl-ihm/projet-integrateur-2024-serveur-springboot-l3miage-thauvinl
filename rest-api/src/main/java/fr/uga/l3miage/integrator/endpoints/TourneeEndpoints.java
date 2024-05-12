@@ -29,23 +29,19 @@ public interface TourneeEndpoints {
     @Operation(description = "Mettre à jour le temps de montage effectif d'une tournée")
     @ApiResponse(responseCode = "200", description = "Le temps de montage effectif a pu être mis à jour")
     @ApiResponse(responseCode = "404", description = "La tournée à mettre à jour est introuvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "400", description = "L'état passé en paramètre n'est pas un entier naturel", content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class))})
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("updateTdm/{reference}")
     TourneeResponseDTO updateTdmEffectifTournee(@PathVariable String reference, @RequestParam Integer tdmEffectif);
 
     @Operation(description = "update tournée etat")
     @ApiResponse(
-            responseCode = "201",
+            responseCode = "200",
             description = "La tournée a été update"
     )
     @ApiResponse(
             responseCode = "404",
             description = "La tournée n'a pas été trouvée"
-    )
-    @ApiResponse(
-            responseCode = "400",
-            description = "Le tdm passé en paramètre n'est pas un entier naturel",
-            content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class))}
     )
 
     @ResponseStatus(HttpStatus.OK)
