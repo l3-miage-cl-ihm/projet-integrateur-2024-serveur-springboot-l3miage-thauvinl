@@ -2,6 +2,7 @@ package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
@@ -94,7 +95,7 @@ public class LivraisonComponentTest {
         verify(livraisonRepository, times(1)).save(livraisonEntityToSave);
     }
     @Test
-    void getAdresseClientFromLivraisonOK() {
+    void getAdresseClientFromLivraisonOK() throws NotFoundClientEntityExeption {
         // Given
         Adresse adresseClient = new Adresse();
         adresseClient.setAdresse("rue centrale");
@@ -120,7 +121,7 @@ public class LivraisonComponentTest {
     }
 
     @Test
-    void getAdresseClientFromLivraisonNOTOK() {
+    void getAdresseClientFromLivraisonNOTOK() throws NotFoundClientEntityExeption {
         // Given
 
         LivraisonEntity livraisonEntity = new LivraisonEntity();
@@ -155,7 +156,7 @@ public class LivraisonComponentTest {
         when(commandeComponent.getProduitsGroupedByQtt(any())).thenReturn(Set.of(prodQtt));
 
         // When
-        Set<CommandeComponent.ProduitQuantite> produits = livraisonComponent.getProduitsGrpdByQuantite("ref123");
+        Set<CommandeComponent.ProduitQuantite> produits = livraisonComponent.getProduitsGrpdByQuantité("ref123");
 
         // Then
         assertEquals(1,produits.size());
@@ -171,7 +172,7 @@ public class LivraisonComponentTest {
         when(commandeComponent.getProduitsGroupedByQtt(any())).thenReturn(Set.of());
 
         // When
-        Set<CommandeComponent.ProduitQuantite> produits = livraisonComponent.getProduitsGrpdByQuantite("ref123");
+        Set<CommandeComponent.ProduitQuantite> produits = livraisonComponent.getProduitsGrpdByQuantité("ref123");
 
 
         // Then
