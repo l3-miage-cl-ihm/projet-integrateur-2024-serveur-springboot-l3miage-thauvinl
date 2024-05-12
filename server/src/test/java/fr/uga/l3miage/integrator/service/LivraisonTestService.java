@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.service;
 import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
@@ -32,6 +33,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -76,7 +78,7 @@ public class LivraisonTestService{
     }
 
     @Test
-    public void getLivraisonByReference() throws NotFoundLivraisonEntityException {
+    public void getLivraisonByReferenceOK() throws NotFoundLivraisonEntityException {
         // Given
         String reference = "123";
         LivraisonEntity livraisonEntity = new LivraisonEntity();
@@ -90,6 +92,13 @@ public class LivraisonTestService{
         // Then
         assertEquals(livraisonResponseDTO, result);
     }
+    @Test
+    public void getLivraisonByReferenceNOTOK() throws NotFoundLivraisonEntityException {
+
+        when(livraisonComponent.getLivraisonByReference(any())).thenThrow(NotFoundLivraisonEntityException.class);
+        assertThrows(NotFoundEntityRestException.class, () -> livraisonService.getLivraisonByReference("ref123"));
+    }
+
     @Test
     public void countElementsInRepo(){
         //Given
@@ -105,7 +114,7 @@ public class LivraisonTestService{
 
     }
     @Test
-    public void getAdresseClientFromLivraison() throws NotFoundLivraisonEntityException, NotFoundClientEntityExeption {
+    public void getAdresseClientFromLivraisonOK() throws NotFoundLivraisonEntityException, NotFoundClientEntityExeption {
         //Given
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();
         livraisonComponent.save(livraisonEntity1);
@@ -123,6 +132,7 @@ public class LivraisonTestService{
         assertEquals(adresseResponseDTO,adresseResponseDTO2);
 
     }
+
     @Test
     public void getProduitsGrpByQtt() throws Exception {
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();

@@ -33,8 +33,8 @@ public class CommandeService {
             CommandeEntity commande= commandeComponent.getCommandeByReference(reference);
             return commandeMapper.toResponse(commande);
 
-        } catch (Exception e){
-            throw new RuntimeException();
+        } catch (NotFoundCommandeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
     public Set<CommandeResponseDTO> getAllCommandes() {

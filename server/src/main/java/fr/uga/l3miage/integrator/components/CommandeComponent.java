@@ -102,23 +102,7 @@ public class CommandeComponent {
         return commandeRepository.save(commande);
     }
     /***********************************CLASSES STATIC*************************/
-    public static class ClientCommandesPair {
-        private final Adresse adresse;
-        private final Set<CommandeEntity> commandes;
 
-        public ClientCommandesPair(Adresse adresse, Set<CommandeEntity> commandes) {
-            this.adresse = adresse;
-            this.commandes = commandes;
-        }
-
-        public Adresse getAdresse() {
-            return adresse;
-        }
-
-        public Set<CommandeEntity> getCommandes() {
-            return commandes;
-        }
-    }
     public static class ProduitQuantite {
         private ProduitEntity produit;
         private int quantite;

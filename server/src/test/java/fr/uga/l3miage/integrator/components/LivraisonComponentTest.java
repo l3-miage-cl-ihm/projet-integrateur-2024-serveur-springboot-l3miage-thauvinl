@@ -64,7 +64,7 @@ public class LivraisonComponentTest {
     }
     @Test
     public void getLivraisonByReferenceNOTOK(){
-        //LivraisonEntity livraison=LivraisonEntity.builder().build();
+
         when(livraisonRepository.findLivraisonEntityByReference(any())).thenReturn(Optional.empty());
         assertThrows(NotFoundLivraisonEntityException.class,()->livraisonComponent.getLivraisonByReference(any()));
     }
