@@ -15,8 +15,10 @@ public class CamionComponent {
     public List<CamionEntity> getAllCamions(){
         return camionRepository.findAll();
     }
-    public CamionEntity getCamionByRef(String ref){
-        return camionRepository.findCamionEntityByImmatriculation(ref);
+    public CamionEntity getCamionByRef(String ref) {
+
+        return camionRepository.findCamionEntityByImmatriculation(ref)
+                .orElseThrow(() -> new RuntimeException("Camion not found with ref: " + ref));
     }
 
 }

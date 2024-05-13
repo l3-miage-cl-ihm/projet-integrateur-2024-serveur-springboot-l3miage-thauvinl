@@ -35,7 +35,6 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect")
 public class EmployeControllerTest {
-    /*
 
     @Autowired
     EmployeRepository employeRepository;
@@ -58,6 +57,6 @@ public class EmployeControllerTest {
         Set<EmployeResponseDTO> expectedResponse = new HashSet<>();
     }
 
-     */
+
 
 }
