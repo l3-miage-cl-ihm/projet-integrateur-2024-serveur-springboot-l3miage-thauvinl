@@ -1,7 +1,9 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
+import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
@@ -19,7 +21,20 @@ import java.util.stream.Collectors;
 public class EmployeComponent {
     private final EmployeRepository employeRepository;
     private final TourneeRepository tourneeRepository;
-
+    
+    public Set<EmployeEntity> getLivreursByTourneeId(String tourneeId) throws NotFoundTourneeEntityException {
+        Optional<TourneeEntity> tourneeOptional = tourneeRepository.findById(tourneeId);
+        if (tourneeOptional.isPresent()) {
+            TourneeEntity tournee = tourneeOptional.get();
+            // Filtrer les employés pour ne garder que ceux qui sont des livreurs
+            return tournee.getEmployeEntitySet().stream()
+                    .filter(employe -> employe.getEmploi() == Emploi.livreur)
+                    .collect(Collectors.toSet());
+        } else {
+            // Gérer le cas où la tournée n'existe pas
+            throw new NotFoundTourneeEntityException("Tournée non trouvée avec l'ID : " + tourneeId);
+        }
+    }
 
     public List<EmployeEntity> getAllEmployes() {
             return employeRepository.findAll().stream().collect(Collectors.toList());

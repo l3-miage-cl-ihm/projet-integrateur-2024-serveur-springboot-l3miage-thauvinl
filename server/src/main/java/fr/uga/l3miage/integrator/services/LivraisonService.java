@@ -5,6 +5,7 @@ import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
+import fr.uga.l3miage.integrator.mappers.CommandeMapper;
 import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
@@ -30,6 +31,7 @@ public class LivraisonService {
     private final LivraisonMapper livraisonMapper;
     private final AdresseMapper adresseMapper;
     private final ProduitMapper produitMapper;
+
     public List<LivraisonResponseDTO> getAllLivraison() {
         List<LivraisonEntity> livraisons = livraisonComponent.getAllLivraison();
         List<LivraisonResponseDTO> livraisonsDTO = new ArrayList<>();
@@ -64,6 +66,7 @@ public class LivraisonService {
             throw new RuntimeException();
         }
     }
+
     public Set<ProduitQuantiteResponseDTO> getProduitsGrpByQtt(String reference)  {
        try {
            Set<CommandeComponent.ProduitQuantite> totalProd = livraisonComponent.getProduitsGrpdByQuantité(reference);
@@ -78,6 +81,7 @@ public class LivraisonService {
        catch (NotFoundLivraisonEntityException e){
            throw new NotFoundEntityRestException(e.getMessage());
        }
+
 
     }
 

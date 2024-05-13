@@ -40,6 +40,9 @@ public class CommandeController implements CommandeEndpoint {
     public CommandeResponseDTO updateEtat(String reference, String nvEtat) {
         return commandeService.updateEtat(reference,nvEtat);
     }
-
+    @Override
+    public Set<CommandeResponseDTO> getAllCommandeByLivraison(String reference){
+        return commandeService.getAllCommandeByLivraison(reference);
+    }
 
 }

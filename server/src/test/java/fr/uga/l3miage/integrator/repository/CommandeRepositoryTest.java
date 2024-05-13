@@ -8,16 +8,22 @@ import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/*@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@AutoConfigureTestDatabase
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@ActiveProfiles("test")
 public class CommandeRepositoryTest {
 
     @Autowired
@@ -27,32 +33,32 @@ public class CommandeRepositoryTest {
     private LivraisonRepository livraisonRepository;
 
     @Test
-    public void testFindCommandeEntitiesByReference() {
-        // Création d'une commande avec une référence
-        CommandeEntity commande = new CommandeEntity();
-        commande.setReference("CMD123");
-        commandeRepository.save(commande);
+    public void testFindCommandeEntityByReference() {
+        String reference = "ref123";
 
-        // Recherche de la commande par référence
-        CommandeEntity commandesTrouvees = commandeRepository.findCommandeEntitiesByReference("CMD123");
+        CommandeEntity commandeEntity = CommandeEntity.builder()
+                .reference(reference)
+                .build();
 
-        // Vérification que la commande trouvée est celle que nous avons enregistrée
-        assertEquals(1, commandesTrouvees.size());
-        assertEquals("CMD123", commandesTrouvees.iterator().next().getReference());
+        commandeRepository.save(commandeEntity);
+        Optional<CommandeEntity> result = commandeRepository.findCommandeEntityByReference(reference);
+
+        assertTrue(result.isPresent());
+        assertEquals(commandeEntity.getReference(), result.get().getReference());
     }
 
 
     @Test
     public void testFindCommandeEntitiesByLivraisonEntity() {
-        // Création d'une livraison
+
         LivraisonEntity livraison = new LivraisonEntity();
         livraison.setReference("Livraison1");
         livraisonRepository.save(livraison);
-        // Création de deux commandes associées à cette livraison
+
         CommandeEntity commande1 = new CommandeEntity();
         commande1.setReference("CMD1");
         commande1.setLivraison(livraison);
-        //commande1.setLivraisonEntity(livraison);
+
 
         CommandeEntity commande2 = new CommandeEntity();
         commande2.setReference("CMD2");
@@ -60,10 +66,10 @@ public class CommandeRepositoryTest {
 
         commandeRepository.saveAll(Set.of(commande1, commande2));
 
-        // Recherche des commandes par livraison
+
         Set<CommandeEntity> commandesTrouvees = commandeRepository.findCommandeEntitiesByLivraison(livraison);
 
-        // Vérification que les commandes trouvées sont celles associées à la livraison
+
         assertEquals(2, commandesTrouvees.size());
         Set<String> references = new HashSet<>();
         for (CommandeEntity commande : commandesTrouvees) {
@@ -73,4 +79,4 @@ public class CommandeRepositoryTest {
 
     }
 
-}*/
+}

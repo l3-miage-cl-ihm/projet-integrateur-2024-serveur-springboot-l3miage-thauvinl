@@ -15,7 +15,7 @@ public class EmployeResponseDTO {
     private String prenom;
     @Schema(description = "Nom de l'employé")
     private String nom;
-    @Schema(description = "Téléphone de l'employé")
+    @Schema(description = "numéro de téléphone de l'employé")
     private String telephone;
     @Schema(description = "Emploi de l'employe")
     private String emploi;
