@@ -20,7 +20,7 @@ public abstract class CommandeMapperDecorator implements CommandeMapper{
         else {
 
             responseDTO.setTdmTheorique(commande.getLignesCommandes().stream()
-                    .filter(ligne -> ligne.getProduit().getOptionDeMontage())
+
                     .mapToInt(ligne -> ligne.getProduit().getTempsDeMontageTheorique() * ligne.getQuantite())
                     .sum());
             responseDTO.setMontant(commande.getLignesCommandes().stream()
