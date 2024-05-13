@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public interface JourneeEndpoints {
     @Operation(description = "Création d'une journée")
     @ApiResponse(responseCode = "201", description = "La journée a bien été créée")
+    @ApiResponse(responseCode = "404", description = "Employé ou commande non trouvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête", content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")

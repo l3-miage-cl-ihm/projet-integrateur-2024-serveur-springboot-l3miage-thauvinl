@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.service;
 import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -72,7 +74,7 @@ public class LivraisonTestService{
     }
 
     @Test
-    public void getLivraisonByReference() throws NotFoundLivraisonEntityException {
+    public void getLivraisonByReferenceOK() throws NotFoundLivraisonEntityException {
         // Given
         String reference = "123";
         LivraisonEntity livraisonEntity = new LivraisonEntity();
@@ -86,6 +88,13 @@ public class LivraisonTestService{
         // Then
         assertEquals(livraisonResponseDTO, result);
     }
+    @Test
+    public void getLivraisonByReferenceNOTOK() throws NotFoundLivraisonEntityException {
+
+        when(livraisonComponent.getLivraisonByReference(any())).thenThrow(NotFoundLivraisonEntityException.class);
+        assertThrows(NotFoundEntityRestException.class, () -> livraisonService.getLivraisonByReference("ref123"));
+    }
+
     @Test
     public void countElementsInRepo(){
         //Given
@@ -119,6 +128,7 @@ public class LivraisonTestService{
         assertEquals(adresseResponseDTO,adresseResponseDTO2);
 
     }
+
     @Test
     public void getProduitsGrpByQtt() throws Exception {
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();
@@ -133,8 +143,8 @@ public class LivraisonTestService{
 
         Set<ProduitQuantiteResponseDTO> totProd=livraisonService.getProduitsGrpByQtt("ref123");
         ProduitResponseDTO produitResp = totProd.stream()
-                .map(ProduitQuantiteResponseDTO::getProduit) // Utilisez la référence de méthode pour accéder à la méthode getProduit
-                .findFirst() // Obtenez le premier ProduitResponseDTO du flux
+                .map(ProduitQuantiteResponseDTO::getProduit)
+                .findFirst()
                 .orElse(null);
         assertEquals(produitResponseDTO, produitResp);
 

@@ -40,6 +40,7 @@ public class LivraisonComponent {
         return commandeComponent.findClientAdressByCommande(cmTmp);
     }
 
+
     public Set<CommandeComponent.ProduitQuantite> getProduitsGrpdByQuantité(String ref) throws NotFoundLivraisonEntityException {
         try {
             if (livraisonRepository.findLivraisonEntityByReference(ref).isPresent()) {
@@ -71,4 +72,5 @@ public class LivraisonComponent {
         livraison.setTdmEffectif(tdm);
         return livraisonRepository.save(livraison);
     }
+
 }

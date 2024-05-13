@@ -4,6 +4,7 @@ import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.responses.ClientCommandesPairResponseDTO;
@@ -33,8 +34,8 @@ public class CommandeService {
             CommandeEntity commande= commandeComponent.getCommandeByReference(reference);
             return commandeMapper.toResponse(commande);
 
-        } catch (Exception e){
-            throw new RuntimeException();
+        } catch (NotFoundCommandeEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
     public Set<CommandeResponseDTO> getAllCommandes() {
@@ -81,6 +82,17 @@ public class CommandeService {
         }catch (NotFoundCommandeEntityException e){
             throw new NotFoundEntityRestException(e.getMessage());
         }
+    }
+    public Set<CommandeResponseDTO> getAllCommandeByLivraison(String reference){
+        try{Set<CommandeEntity> commandes = commandeComponent.getAllCommandeByLivraison(reference);
+            return commandes.stream()
+                    .map(commandeMapper::toResponse)
+                    .collect(Collectors.toSet());
+        } catch (
+                NotFoundLivraisonEntityException e) {
+            throw new NotFoundEntityRestException(e.getMessage());
+        }
+
     }
 }
 
