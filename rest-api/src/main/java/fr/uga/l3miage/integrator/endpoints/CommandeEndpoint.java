@@ -82,4 +82,18 @@ public interface CommandeEndpoint {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/updateDate/{reference}")
     CommandeResponseDTO updateDateDeLivraison(@PathVariable String reference, @RequestParam String date);
+
+    @Operation(description = "Get commandes de livraisons")
+    @ApiResponse(
+            responseCode = "201",
+            description = "La commandes ont été récupérée "
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Une erreur s'est produite avec la requête de getAllcommandeByLivraison"
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/AllCommandesByLivraison/{reference}")
+    Set<CommandeResponseDTO> getAllCommandeByLivraison(@PathVariable String reference) ;
+
 }

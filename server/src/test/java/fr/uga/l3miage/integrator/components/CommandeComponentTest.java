@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
@@ -11,6 +12,7 @@ import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -39,6 +42,8 @@ public class CommandeComponentTest {
 
     @MockBean
     private ClientRepository clientRepository;
+    @MockBean
+    private LivraisonRepository livraisonRepository;
 
     @Autowired
     private CommandeComponent commandeComponent;
@@ -85,16 +90,18 @@ public class CommandeComponentTest {
    }
 
     @Test
-    public void testGetAllCommandeByLivraison() {
+    public void testGetAllCommandeByLivraison() throws NotFoundLivraisonEntityException {
         // Given
         LivraisonEntity livraisonEntity = new LivraisonEntity();
+        livraisonEntity.setReference("ref123");
         Set<CommandeEntity> expectedCommandes = new HashSet<>();
-        when(commandeRepository.findCommandeEntitiesByLivraison(livraisonEntity)).thenReturn(expectedCommandes);
+        livraisonEntity.setCommandes(expectedCommandes);
+        when(livraisonRepository.findLivraisonEntityByReference(any())).thenReturn(Optional.of(livraisonEntity));
         // When
-        Set<CommandeEntity> actualCommandes = commandeComponent.getAllCommandeByLivraison(livraisonEntity);
+        Set<CommandeEntity> actualCommandes = commandeComponent.getAllCommandeByLivraison("ref123");
         // Then
         assertEquals(expectedCommandes, actualCommandes);
-        verify(commandeRepository, times(1)).findCommandeEntitiesByLivraison(livraisonEntity);
+
     }
     /*
     @Test
@@ -139,25 +146,20 @@ public class CommandeComponentTest {
 
         assertEquals(EtatDeCommande.livree, updatedCommande.getEtat());
     }
-/*
+
     @Test
-    void testUpdateDateDeLivraison() throws NotFoundCommandeEntityException {
-
-        LocalDateTime dateDeLivraisonEffective = LocalDateTime.of(2024, 5, 10, 12, 30,00);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
-
-        String date = dateDeLivraisonEffective.format(formatter);
-
+    void updateDateDeLivraisonEffectiveSuccess() throws NotFoundCommandeEntityException {
         CommandeEntity commande = CommandeEntity.builder()
-                .reference("ref123")
-
+                .reference("test")
+                .dateDeCreation(LocalDateTime.of(2024,4,3,15,30,0))
                 .build();
+        String dateDeLivraisonEffective = "2024-04-15T01:30:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime livraisonEffective = LocalDateTime.parse(dateDeLivraisonEffective,formatter);
+        when(commandeRepository.findCommandeEntityByReference(any(String.class))).thenReturn(Optional.of(commande));
         when(commandeRepository.save(any(CommandeEntity.class))).thenReturn(commande);
-        when(commandeRepository.findCommandeEntityByReference(any())).thenReturn(Optional.of(commande));
-
-        CommandeEntity updatedCommande = commandeComponent.updateDateDeLivraison("ref123", date);
-        System.out.println(updatedCommande.getDateDeLivraisonEffective());
-       // assertEquals(dateDeLivraisonEffective, updatedCommande.getDateDeLivraisonEffective());
-    }*/
+        CommandeEntity actual = commandeComponent.updateDateDeLivraison("test",dateDeLivraisonEffective);
+        assertThat(actual.getReference()).isEqualTo(commande.getReference());
+        assertThat(actual.getDateDeLivraisonEffective()).isEqualTo(livraisonEffective);
+    }
 }

@@ -72,4 +72,5 @@ public class LivraisonComponent {
         livraison.setTdmEffectif(tdm);
         return livraisonRepository.save(livraison);
     }
+
 }

@@ -3,10 +3,12 @@ package fr.uga.l3miage.integrator.components;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.ClientRepository;
 import fr.uga.l3miage.integrator.repositories.CommandeRepository;
+import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
@@ -23,13 +25,15 @@ import java.util.stream.Collectors;
 public class CommandeComponent {
     private final CommandeRepository commandeRepository;
     private final ClientRepository clientRepository;
+    private final LivraisonRepository livraisonRepository;
 
     public CommandeEntity getCommandeByReference(String reference) throws NotFoundCommandeEntityException{
         return commandeRepository.findCommandeEntityByReference(reference).orElseThrow(() -> new NotFoundCommandeEntityException(String.format("La commande de référence %s est introuvable", reference)));
     }
 
-    public Set<CommandeEntity> getAllCommandeByLivraison(LivraisonEntity L){
-        return commandeRepository.findCommandeEntitiesByLivraison(L);
+    public Set<CommandeEntity> getAllCommandeByLivraison(String reference) throws  NotFoundLivraisonEntityException{
+        LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(() -> new NotFoundLivraisonEntityException("Livraison not found for reference: " + reference));
+        return livraison.getCommandes();
     }
     public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
         ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
@@ -101,6 +105,7 @@ public class CommandeComponent {
         commande.setDureeDeLivraison((int)ChronoUnit.DAYS.between(commande.getDateDeCreation(),commande.getDateDeLivraisonEffective()));
         return commandeRepository.save(commande);
     }
+
     /***********************************CLASSES STATIC*************************/
 
     public static class ProduitQuantite {
