@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CamionController implements CamionEndpoints {
     private final CamionService camionService;
+    @Override
     public List<CamionResponseDTO> getAllCamions(){
         return camionService.getAllCamions();
     }

@@ -86,9 +86,7 @@ public class LivraisonControllerTest {
                 .builder()
                 .reference("ref123")
                 .commandes(Set.of())
-
-                
-
+                .distanceAParcourir(0.0)
                 .montant(0.0)
                 .tdmTheorique(0)
                 .build();
@@ -115,8 +113,8 @@ public class LivraisonControllerTest {
                                                 .builder()
                                                 .reference("ref123")
                                                 .commandes(Set.of())
+      .montant(0.0)
 
-                .montant(0.0)
                                                 .tdmTheorique(0)
                                                 .build();
         ResponseEntity<LivraisonResponseDTO> actual=testRestTemplate.exchange("/api/livraisons/{reference}", HttpMethod.GET, new HttpEntity<>(null, headers), LivraisonResponseDTO.class, urlParams);

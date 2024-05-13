@@ -26,5 +26,5 @@ public interface CamionEndpoints {
             )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/AllCamions")
-    public List<CamionResponseDTO> getAllCamions();
+    List<CamionResponseDTO> getAllCamions();
 }
