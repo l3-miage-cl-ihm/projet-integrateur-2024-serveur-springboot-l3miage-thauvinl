@@ -1,7 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.*;
@@ -12,8 +12,6 @@ import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import fr.uga.l3miage.integrator.dataType.Adresse;
-
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -35,14 +33,14 @@ public class CommandeComponent {
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(() -> new NotFoundLivraisonEntityException("Livraison not found for reference: " + reference));
         return livraison.getCommandes();
     }
-    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityExeption {
-        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityExeption(String.format("Le clienr dont la commande est %s est introuvable",commande)));;
+    public ClientEntity findByCommandesReference(CommandeEntity commande) throws NotFoundClientEntityException {
+        ClientEntity cl=clientRepository.findClientEntityByCommandes(commande).orElseThrow(()-> new NotFoundClientEntityException(String.format("Le client dont la commande est %s est introuvable",commande)));;
         return cl;
     }
     public Adresse findClientAdressByCommande(CommandeEntity commande){
         try{ClientEntity client = findByCommandesReference(commande);
             return client.getAdresse();}
-        catch (NotFoundClientEntityExeption e){
+        catch (NotFoundClientEntityException e){
             throw new NotFoundEntityRestException(e.getMessage());
         }
     }
@@ -54,9 +52,7 @@ public class CommandeComponent {
 
         List<CommandeEntity> commandes = commandeRepository.findAll().stream().limit(30).collect(Collectors.toList());
         return commandes.stream()
-                .collect(Collectors.groupingBy(com -> {
-                    return findClientAdressByCommande(com);
-                }));
+                .collect(Collectors.groupingBy(this::findClientAdressByCommande));
 
 
     }

@@ -4,7 +4,7 @@ import fr.uga.l3miage.integrator.components.CommandeComponent;
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
 import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.mappers.AdresseMapper;
 import fr.uga.l3miage.integrator.mappers.LivraisonMapper;
@@ -18,19 +18,15 @@ import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitResponseDTO;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -114,7 +110,7 @@ public class LivraisonTestService{
 
     }
     @Test
-    public void getAdresseClientFromLivraisonOK() throws NotFoundLivraisonEntityException, NotFoundClientEntityExeption {
+    public void getAdresseClientFromLivraison() throws NotFoundLivraisonEntityException, NotFoundClientEntityException {
         //Given
         LivraisonEntity livraisonEntity1 = new LivraisonEntity();
         livraisonComponent.save(livraisonEntity1);

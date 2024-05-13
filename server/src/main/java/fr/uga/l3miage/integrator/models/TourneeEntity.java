@@ -23,8 +23,8 @@ public class TourneeEntity {
     @Enumerated(EnumType.STRING)
     private EtatDeTournee etatsDeTournee;
 
-
     private String lettre;
+
     private Integer tempsDeMontageEffectif;
 
     @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
@@ -45,6 +45,11 @@ public class TourneeEntity {
     public void addLivraison(LivraisonEntity livraison){
         this.livraisons.add(livraison);
         livraison.setTournee(this);
+    }
+
+    public void addEmploye(EmployeEntity employe){
+        this.employeEntitySet.add(employe);
+        employe.getTourneeEntitySet().add(this);
     }
 
     public void setTempsDeMontageEffectif(Integer tempsDeMontageEffectif) throws IllegalArgumentException{

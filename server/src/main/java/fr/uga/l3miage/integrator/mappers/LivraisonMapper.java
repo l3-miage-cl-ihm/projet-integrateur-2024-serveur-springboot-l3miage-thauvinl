@@ -13,7 +13,6 @@ import org.mapstruct.Mapping;
 @DecoratedWith(LivraisonMapperDecorator.class)
 public interface LivraisonMapper {
     @Mapping(target = "commandes", ignore = true)
-    @Mapping(target = "reference",ignore = true)
     LivraisonEntity toEntity(LivraisonCreationRequest request);
 
     LivraisonResponseDTO toResponse(LivraisonEntity livraisonEntity);

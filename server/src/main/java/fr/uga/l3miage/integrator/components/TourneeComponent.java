@@ -1,5 +1,6 @@
 package fr.uga.l3miage.integrator.components;
 
+import fr.uga.l3miage.integrator.exceptions.technical.BadRequestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundTourneeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
@@ -27,13 +28,13 @@ public class TourneeComponent {
 
    }
 
-   public TourneeEntity updateTdm(String reference, Integer tdmEffectif) throws NotFoundTourneeEntityException{
+   public TourneeEntity updateTdm(String reference, Integer tdmEffectif) throws NotFoundTourneeEntityException, BadRequestException {
       TourneeEntity tournee = tourneeRepository.findByReference(reference).orElseThrow(()->new NotFoundTourneeEntityException("Tournée introuvable"));
       try{
          tournee.setTempsDeMontageEffectif(tdmEffectif);
          return tourneeRepository.save(tournee);
       }catch (IllegalArgumentException e){
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to update tournée: " + e.getMessage(), e);
+         throw new BadRequestException(e.getMessage());
       }
    }
    public void deleteTournee(String ref) throws NotFoundTourneeEntityException{

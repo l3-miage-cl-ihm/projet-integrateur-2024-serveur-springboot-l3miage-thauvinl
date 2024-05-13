@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.mappers;
 
 import fr.uga.l3miage.integrator.models.JourneeEntity;
+import fr.uga.l3miage.integrator.models.TourneeEntity;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
@@ -21,12 +22,13 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
     @Autowired
     private TourneeMapper tourneeMapper;
 
+
+
     @Override
     public JourneeEntity toEntity(JourneeCreationRequest request){
-
         JourneeEntity journee = delegate.toEntity(request);
-        journee.setReference(request.getReference());
         journee.setTournees(new HashSet<>());
+        request.getTournees().stream().map(tourneeMapper::toEntity).forEach(journee::addTournee);
         return journee;
     }
 
@@ -59,4 +61,5 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
         return responseDTO;
 
     }
+
 }

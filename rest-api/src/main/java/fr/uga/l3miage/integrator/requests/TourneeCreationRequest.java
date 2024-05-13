@@ -15,8 +15,6 @@ public class TourneeCreationRequest {
     private final String etatsDeTournee;
     @Schema(description = "Lettre associée à la tourné pour rendre sa référence unique", example = "A")
     private final String lettre;
-    @Schema(description = "Temps de montage total calculé à partir de toutes les livraisons de la tournée", example = "82")
-    private final Integer tempsDeMontageEffectif;
     @Schema(description = "Distance entre la dernière livraison de la tournée et l'entrepôt", example = "103")
     private final Double distanceDeRetour;
     @Schema(description = "Ensemble des ids (trigramme) des employés qui livrent la tournée", example = "[AAA]")

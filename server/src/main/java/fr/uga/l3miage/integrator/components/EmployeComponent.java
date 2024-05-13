@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class EmployeComponent {
     private final EmployeRepository employeRepository;
     private final TourneeRepository tourneeRepository;
-
+    
     public Set<EmployeEntity> getLivreursByTourneeId(String tourneeId) throws NotFoundTourneeEntityException {
         Optional<TourneeEntity> tourneeOptional = tourneeRepository.findById(tourneeId);
         if (tourneeOptional.isPresent()) {
