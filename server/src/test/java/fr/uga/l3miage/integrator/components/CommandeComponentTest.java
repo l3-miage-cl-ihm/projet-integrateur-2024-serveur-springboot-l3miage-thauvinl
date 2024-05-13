@@ -1,7 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
