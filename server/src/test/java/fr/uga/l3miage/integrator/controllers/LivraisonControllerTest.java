@@ -19,6 +19,7 @@ import fr.uga.l3miage.integrator.responses.TourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.CommandeService;
 import fr.uga.l3miage.integrator.services.LivraisonService;
 import org.aspectj.weaver.ast.Not;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -69,7 +70,12 @@ public class LivraisonControllerTest {
             testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         }
 
-
+    @AfterEach
+    public void clearDataBase(){
+        clientRepository.deleteAll();
+        commandeRepository.deleteAll();
+        livraisonRepository.deleteAll();
+    }
     @Test
     void canGetAllLivraisons() {
         LivraisonEntity livraisonEntity = LivraisonEntity.builder().reference("ref123").build();
@@ -80,7 +86,6 @@ public class LivraisonControllerTest {
                 .builder()
                 .reference("ref123")
                 .commandes(Set.of())
-                .distanceParcourue(0.0)
                 .montant(0.0)
                 .tdmTheorique(0)
                 .build();
@@ -107,7 +112,7 @@ public class LivraisonControllerTest {
                                                 .builder()
                                                 .reference("ref123")
                                                 .commandes(Set.of())
-                                                .distanceParcourue(0.0)
+
                                                 .montant(0.0)
                                                 .tdmTheorique(0)
                                                 .build();
@@ -198,7 +203,6 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .tdmEffectif(15)
                 .tdmTheorique(0)
-                .distanceParcourue(0.0)
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateTdm/{reference}"
@@ -244,7 +248,7 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .heureDeLivraisonEffective(t)
                 .tdmTheorique(0)
-                .distanceParcourue(0.0)
+
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateHeure/{reference}"

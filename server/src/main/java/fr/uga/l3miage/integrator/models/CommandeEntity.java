@@ -26,7 +26,7 @@ public class CommandeEntity {
     private String commentaire;
 
     private Double montant;
-    private Integer tddTheorique;
+    //private Integer tddTheorique;
 
     private Integer tdmTheorique;
     private LocalDateTime dateDeLivraisonEffective;

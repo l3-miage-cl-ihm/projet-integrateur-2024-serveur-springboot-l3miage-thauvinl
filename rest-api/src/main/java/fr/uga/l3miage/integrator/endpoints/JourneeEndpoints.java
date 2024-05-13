@@ -23,7 +23,7 @@ public interface JourneeEndpoints {
     @ApiResponse(responseCode = "400", description = "Une erreur s'est produite avec la requête", content = {@Content(schema = @Schema(implementation = BadRequestErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest);
+    JourneeResponseDTO createJournee(@RequestBody JourneeCreationRequest journeeCreationRequest) ;
 
 
 
