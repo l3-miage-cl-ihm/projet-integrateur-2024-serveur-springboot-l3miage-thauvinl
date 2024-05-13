@@ -78,7 +78,7 @@ public class JourneeServiceTest {
         verify(journeeMapper, times(1)).toEntity(same(request));
         verify(journeeMapper, times(2)).toResponseWithTournees(same(journee));
     }
-    @Test
+   /* @Test
     public void createJourneeShouldThrowBadRequestRestException(){
         JourneeCreationRequest request = JourneeCreationRequest.builder()
                 .reference("test")
@@ -87,6 +87,6 @@ public class JourneeServiceTest {
                 .build();
         when(journeeMapper.toEntity(any(JourneeCreationRequest.class))).thenThrow(IllegalArgumentException.class);
         assertThrows(BadRequestRestException.class, () -> journeeService.createJournee(request));
-    }
+    }*/
 }
 

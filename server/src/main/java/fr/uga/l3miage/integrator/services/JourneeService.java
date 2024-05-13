@@ -51,7 +51,7 @@ public class JourneeService {
 
 
     public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
-        try{
+
             //JourneeEntity journeeEntity = journeeMapper.toEntity(journeeCreationRequest);
             /*for(TourneeCreationRequest tournee : journeeCreationRequest.getTournees()) {
                 TourneeEntity tourneeEntity = tourneeMapper.toEntity(tournee);
@@ -91,9 +91,7 @@ public class JourneeService {
 
             }*/
             return journeeMapper.toResponseWithTournees(journeeComponent.createJournee(journeeMapper.toEntity(journeeCreationRequest)));
-        }catch (IllegalArgumentException e){
-            throw new BadRequestRestException(e.getMessage());
-        }
+
     }
 
 }
