@@ -2,7 +2,7 @@ package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.components.LivraisonComponent;
 import fr.uga.l3miage.integrator.dataType.Adresse;
-import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityExeption;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundClientEntityException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundLivraisonEntityException;
 import fr.uga.l3miage.integrator.models.ClientEntity;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
@@ -95,7 +95,7 @@ public class LivraisonComponentTest {
         verify(livraisonRepository, times(1)).save(livraisonEntityToSave);
     }
     @Test
-    void getAdresseClientFromLivraisonOK() throws NotFoundClientEntityExeption {
+    void getAdresseClientFromLivraisonOK() throws NotFoundClientEntityException {
         // Given
         Adresse adresseClient = new Adresse();
         adresseClient.setAdresse("rue centrale");
@@ -121,7 +121,7 @@ public class LivraisonComponentTest {
     }
 
     @Test
-    void getAdresseClientFromLivraisonNOTOK() throws NotFoundClientEntityExeption {
+    void getAdresseClientFromLivraisonNOTOK() throws NotFoundClientEntityException {
         // Given
 
         LivraisonEntity livraisonEntity = new LivraisonEntity();
