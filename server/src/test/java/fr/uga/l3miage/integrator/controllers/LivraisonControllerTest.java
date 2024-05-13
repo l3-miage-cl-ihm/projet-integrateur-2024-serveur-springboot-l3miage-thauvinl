@@ -87,7 +87,7 @@ public class LivraisonControllerTest {
                 .reference("ref123")
                 .commandes(Set.of())
 
-                .distanceAParcourir(0.0)
+                
 
                 .montant(0.0)
                 .tdmTheorique(0)
@@ -115,7 +115,7 @@ public class LivraisonControllerTest {
                                                 .builder()
                                                 .reference("ref123")
                                                 .commandes(Set.of())
-                                                .distanceAParcourir(0.0)
+
                 .montant(0.0)
                                                 .tdmTheorique(0)
                                                 .build();
@@ -206,7 +206,7 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .tdmEffectif(15)
                 .tdmTheorique(0)
-                .distanceAParcourir(0.0)
+
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateTdm/{reference}"
@@ -252,7 +252,7 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .heureDeLivraisonEffective(t)
                 .tdmTheorique(0)
-                .distanceAParcourir(0.0)
+
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateHeure/{reference}"
