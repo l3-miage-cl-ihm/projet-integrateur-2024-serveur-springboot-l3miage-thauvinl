@@ -12,6 +12,7 @@ import fr.uga.l3miage.integrator.mappers.ProduitMapper;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
 import fr.uga.l3miage.integrator.models.ProduitEntity;
 import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
+import fr.uga.l3miage.integrator.repositories.LivraisonRepository;
 import fr.uga.l3miage.integrator.responses.AdresseResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
 import fr.uga.l3miage.integrator.responses.ProduitQuantiteResponseDTO;
@@ -26,6 +27,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +41,8 @@ public class LivraisonTestService{
 
     @MockBean
     private LivraisonComponent livraisonComponent;
-
+    @MockBean
+    private LivraisonRepository livraisonRepository;
     @SpyBean
     private LivraisonMapper livraisonMapper;
 
@@ -152,18 +155,17 @@ public class LivraisonTestService{
 
     @Test
     public void updateEtat() throws NotFoundLivraisonEntityException {
-        LivraisonEntity livraisonEntity1 = new LivraisonEntity();
-        livraisonComponent.save(livraisonEntity1);
+        LivraisonEntity livraisonEntity1 = LivraisonEntity.builder().reference("ref123").build();
         livraisonEntity1.setEtat(EtatDeLivraison.enDechargement);
-        LivraisonEntity livraisonEntity2 = new LivraisonEntity();
-        LivraisonResponseDTO livraisonResponseDTO= LivraisonResponseDTO.builder().build();
-        when(livraisonComponent.updateEtat(any(),anyString())).thenReturn(livraisonEntity2);
-        when(livraisonMapper.toResponse(any())).thenReturn(livraisonResponseDTO);
+       String nvEtat="effectuee";
 
-        LivraisonResponseDTO livraisonResponseDTO1=livraisonService.updateEtat("r432","planifiee");
-        assertEquals(livraisonResponseDTO,livraisonResponseDTO1);
+        when(livraisonComponent.updateEtat(any(), anyString())).thenReturn(livraisonEntity1);
+        livraisonEntity1.setEtat(EtatDeLivraison.valueOf(nvEtat));
+        LivraisonResponseDTO expectedResponseDTO=livraisonMapper.toResponse(livraisonEntity1);
+        LivraisonResponseDTO actualResponseDTO = livraisonService.updateEtat("ref123", "planifiee");
 
-
+        assertEquals(expectedResponseDTO.getReference(), actualResponseDTO.getReference());
+        assertEquals(expectedResponseDTO.getEtat(), actualResponseDTO.getEtat());
     }
 
 

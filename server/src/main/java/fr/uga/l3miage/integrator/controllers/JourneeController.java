@@ -1,5 +1,7 @@
 package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.endpoints.JourneeEndpoints;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
+import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.JourneeResponseDTO;
 import fr.uga.l3miage.integrator.services.JourneeService;
@@ -17,7 +19,7 @@ public class JourneeController implements JourneeEndpoints {
     }
 
     @Override
-    public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest) {
+    public JourneeResponseDTO createJournee(JourneeCreationRequest journeeCreationRequest){
         return journeeService.createJournee(journeeCreationRequest);
     }
 }
