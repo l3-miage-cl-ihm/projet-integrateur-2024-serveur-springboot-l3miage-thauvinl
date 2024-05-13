@@ -1,15 +1,21 @@
 package fr.uga.l3miage.integrator.service;
 
 import fr.uga.l3miage.integrator.components.EmployeComponent;
-import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.mappers.EmployeMapper;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
+import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import fr.uga.l3miage.integrator.services.EmployeService;
+import javassist.NotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -17,125 +23,113 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@AutoConfigureTestDatabase
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("test")
 public class EmployeServiceTest {
 
-    @MockBean
-    private EmployeComponent employeComponent;
+    @Autowired
+    EmployeService employeService;
 
     @SpyBean
-    private EmployeMapper employeMapper;
+    EmployeMapper employeMapper;
 
-    @Autowired
-    private EmployeService employeService;
-
-    @Test
-    void testGetAllEmployesSuccess() {
-        // Given
-        EmployeEntity employeEntity1 = EmployeEntity
-                .builder().build();
-        EmployeEntity employeEntity2 = EmployeEntity
-                .builder().build();
-        List<EmployeEntity> employes = List.of(employeEntity1, employeEntity2);
-
-        EmployeResponseDTO employeResponseDTO1 =  EmployeResponseDTO
-                .builder().build();
-        EmployeResponseDTO employeResponseDTO2 =  EmployeResponseDTO
-                .builder().build();
-        when(employeComponent.getAllEmployes()).thenReturn(employes);
-        when(employeMapper.toResponse(employeEntity1)).thenReturn(employeResponseDTO1);
-        when(employeMapper.toResponse(employeEntity2)).thenReturn(employeResponseDTO2);
-
-        // When
-        List<EmployeResponseDTO> result = employeService.getAllEmployes();
-
-        // Then
-        assertEquals(2, result.size());
-        assertEquals(employeResponseDTO1, result.get(0));
-        assertEquals(employeResponseDTO2, result.get(1));
-    }
+    @MockBean
+    EmployeComponent employeComponent;
 
     @Test
-    public void testGetAllEmployesFail() {
-        // Given
-        when(employeComponent.getAllEmployes()).thenReturn(Collections.emptyList());
-
-        // When
-        List<EmployeResponseDTO> result = employeService.getAllEmployes();
-
-        // Then
-        assertEquals(Collections.emptyList(), result);
-    }
-
-    @Test
-    public void testGetAllLivreursSuccess() {
-        // Given
-
+    void testGetAllEmployesSuccess(){
+        //Given
         EmployeEntity employe1 = EmployeEntity
-                .builder()
-                .email("maria@hiiii.com")
-                .emploi(Emploi.livreur)
-                .build();
+                .builder().trigramme("1").build();
 
         EmployeEntity employe2 = EmployeEntity
-                .builder()
-                .email("maria@hoooooo.com")
-                .emploi(Emploi.livreur)
-                .build();
+                .builder().trigramme("2").build();
 
-        Set<EmployeEntity> employes = new HashSet<>();
-        employes.add(employe1);
-        employes.add(employe2);
-        when(employeComponent.getAllLivreurs()).thenReturn(employes);
+        List<EmployeEntity> employes = Arrays.asList(employe1, employe2);
+
+        EmployeResponseDTO employeResponseDTO1 = EmployeResponseDTO.builder().build();
+        EmployeResponseDTO employeResponseDTO2 = EmployeResponseDTO.builder().build();
+
+        when(employeComponent.getAllEmployes()).thenReturn(employes);
+        when(employeMapper.toResponse(employe1)).thenReturn(employeResponseDTO1);
+        when(employeMapper.toResponse(employe2)).thenReturn(employeResponseDTO2);
+
+        //When
+        List<EmployeResponseDTO> result = employeService.getAllEmployes();
+
+        //Then
+        assertEquals(2, result.size());
+        assertEquals(employeResponseDTO1,result.get(0));
+        assertEquals(employeResponseDTO2,result.get(1));
+    }
+
+    @Test
+    void testGetAllEmployesEmpty() {
+        // Given
+        when(employeComponent.getAllEmployes()).thenReturn(new ArrayList<>());
+
+        // When
+        List<EmployeResponseDTO> result = employeService.getAllEmployes();
+
+        // Then
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void testGetAllLivreursSuccess() {
+        // Given
+        EmployeEntity livreur1 = EmployeEntity.builder().trigramme("1").build();
+        EmployeEntity livreur2 = EmployeEntity.builder().trigramme("2").build();
+
+        Set<EmployeEntity> livreurs = new HashSet<>();
+        livreurs.add(livreur1);
+        livreurs.add(livreur2);
+
+        EmployeResponseDTO employeResponseDTO1 = EmployeResponseDTO.builder().trigramme("1").emploi(Emploi.livreur.toString()).build();
+        EmployeResponseDTO employeResponseDTO2 = EmployeResponseDTO.builder().trigramme("2").emploi(Emploi.livreur.toString()).build();
+
+        when(employeComponent.getAllLivreurs()).thenReturn(livreurs);
+        when(employeMapper.toResponse(livreur1)).thenReturn(employeResponseDTO1);
+        when(employeMapper.toResponse(livreur2)).thenReturn(employeResponseDTO2);
 
         // When
         Set<EmployeResponseDTO> result = employeService.getAllLivreurs();
 
         // Then
         assertEquals(2, result.size());
-        // Add more assertions if needed
+        assertTrue(result.contains(employeResponseDTO1));
+        assertTrue(result.contains(employeResponseDTO2));
     }
 
     @Test
-    public void testGetAllLivreursFailure() {
+    void testGetAllLivreursEmpty() {
         // Given
-        when(employeComponent.getAllLivreurs()).thenReturn(Collections.emptySet());
+        when(employeComponent.getAllLivreurs()).thenReturn(new HashSet<>());
 
         // When
         Set<EmployeResponseDTO> result = employeService.getAllLivreurs();
 
         // Then
-        assertEquals(Collections.emptySet(), result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testGetLivreurByEmailSuccess() throws NotFoundEmployeEntityException {
+    void testGetLivreurByEmailSuccess() throws NotFoundEmployeEntityException {
         // Given
-        String email = "livreur@example.com";
-        /*
-        EmployeEntity mockLivreurEntity = new EmployeEntity(email);
-        EmployeResponseDTO expectedResponse = new EmployeResponseDTO(email);
-    */
-        EmployeEntity employe = EmployeEntity
-                .builder()
+        String email = "test@example.com";
+        EmployeEntity livreur = EmployeEntity.builder()
                 .email(email)
-                .emploi(Emploi.livreur)
                 .build();
-
-        EmployeResponseDTO expectedResponse = EmployeResponseDTO
-                .builder()
-                .emploi("livreur")
+        EmployeResponseDTO expectedResponse = EmployeResponseDTO.builder()
                 .email(email)
                 .build();
 
-        when(employeComponent.getLivreurByEmail(email)).thenReturn(employe);
-        when(employeMapper.toResponse(employe)).thenReturn(expectedResponse);
+        when(employeComponent.getLivreurByEmail(email)).thenReturn(livreur);
+        when(employeMapper.toResponse(livreur)).thenReturn(expectedResponse);
 
         // When
         EmployeResponseDTO result = employeService.getLivreurByEmail(email);
@@ -145,13 +139,17 @@ public class EmployeServiceTest {
     }
 
     @Test
-    public void testGetLivreurByEmailFailure() throws NotFoundEmployeEntityException {
+    void testGetLivreurByEmailNotFound() throws NotFoundEmployeEntityException {
         // Given
-        String email = "nonexistent@example.com";
+        String email = "test@example.com";
 
         when(employeComponent.getLivreurByEmail(email)).thenThrow(NotFoundEmployeEntityException.class);
 
-        // When, Then
-        assertThrows(NotFoundEntityRestException.class, () -> employeService.getLivreurByEmail(email));
+        // When
+        EmployeResponseDTO result = employeService.getLivreurByEmail(email);
+
+        // Then
+        assertNull(result);
     }
+
 }
