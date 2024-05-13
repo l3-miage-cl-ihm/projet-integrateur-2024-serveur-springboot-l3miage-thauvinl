@@ -43,19 +43,20 @@ public class TourneeControllerTest {
 
     @Autowired
     TestRestTemplate testRestTemplate;
+
     @AfterEach
-    public void clearDataBase(){
+    public void clearDataBase() {
         tourneeRepository.deleteAll();
         employeRepository.deleteAll();
     }
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
 
     @Test
-    public void getTourneeByEmployeSuccess(){
+    public void getTourneeByEmployeSuccess() {
         EmployeEntity employe = EmployeEntity.builder()
                 .trigramme("AAA")
                 .email("test@test.fr")
@@ -99,7 +100,7 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void testGetTourneeByEmployeNotFoundEmploye(){
+    public void testGetTourneeByEmployeNotFoundEmploye() {
         final HttpHeaders headers = new HttpHeaders();
 
         final Map<String, Object> urlParams = new HashMap<>();
@@ -116,7 +117,7 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void testGetTourneeByEmployeNotFoundTournee(){
+    public void testGetTourneeByEmployeNotFoundTournee() {
         EmployeEntity employe = EmployeEntity.builder()
                 .trigramme("AAA")
                 .email("test@test.fr")
@@ -138,7 +139,7 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void updateTdmSucces(){
+    public void updateTdmSucces() {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
                 .tempsDeMontageEffectif(0)
@@ -147,7 +148,7 @@ public class TourneeControllerTest {
 
         final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String,Object> urlParams = new HashMap<>();
+        final Map<String, Object> urlParams = new HashMap<>();
         urlParams.put("reference", "test");
         urlParams.put("tdmEffectif", 60);
 
@@ -168,11 +169,11 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void updateTdmTourneeNotFoundShouldReturn404StatusCode(){
+    public void updateTdmTourneeNotFoundShouldReturn404StatusCode() {
 
         final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String,Object> urlParams = new HashMap<>();
+        final Map<String, Object> urlParams = new HashMap<>();
         urlParams.put("reference", "test");
         urlParams.put("tdmEffectif", 60);
 
@@ -187,7 +188,7 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void updateTdmTourneeInvalidTdmShouldReturn400StatusCode(){
+    public void updateTdmTourneeInvalidTdmShouldReturn400StatusCode() {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
                 .tempsDeMontageEffectif(0)
@@ -196,7 +197,7 @@ public class TourneeControllerTest {
 
         final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String,Object> urlParams = new HashMap<>();
+        final Map<String, Object> urlParams = new HashMap<>();
         urlParams.put("reference", "test");
         urlParams.put("tdmEffectif", -60);
 
@@ -211,7 +212,7 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void updateEtatSucces(){
+    public void updateEtatSucces() {
         TourneeEntity tournee = TourneeEntity.builder()
                 .reference("test")
                 .etatsDeTournee(EtatDeTournee.enChargement)
@@ -220,7 +221,7 @@ public class TourneeControllerTest {
 
         final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String,Object> urlParams = new HashMap<>();
+        final Map<String, Object> urlParams = new HashMap<>();
         urlParams.put("reference", "test");
         urlParams.put("nvEtat", EtatDeTournee.valueOf("enDechargement"));
 
@@ -241,11 +242,11 @@ public class TourneeControllerTest {
     }
 
     @Test
-    public void updateEtatTourneeNotFoundShouldReturn404StatusCode(){
+    public void updateEtatTourneeNotFoundShouldReturn404StatusCode() {
 
         final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String,Object> urlParams = new HashMap<>();
+        final Map<String, Object> urlParams = new HashMap<>();
         urlParams.put("reference", "test");
         urlParams.put("nvEtat", EtatDeTournee.valueOf("planifiee"));
 
