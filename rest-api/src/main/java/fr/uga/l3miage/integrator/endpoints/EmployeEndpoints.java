@@ -1,11 +1,15 @@
 package fr.uga.l3miage.integrator.endpoints;
 
 
+import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
 import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +37,7 @@ public interface EmployeEndpoints {
 
     @Operation(description = "Récupère un livreur par son email")
     @ApiResponse(responseCode = "200", description = "Livreur récupéré avec succès")
+    @ApiResponse(responseCode = "404", description = "Livreur non trouvable", content = {@Content(schema = @Schema(implementation = NotFoundErrorResponse.class), mediaType = MediaType.APPLICATION_JSON_VALUE)})
     @ApiResponse(responseCode = "400", description = "Le livreur n'a pas pu étre récupéré")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/livreurs/{email}")
