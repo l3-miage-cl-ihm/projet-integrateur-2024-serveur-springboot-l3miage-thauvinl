@@ -7,15 +7,15 @@ import lombok.Data;
 @Builder
 @Schema(description = "Respresente un employe")
 public class EmployeResponseDTO {
-    @Schema(description = "Trigramme de l'employé", example = "AAA")
+    @Schema(description = "Trigramme de l'employé", example = "CMJ")
     private String trigramme;
-    @Schema(description = "Email de l'employé", example = "davide@livreur.com")
+    @Schema(description = "Email de l'employé", example = "citeb.maruj@ikeo.com")
     private String email;
-    @Schema(description = "Prénom de l'employé", example = "Davide")
+    @Schema(description = "Prénom de l'employé", example = "citeb")
     private String prenom;
-    @Schema(description = "Nom de l'employé", example = "Moris")
+    @Schema(description = "Nom de l'employé", example = "MARUJ")
     private String nom;
-    @Schema(description = "numéro de téléphone de l'employé", example = "0689451278")
+    @Schema(description = "numéro de téléphone de l'employé", example = "657477854")
     private String telephone;
     @Schema(description = "Emploi de l'employe", example = "livreur")
     private String emploi;

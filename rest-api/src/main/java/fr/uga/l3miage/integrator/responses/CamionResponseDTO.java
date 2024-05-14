@@ -9,7 +9,8 @@ import lombok.Data;
 @Builder
 @Schema(description = "Représente un camion")
 public class CamionResponseDTO {
-    @Schema(description = "Immatriculation du camion")
+    @Schema(description = "Immatriculation du camion", example = "AB-123-CD")
     private String immatriculation;
+    @Schema(description = "geo position du camion", example = "0,0")
     private final GeoPositionDTO geoPositionDTO;
 }
