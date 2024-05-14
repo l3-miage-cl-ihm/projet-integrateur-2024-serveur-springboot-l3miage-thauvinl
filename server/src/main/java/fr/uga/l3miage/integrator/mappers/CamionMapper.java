@@ -7,6 +7,8 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface CamionMapper {
-    @Mapping(source = "immatriculation", target = "immatriculation")
+
     CamionResponseDTO toResponse(CamionEntity camion);
+
+    //CamionResponseDTO toEntity(Camio)
 }
