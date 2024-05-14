@@ -3,8 +3,13 @@ package fr.uga.l3miage.integrator.controllers;
 import fr.uga.l3miage.integrator.components.JourneeComponent;
 import fr.uga.l3miage.integrator.components.TourneeComponent;
 import fr.uga.l3miage.integrator.errors.NotFoundErrorResponse;
+import fr.uga.l3miage.integrator.models.CommandeEntity;
+import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.JourneeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.models.enums.Emploi;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
+import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.repositories.JourneeRepository;
 import fr.uga.l3miage.integrator.repositories.TourneeRepository;
 import fr.uga.l3miage.integrator.requests.JourneeCreationRequest;
@@ -25,6 +30,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,6 +46,9 @@ public class JourneeControllerTest {
 
     @Autowired
     private JourneeRepository journeeRepository;
+
+    @Autowired
+    private EmployeRepository employeRepository;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -87,6 +96,7 @@ public class JourneeControllerTest {
 
     @Test
     public void createJourneeSuccess(){
+
         JourneeCreationRequest request = JourneeCreationRequest.builder()
                 .reference("test")
                 .date(new Date(2024,01,04))

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class FireBaseTokenFilter extends OncePerRequestFilter {
+/*public class FireBaseTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -30,4 +30,4 @@ public class FireBaseTokenFilter extends OncePerRequestFilter {
             response.getWriter().write("No Authorization Token Provided");
         }
     }
-}
+}*/
