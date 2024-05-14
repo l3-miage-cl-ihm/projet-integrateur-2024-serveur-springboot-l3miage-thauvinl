@@ -1,7 +1,6 @@
 package fr.uga.l3miage.integrator.mappers;
 
 import fr.uga.l3miage.integrator.models.EmployeEntity;
-import fr.uga.l3miage.integrator.requests.EmployeCreationRequest;
 import fr.uga.l3miage.integrator.responses.EmployeResponseDTO;
 import org.mapstruct.Mapper;
 

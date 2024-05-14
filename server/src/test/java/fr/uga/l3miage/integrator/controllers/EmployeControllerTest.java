@@ -112,7 +112,7 @@ public class EmployeControllerTest {
         ResponseEntity<List<EmployeResponseDTO>> responseEntity = testRestTemplate.exchange(
                 "/api/employes/all", // URL de l'API
                 HttpMethod.GET, // Méthode HTTP GET
-                null, // Corps de la requête (null dans ce cas)
+                null, // Corps de la requête
                 new ParameterizedTypeReference<>() {} // Type de réponse attendue
         );
 
@@ -160,25 +160,6 @@ public class EmployeControllerTest {
         assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    /*
-    @Test
-    void testGetLivreurByEmailFailed(){
-        final HttpHeaders headers = new HttpHeaders();
 
-        final Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("email", "test@employe.com"); // Utilisez la clé "email" pour correspondre au paramètre dans l'URL
 
-        NotFoundErrorResponse expected = NotFoundErrorResponse
-                .builder()
-                .uri("/api/employes/livreurs/test@employe.com")
-                .errorMessage("L'employé dont le mail est 'test@employe.com' est introuvable")
-                .build();
-
-        ResponseEntity<NotFoundErrorResponse> actual = testRestTemplate.exchange("/api/employes/livreurs/{email}", HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
-
-        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND); // Vérifiez que le code de statut est 404 NOT_FOUND
-        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
-    }
-
-     */
 }
