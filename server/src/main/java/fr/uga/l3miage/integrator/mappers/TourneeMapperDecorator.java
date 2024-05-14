@@ -6,6 +6,7 @@ import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundEmployeEntityException;
 import fr.uga.l3miage.integrator.models.EmployeEntity;
 import fr.uga.l3miage.integrator.models.TourneeEntity;
+import fr.uga.l3miage.integrator.models.enums.EtatDeTournee;
 import fr.uga.l3miage.integrator.repositories.EmployeRepository;
 import fr.uga.l3miage.integrator.requests.TourneeCreationRequest;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
@@ -36,6 +37,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     @Override
     public TourneeEntity toEntity(TourneeCreationRequest request){
         TourneeEntity tournee= delegate.toEntity(request);
+        tournee.setEtatsDeTournee(EtatDeTournee.planifiee);
         tournee.setLivraisons(new HashSet<>());
         tournee.setEmployeEntitySet(new HashSet<>());
         request.getEmployesIds().forEach(id -> {
