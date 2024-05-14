@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.components;
 
 import fr.uga.l3miage.integrator.dataType.Adresse;
+import fr.uga.l3miage.integrator.dataType.GeoPosition;
 import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
@@ -30,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
     private final LigneRepository ligneRepository;
     private final EmployeRepository employeRepository;
     private final CommandeRepository commandeRepository;
+    private final CamionRepository camionRepository;
 
     @Override
     public void run(String... args) throws Exception{
@@ -39,6 +41,7 @@ public class DataLoader implements CommandLineRunner {
         Path pathProduits = Path.of("server/src/main/resources/Produits.csv");
         Path pathLignes = Path.of("server/src/main/resources/Lignes.csv");
         Path pathEmployes = Path.of("server/src/main/resources/Employés.csv");
+        Path pathCamions = Path.of("server/src/main/resources/Camions.csv");
 
         Map<String, CommandeEntity> commandesDetails = new HashMap<>();
 
@@ -59,6 +62,22 @@ public class DataLoader implements CommandLineRunner {
                     });
         }
 
+        List<String> linesCamions = Files.readAllLines(pathCamions);
+        List<CamionEntity> camions = linesCamions.stream().skip(1) // Skip header line
+                .map(line -> line.split(","))
+                .map(data -> {
+                    CamionEntity camion = new CamionEntity();
+                    camion.setImmatriculation(data[0]);
+                    camion.setPosition(GeoPosition.builder()
+                            .latitude(Double.parseDouble(data[1]))
+                            .longitude(Double.parseDouble(data[2]))
+                            .build());
+                    return camion;
+                })
+                .collect(Collectors.toList());
+
+        camionRepository.saveAll(camions);
+
         List<String> linesEmployes = Files.readAllLines(pathEmployes);
         List<EmployeEntity> employes = linesEmployes.stream().skip(1) // Skip header line
                 .map(line -> line.split(","))
@@ -68,7 +87,7 @@ public class DataLoader implements CommandLineRunner {
                     employe.setEmploi(data[1].isEmpty() ? null : Emploi.valueOf(data[1]));
                     employe.setNom(data[2]);
                     employe.setPrenom(data[3]);
-                    employe.setEmail(employe.getNom().toLowerCase() +"." +employe.getPrenom()+"@ikeo.fr");
+                    employe.setEmail(employe.getPrenom().toLowerCase() +"." +employe.getNom()+"@ikeo.com");
                     employe.setTelephone(data[4]);
                     return employe;
                 })
