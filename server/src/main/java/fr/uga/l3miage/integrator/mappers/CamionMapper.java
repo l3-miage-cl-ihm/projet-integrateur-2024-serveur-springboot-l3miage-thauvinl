@@ -10,5 +10,5 @@ public interface CamionMapper {
 
     CamionResponseDTO toResponse(CamionEntity camion);
 
-    //CamionResponseDTO toEntity(Camio)
+
 }
