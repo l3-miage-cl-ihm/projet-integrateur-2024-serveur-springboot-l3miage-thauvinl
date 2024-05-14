@@ -10,6 +10,8 @@ import lombok.Data;
 @Schema(description = "Représente une liste de produit et leur quantite")
 @AllArgsConstructor
 public class ProduitQuantiteResponseDTO {
+    @Schema(description = "un produit" )
     private final ProduitResponseDTO produit;
+    @Schema(description = "quantité du produit" , example = "2")
     private final Integer quantite;
 }
