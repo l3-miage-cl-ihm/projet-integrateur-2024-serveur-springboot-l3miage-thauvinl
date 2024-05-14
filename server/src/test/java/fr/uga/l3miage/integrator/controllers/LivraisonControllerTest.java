@@ -86,8 +86,7 @@ public class LivraisonControllerTest {
                 .builder()
                 .reference("ref123")
                 .commandes(Set.of())
-
-
+                
                 .montant(0.0)
                 .tdmTheorique(0)
                 .build();
@@ -114,7 +113,8 @@ public class LivraisonControllerTest {
                                                 .builder()
                                                 .reference("ref123")
                                                 .commandes(Set.of())
-                                                .montant(0.0)
+      .montant(0.0)
+
                                                 .tdmTheorique(0)
                                                 .build();
         ResponseEntity<LivraisonResponseDTO> actual=testRestTemplate.exchange("/api/livraisons/{reference}", HttpMethod.GET, new HttpEntity<>(null, headers), LivraisonResponseDTO.class, urlParams);
@@ -150,42 +150,68 @@ public class LivraisonControllerTest {
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actual.getBody()).isEqualTo(expected.getBody());
     }
-    /*
-    @Test
-    void testGetAdresseClientFromLivraison()  {
 
-        CommandeEntity commande= CommandeEntity.builder().reference("cmd123").build();
-        commandeRepository.save(commande);
-        Set<CommandeEntity> commandeEntities=new HashSet<>();
-        commandeEntities.add(commande);
-        Adresse adresse= Adresse.builder().adresse("13 rue central").ville("Grenoble").codePostal("38000").build();
-        ClientEntity client=ClientEntity.builder().email("test@gmail.com").adresse(adresse).commandes(commandeEntities).build();
-        clientRepository.save(client);
-        LivraisonEntity livraisonEntity = LivraisonEntity.builder().reference("ref123").commandes(commandeEntities).build();
+    @Test
+    void testGetAdresseClientFromLivraisonOK()  {
+            //COMMANDES
+        CommandeEntity commandeEntity = CommandeEntity.builder()
+                .reference("ref123")
+                .montant(0.0)
+                .tdmTheorique(0)
+                .build();
+        CommandeEntity commandeEntity2 = CommandeEntity.builder()
+                .reference("ref345")
+                .montant(0.0)
+                .tdmTheorique(0)
+                .build();
+        commandeRepository.save(commandeEntity);
+        commandeRepository.save(commandeEntity2);
+        //LIVRAISONS
+
+        LivraisonEntity livraisonEntity = LivraisonEntity.builder().reference("refLIV123").commandes(Set.of(commandeEntity2,commandeEntity)).build();
         livraisonRepository.save(livraisonEntity);
-        commande.setLivraison(livraisonEntity);
+        commandeEntity2.setLivraison(livraisonEntity);
+        commandeEntity.setLivraison(livraisonEntity);
+
+        //CLIENTS
+        Adresse adresse= Adresse.builder().adresse("13 rue centrale").build();
+        ClientEntity clientEntity=ClientEntity.builder().email("test@gmail.com").adresse(adresse).commandes(Set.of(commandeEntity2,commandeEntity)).build();
+        clientRepository.save(clientEntity);
+
+        AdresseResponseDTO adresseResponseDTO=AdresseResponseDTO.builder().adresse("13 rue centrale").build();
+        final HttpHeaders headers = new HttpHeaders();
+
+        final Map<String,Object> urlParams = new HashMap<>();
+        urlParams.put("reference", "refLIV123");
+
+        ResponseEntity<AdresseResponseDTO> actual=testRestTemplate.exchange("/api/livraisons/adresseFromLivraison/{reference}"
+                , HttpMethod.GET, new HttpEntity<>(null, headers), AdresseResponseDTO.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(adresseResponseDTO);
+
+
+    }
+
+    @Test
+    void testGetAdresseClientFromLivraisonNOTOK()  {
 
         final HttpHeaders headers = new HttpHeaders();
-        final Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("reference", "ref123");
-        AdresseResponseDTO adresseResponseDTO= AdresseResponseDTO.builder().adresse("13 rue central").ville("Grenoble").codePostal("38000").build();
-        ResponseEntity<AdresseResponseDTO> actual=testRestTemplate.exchange("/api/livraisons/adresseFromLivraison/{reference}", HttpMethod.GET, new HttpEntity<>(null, headers),AdresseResponseDTO.class,urlParams);
-       System.out.println("adresse client"+client.getAdresse());
-       System.out.println("adresse dto expected"+ adresseResponseDTO);
-       System.out.println("livraisons commande"+livraisonEntity.getCommandes());
-       System.out.println("client commande"+client.getCommandes());
-       System.out.println("livraisons commande" + commande.getLivraison());
-       System.out.println("adresse dto actual"+actual);
-       Optional<LivraisonEntity> livraison=livraisonRepository.findLivraisonEntityByReference("ref123");
-       if (!livraison.isEmpty()){
-           System.out.println("livraison trouvé commande"+livraison.toString());
-       }
+
+        final Map<String,Object> urlParams = new HashMap<>();
+        urlParams.put("reference", "refLIV123");
+        NotFoundErrorResponse expected = NotFoundErrorResponse.builder()
+                .uri("/api/livraisons/adresseFromLivraison/refLIV123")
+                .errorMessage("La livraison de référence refLIV123 n'a pas été trouvée")
+                .build();
+        ResponseEntity<NotFoundErrorResponse> actual=testRestTemplate.exchange("/api/livraisons/adresseFromLivraison/{reference}"
+                , HttpMethod.GET, new HttpEntity<>(null, headers), NotFoundErrorResponse.class, urlParams);
+
+        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
 
 
-        //assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
-        //assertThat(actual.getBody()).isEqualTo(adresseResponseDTO);
-
-    }*/
+    }
 
     @Test
     public void updateTdmOK(){
@@ -204,6 +230,7 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .tdmEffectif(15)
                 .tdmTheorique(0)
+
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateTdm/{reference}"
@@ -249,6 +276,7 @@ public class LivraisonControllerTest {
                 .commandes(Set.of())
                 .heureDeLivraisonEffective(t)
                 .tdmTheorique(0)
+
                 .montant(0.0)
                 .build();
         ResponseEntity<LivraisonResponseDTO> actual = testRestTemplate.exchange("/api/livraisons/updateHeure/{reference}"
@@ -277,4 +305,5 @@ public class LivraisonControllerTest {
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
     }
+
 }

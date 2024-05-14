@@ -62,8 +62,8 @@ public class LivraisonService {
             LivraisonEntity livraison=livraisonComponent.getLivraisonByReference(ref);
             return adresseMapper.toResponse(livraisonComponent.getAdresseClientFromLivraison(livraison));
         }
-        catch(Exception e){
-            throw new RuntimeException();
+        catch(NotFoundLivraisonEntityException e){
+            throw new NotFoundEntityRestException(e.getMessage());
         }
     }
 

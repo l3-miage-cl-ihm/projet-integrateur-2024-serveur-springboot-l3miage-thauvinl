@@ -45,6 +45,7 @@ public class CamionControllerTest {
 
     @Test
     void testGetAllCamionSuccess(){
+        //Given
         CamionEntity camion1 = CamionEntity
                 .builder()
                 .immatriculation("001")
@@ -63,47 +64,12 @@ public class CamionControllerTest {
         List<CamionResponseDTO> expected = new ArrayList<>();
         expected.add(camionResponseDTO1);
 
+        //When
         ResponseEntity<List<CamionResponseDTO>> actual = testRestTemplate.exchange("/api/camions/AllCamions", HttpMethod.GET, new HttpEntity<>(null, headers), new ParameterizedTypeReference<List<CamionResponseDTO>>() {});
 
+        //Then
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
     }
 
-
-
-    /*
-    @Test
-    void testGetAllCamionSuccess() {
-        CamionEntity camion1 = CamionEntity.builder().immatriculation("001").build();
-        camionRepository.save(camion1);
-
-        HttpHeaders headers = new HttpHeaders();
-
-
-        List<CamionResponseDTO> expected = List.of(
-                new CamionResponseDTO("001"),
-                new CamionResponseDTO("002")
-        );
-
-
-
-        CamionResponseDTO camionResponseDTO1 = CamionResponseDTO
-                .builder()
-                .immatriculation("001")
-                .build();
-        List<CamionResponseDTO> expected = new ArrayList<>();
-        expected.add(camionResponseDTO1);
-
-
-        ResponseEntity<List<CamionResponseDTO>> actual = testRestTemplate.exchange(
-                "/api/camions/AllCamions",
-                HttpMethod.GET,
-                new HttpEntity<>(null, headers),
-                new ParameterizedTypeReference<List<CamionResponseDTO>>() {}
-        );
-
-        assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actual.getBody()).usingRecursiveComparison().isEqualTo(expected);
-    }
-    */
 }
