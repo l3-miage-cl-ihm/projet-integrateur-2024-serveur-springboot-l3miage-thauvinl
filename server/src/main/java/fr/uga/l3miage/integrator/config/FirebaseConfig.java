@@ -12,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Configuration
+/*@Configuration
 @Profile("!test")
 public class FirebaseConfig {
 
@@ -30,4 +30,4 @@ public class FirebaseConfig {
             }
             return FirebaseApp.getInstance();
         }
-}
+}*/

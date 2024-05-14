@@ -5,6 +5,8 @@ import fr.uga.l3miage.integrator.exceptions.rest.NotFoundEntityRestException;
 import fr.uga.l3miage.integrator.exceptions.technical.NotFoundCommandeEntityException;
 import fr.uga.l3miage.integrator.models.CommandeEntity;
 import fr.uga.l3miage.integrator.models.LivraisonEntity;
+import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
+import fr.uga.l3miage.integrator.models.enums.EtatDeLivraison;
 import fr.uga.l3miage.integrator.requests.LivraisonCreationRequest;
 import fr.uga.l3miage.integrator.responses.CommandeResponseDTO;
 import fr.uga.l3miage.integrator.responses.LivraisonResponseDTO;
@@ -29,10 +31,12 @@ public abstract class LivraisonMapperDecorator implements LivraisonMapper{
     @Override
     public LivraisonEntity toEntity(LivraisonCreationRequest request) {
         LivraisonEntity livraisonEntity = livraisonMapper.toEntity(request);
+        livraisonEntity.setEtat(EtatDeLivraison.planifiee);
         livraisonEntity.setCommandes(new HashSet<>());
         request.getRefCommande().forEach(ref -> {
             try {
                 CommandeEntity commande = commandeComponent.getCommandeByReference(ref);
+                commande.setEtat(EtatDeCommande.planifiee);
                 livraisonEntity.addCommandesInLivraison(commande);
             } catch (NotFoundCommandeEntityException e) {
                 throw new NotFoundEntityRestException(e.getMessage());

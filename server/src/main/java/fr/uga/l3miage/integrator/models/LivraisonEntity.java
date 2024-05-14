@@ -48,6 +48,9 @@ public class LivraisonEntity {
     private TourneeEntity tournee;
 
     public void addCommandesInLivraison(CommandeEntity commande){
+        if(commande.getLivraison()!=null){
+            throw new IllegalArgumentException(String.format("La commande de référence %s est déjà dans une autre tournée",commande.getReference()));
+        }
         this.commandes.add(commande);
         commande.setLivraison(this);
     }

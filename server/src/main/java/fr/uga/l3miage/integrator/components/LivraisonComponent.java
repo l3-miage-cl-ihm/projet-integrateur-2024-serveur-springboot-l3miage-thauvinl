@@ -34,7 +34,7 @@ public class LivraisonComponent {
     }
 
 
-    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) throws NotFoundClientEntityException {
+    public Adresse getAdresseClientFromLivraison(LivraisonEntity livraisonEntity) {
         Set<CommandeEntity> commandes= livraisonEntity.getCommandes();
         CommandeEntity cmTmp=commandes.stream().findFirst().orElse(null);
         return commandeComponent.findClientAdressByCommande(cmTmp);

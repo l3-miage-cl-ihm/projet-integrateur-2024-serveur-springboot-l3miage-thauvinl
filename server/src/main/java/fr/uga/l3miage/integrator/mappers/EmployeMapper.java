@@ -7,7 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface EmployeMapper {
     EmployeResponseDTO toResponse (EmployeEntity employe);
-    //EmployeEntity toEntity(EmployeCreationRequest request);
-
-
 }
