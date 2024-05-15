@@ -11,5 +11,5 @@ import lombok.Data;
 public class CamionResponseDTO {
     @Schema(description = "Immatriculation du camion")
     private String immatriculation;
-    private final GeoPositionDTO geoPositionDTO;
+
 }

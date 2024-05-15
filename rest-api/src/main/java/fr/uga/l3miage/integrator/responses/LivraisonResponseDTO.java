@@ -35,11 +35,11 @@ public class LivraisonResponseDTO {
 
     @Schema(description = "Heure de livraison théorique")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "UTC")
-    private Time heureDeLivraisonTheorique;
-
+    private Time heureDeLivraison;
+/*
     @Schema(description = "Heure de livraison effective")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "UTC")
-    private Time heureDeLivraisonEffective;
+    private Time heureDeLivraisonEffective;*/
 
     @Schema(description = "Temps de montage effectif")
     private Integer tdmEffectif;

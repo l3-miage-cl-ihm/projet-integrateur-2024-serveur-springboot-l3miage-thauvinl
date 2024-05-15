@@ -27,16 +27,16 @@ public class LivraisonEntity {
 
     private Double distanceAParcourir;
 
-    private Integer tdtALAller;
+    private Integer tdtTheorique;
 
     //private Integer tddTheorique;
 
     private Integer tdmTheorique;
 
-    private Time heureDeLivraisonTheorique;
+    private Time heureDeLivraison;
     
-    @Column
-    private Time heureDeLivraisonEffective;
+    //@Column
+   // private Time heureDeLivraisonEffective;
 
     @Column
     private Integer tdmEffectif;

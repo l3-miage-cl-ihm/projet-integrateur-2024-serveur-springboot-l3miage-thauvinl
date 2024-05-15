@@ -14,9 +14,6 @@ public class LivraisonCreationRequest {
         @Schema(description = "La référence de la livraison", example = "L001")
         private final String reference;
 
-        @Schema(description = "L'état de la livraison", example = "en cours")
-        private final String etat;
-
         @Schema(description = "La distance parcourue lors de la livraison", example = "120.5")
         private Double distanceAParcourir;
 

@@ -61,12 +61,12 @@ public class LivraisonComponent {
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
         livraison.setEtat(EtatDeLivraison.valueOf(nvEtat));
         return livraisonRepository.save(livraison);
-    }
+    }/*
     public LivraisonEntity updtateHeureEff(String reference, Time heure) throws NotFoundLivraisonEntityException{
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
         livraison.setHeureDeLivraisonEffective(heure);
         return livraisonRepository.save(livraison);
-    }
+    }*/
     public LivraisonEntity updtateTDMEff(String reference, Integer tdm) throws NotFoundLivraisonEntityException{
         LivraisonEntity livraison = livraisonRepository.findLivraisonEntityByReference(reference).orElseThrow(()-> new NotFoundLivraisonEntityException(String.format("La livraison de référence %s n'a pas été trouvée", reference)));
         livraison.setTdmEffectif(tdm);
