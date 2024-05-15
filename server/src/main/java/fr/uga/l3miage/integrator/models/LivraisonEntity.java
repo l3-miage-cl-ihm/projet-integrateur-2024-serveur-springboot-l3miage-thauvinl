@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.models;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -33,7 +34,7 @@ public class LivraisonEntity {
 
     private Integer tdmTheorique;
 
-    private Time heureDeLivraison;
+    private LocalDateTime heureLivraison;
     
     //@Column
    // private Time heureDeLivraisonEffective;

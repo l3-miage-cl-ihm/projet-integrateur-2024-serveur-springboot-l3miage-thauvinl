@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -24,7 +25,7 @@ public class LivraisonCreationRequest {
         private Integer tddTheorique;
 
         @Schema(description = "L'heure de livraison théorique", example = "10:00:00")
-        private Time heureDeLivraisonTheorique;
+        private LocalDateTime heureLivraison;
 
         @Schema(description = "Les références des commandes associées à la livraison")
         private final Set<String> refCommande;

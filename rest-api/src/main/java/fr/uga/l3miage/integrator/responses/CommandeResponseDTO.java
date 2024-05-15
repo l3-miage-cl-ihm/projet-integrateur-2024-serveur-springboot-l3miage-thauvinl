@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Builder
@@ -41,6 +42,8 @@ public class CommandeResponseDTO {
 
     @Schema(description = "Durée de livraison de la commande")
     private Integer dureeDeLivraison;
+
+    private Set<LigneResponseDTO> lignes;
 
 
 }

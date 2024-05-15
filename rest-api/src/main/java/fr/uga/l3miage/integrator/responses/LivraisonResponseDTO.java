@@ -6,6 +6,7 @@ import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -34,8 +35,8 @@ public class LivraisonResponseDTO {
     private Integer tdmTheorique;
 
     @Schema(description = "Heure de livraison théorique")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "UTC")
-    private Time heureDeLivraison;
+
+    private LocalDateTime heureLivraison;
 /*
     @Schema(description = "Heure de livraison effective")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone = "UTC")
