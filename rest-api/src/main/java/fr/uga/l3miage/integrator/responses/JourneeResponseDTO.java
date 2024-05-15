@@ -23,5 +23,5 @@ public class JourneeResponseDTO {
     @Schema(description = "Temps de montage théorique total de la journée", example = "70")
     private Integer tempsDeMontageTheorique;
     @Schema(description = "La liste des tournées de la journée")
-    private Set<TourneeResponseDTO> tourneeResponseDTOS;
+    private Set<TourneeResponseDTO> tournees;
 }

@@ -46,14 +46,14 @@ public abstract class JourneeMapperDecorator implements  JourneeMapper{
             Set<TourneeResponseDTO> tourneeResponseDTOS = journee.getTournees().stream()
                     .map(tourneeMapper::toResponse)
                     .collect(Collectors.toSet());
-            responseDTO.setTourneeResponseDTOS(tourneeResponseDTOS);
-            responseDTO.setTempsDeMontageTheorique(responseDTO.getTourneeResponseDTOS().stream()
+            responseDTO.setTournees(tourneeResponseDTOS);
+            responseDTO.setTempsDeMontageTheorique(responseDTO.getTournees().stream()
                     .mapToInt(TourneeResponseDTO::getTempsDeMontageTheorique)
                     .sum());
-            responseDTO.setMontant(responseDTO.getTourneeResponseDTOS().stream()
+            responseDTO.setMontant(responseDTO.getTournees().stream()
                     .mapToDouble(TourneeResponseDTO::getMontant)
                     .sum());
-            responseDTO.setDistanceAParcourir(responseDTO.getTourneeResponseDTOS().stream()
+            responseDTO.setDistanceAParcourir(responseDTO.getTournees().stream()
                     .mapToDouble(TourneeResponseDTO::getDistanceAParcourir)
                     .sum());
         }
