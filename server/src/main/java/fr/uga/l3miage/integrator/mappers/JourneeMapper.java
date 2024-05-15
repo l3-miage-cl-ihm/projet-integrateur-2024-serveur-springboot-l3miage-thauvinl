@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(uses = TourneeMapper.class)
 @DecoratedWith(JourneeMapperDecorator.class)
 public interface JourneeMapper {
-    @Mapping(target = "tourneeResponseDTOS", source = "tournees")
+    @Mapping(target = "tournees", source = "tournees")
     JourneeResponseDTO toResponseWithTournees(JourneeEntity journeeEntity);
 
     @Mapping(target = "tournees", ignore = true)

@@ -12,7 +12,7 @@ public class TourneeResponseDTO {
     @Schema(description = "Référence de la tournée", example = "t001G-A")
     private String reference;
     @Schema(description = "Etat de la tournée (planifiee, enChargement, enParcours, enDechargement, enClientele, enMontage, enRetour, effectuee", example = "planifiee")
-    private String etatsDeTournee;
+    private String etat;
     @Schema(description = "Lettre qui complète la référence de la tournée", example = "A")
     private String lettre;
     @Schema(description = "Montant total des livraisons d'une tournée en euros", example = "1568.2")

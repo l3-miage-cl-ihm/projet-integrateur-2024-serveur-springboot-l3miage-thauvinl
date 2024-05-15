@@ -17,6 +17,7 @@ public interface TourneeMapper {
 
     @Mapping(target = "livreurs", source = "employeEntitySet")
     @Mapping(target = "livraisons", source = "livraisons")
+    @Mapping(target = "etat", source = "etatsDeTournee")
     TourneeResponseDTO toResponse(TourneeEntity tourneeEntity);
 
 }
