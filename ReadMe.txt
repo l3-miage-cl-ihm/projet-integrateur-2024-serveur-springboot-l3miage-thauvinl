@@ -1,0 +1,7 @@
+GROUPE 6
+OSMAN Mona
+PICHOUD Adrien
+TOSETTO Lola
+SEYF Alireza
+MANSOUR Sami
+RAHMANI Imen
