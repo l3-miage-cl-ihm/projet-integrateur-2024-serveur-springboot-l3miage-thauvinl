@@ -1,6 +1,7 @@
 package fr.uga.l3miage.integrator.models;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -27,16 +28,16 @@ public class LivraisonEntity {
 
     private Double distanceAParcourir;
 
-    private Integer tdtALAller;
+    private Integer tdtTheorique;
 
     //private Integer tddTheorique;
 
     private Integer tdmTheorique;
 
-    private Time heureDeLivraisonTheorique;
+    private LocalDateTime heureLivraison;
     
-    @Column
-    private Time heureDeLivraisonEffective;
+    //@Column
+   // private Time heureDeLivraisonEffective;
 
     @Column
     private Integer tdmEffectif;

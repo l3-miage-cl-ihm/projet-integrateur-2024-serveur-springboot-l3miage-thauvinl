@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -13,9 +14,6 @@ public class LivraisonCreationRequest {
 
         @Schema(description = "La référence de la livraison", example = "L001")
         private final String reference;
-
-        @Schema(description = "L'état de la livraison", example = "en cours")
-        private final String etat;
 
         @Schema(description = "La distance parcourue lors de la livraison", example = "120.5")
         private Double distanceAParcourir;
@@ -27,7 +25,7 @@ public class LivraisonCreationRequest {
         private Integer tddTheorique;
 
         @Schema(description = "L'heure de livraison théorique", example = "10:00:00")
-        private Time heureDeLivraisonTheorique;
+        private LocalDateTime heureLivraison;
 
         @Schema(description = "Les références des commandes associées à la livraison")
         private final Set<String> refCommande;

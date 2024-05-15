@@ -51,11 +51,11 @@ public class LivraisonController implements LivraisonEndpoints{
     public LivraisonResponseDTO updateEtat(String reference, String nvEtat) {
         return livraisonService.updateEtat(reference, nvEtat);
     }
-
+/*
     @Override
     public LivraisonResponseDTO updateHeure(String reference, Time heure) {
         return livraisonService.updateHeureEff(reference,heure);
-    }
+    }*/
 
     @Override
     public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm) {

@@ -3,6 +3,7 @@ package fr.uga.l3miage.integrator.responses;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.MediaType;
 
 import java.util.Date;
 import java.util.Set;

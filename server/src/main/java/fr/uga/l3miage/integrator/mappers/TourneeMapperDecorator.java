@@ -56,7 +56,7 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
     @Override
     public TourneeResponseDTO toResponse(TourneeEntity tournee){
         TourneeResponseDTO responseDTO = delegate.toResponse(tournee);
-        responseDTO.setCamionResponseDTO(camionMapper.toResponse(tournee.getCamion()));
+        responseDTO.setCamion(camionMapper.toResponse(tournee.getCamion()));
 
         if (tournee.getLivraisons() == null || tournee.getLivraisons().isEmpty()) {
             responseDTO.setTempsDeMontageTheorique(0);
@@ -67,14 +67,14 @@ public abstract class TourneeMapperDecorator implements TourneeMapper {
             Set<LivraisonResponseDTO> livraisonResponses = tournee.getLivraisons().stream()
                     .map(livraisonMapper::toResponse)
                     .collect(Collectors.toSet());
-            responseDTO.setLivraisonResponseDTOS(livraisonResponses);
-            responseDTO.setTempsDeMontageTheorique(responseDTO.getLivraisonResponseDTOS().stream()
+            responseDTO.setLivraisons(livraisonResponses);
+            responseDTO.setTempsDeMontageTheorique(responseDTO.getLivraisons().stream()
                     .mapToInt(LivraisonResponseDTO::getTdmTheorique)
                     .sum());
-            responseDTO.setMontant(responseDTO.getLivraisonResponseDTOS().stream()
+            responseDTO.setMontant(responseDTO.getLivraisons().stream()
                     .mapToDouble(LivraisonResponseDTO::getMontant)
                     .sum());
-            responseDTO.setDistanceAParcourir(responseDTO.getLivraisonResponseDTOS().stream()
+            responseDTO.setDistanceAParcourir(responseDTO.getLivraisons().stream()
                     .mapToDouble(LivraisonResponseDTO::getDistanceAParcourir)
                     .sum());
         }

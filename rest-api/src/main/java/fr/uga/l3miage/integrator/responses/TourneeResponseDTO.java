@@ -26,11 +26,11 @@ public class TourneeResponseDTO {
     @Schema(description = "Distance entre la dernière livraison et l'entrepôt en km", example = "87.6")
     private Double distanceDeRetour;
     @Schema(description = "Liste des employés effectuant une tournée")
-    private Set<EmployeResponseDTO> employeResponseDTOS;
+    private Set<EmployeResponseDTO> livreurs;
     @Schema(description = "Liste des employés effectuant une tournée")
-    private Set<LivraisonResponseDTO> livraisonResponseDTOS;
+    private Set<LivraisonResponseDTO> livraisons;
     @Schema(description = "Le camion qui est affecté à la tournée")
-    private CamionResponseDTO camionResponseDTO;
+    private CamionResponseDTO camion;
 
 
 }

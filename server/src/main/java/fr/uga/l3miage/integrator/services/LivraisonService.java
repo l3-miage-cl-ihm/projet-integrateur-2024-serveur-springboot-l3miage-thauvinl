@@ -93,14 +93,14 @@ public class LivraisonService {
         }
     }
 
-
+/*
     public LivraisonResponseDTO updateHeureEff(String reference, Time heure){
         try{
             return livraisonMapper.toResponse(livraisonComponent.updtateHeureEff(reference,heure));
         }catch(NotFoundLivraisonEntityException e){
             throw new NotFoundEntityRestException(e.getMessage());
         }
-    }
+    }*/
     public LivraisonResponseDTO updateTdmEff(String reference, Integer tdm){
         try{
             return livraisonMapper.toResponse(livraisonComponent.updtateTDMEff(reference,tdm));

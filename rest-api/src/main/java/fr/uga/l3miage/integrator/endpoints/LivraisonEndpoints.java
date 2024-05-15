@@ -99,7 +99,7 @@ public interface LivraisonEndpoints {
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/updateEtat/{reference}")
     LivraisonResponseDTO updateEtat(@PathVariable String reference, @RequestParam String nvEtat);
-
+/*
     @Operation(description = "update livraison heure de livraison effective")
     @ApiResponse(
             responseCode = "201",
@@ -111,7 +111,7 @@ public interface LivraisonEndpoints {
     )
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/updateHeure/{reference}")
-    LivraisonResponseDTO updateHeure(@PathVariable String reference, @RequestBody Time heure);
+    LivraisonResponseDTO updateHeure(@PathVariable String reference, @RequestBody Time heure);*/
 
     @Operation(description = "update livraison le tdm effective")
     @ApiResponse(
