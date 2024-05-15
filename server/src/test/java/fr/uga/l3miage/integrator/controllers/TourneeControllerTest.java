@@ -85,11 +85,11 @@ public class TourneeControllerTest {
 
         TourneeResponseDTO expected = TourneeResponseDTO.builder()
                 .reference("test")
-                .employeResponseDTOS(responseSet)
+                .livreurs(responseSet)
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
-                .livraisonResponseDTOS(new HashSet<>())
+                .livraisons(new HashSet<>())
                 .build();
 
         ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/{employeId}", HttpMethod.GET, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
@@ -157,9 +157,9 @@ public class TourneeControllerTest {
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
-                .employeResponseDTOS(new HashSet<>())
+                .livreurs(new HashSet<>())
                 .tempsDeMontageEffectif(60)
-                .livraisonResponseDTOS(new HashSet<>())
+                .livraisons(new HashSet<>())
                 .build();
         ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/updateTdm/{reference}?tdmEffectif={tdmEffectif}"
                 , HttpMethod.PATCH, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
@@ -231,8 +231,8 @@ public class TourneeControllerTest {
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
-                .employeResponseDTOS(new HashSet<>())
-                .livraisonResponseDTOS(new HashSet<>())
+                .livreurs(new HashSet<>())
+                .livraisons(new HashSet<>())
                 .build();
         ResponseEntity<TourneeResponseDTO> actual = testRestTemplate.exchange("/api/tournees/updateEtat/{reference}?nvEtat={nvEtat}"
                 , HttpMethod.PATCH, new HttpEntity<>(null, headers), TourneeResponseDTO.class, urlParams);
