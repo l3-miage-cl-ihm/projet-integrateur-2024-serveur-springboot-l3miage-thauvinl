@@ -73,7 +73,7 @@ public class JourneeControllerTest {
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
-                .tourneeResponseDTOS(new HashSet<>())
+                .tournees(new HashSet<>())
                 .build();
         ResponseEntity<JourneeResponseDTO> actual = testRestTemplate.exchange("/api/journees/{idJournee}", HttpMethod.GET, new HttpEntity<>(null, headers), JourneeResponseDTO.class, urlParams);
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -109,7 +109,7 @@ public class JourneeControllerTest {
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
-                .tourneeResponseDTOS(new HashSet<>())
+                .tournees(new HashSet<>())
                 .build();
         ResponseEntity<JourneeResponseDTO> actual = testRestTemplate.exchange("/api/journees/create", HttpMethod.POST, new HttpEntity<>(request,headers), JourneeResponseDTO.class);
         assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.CREATED);

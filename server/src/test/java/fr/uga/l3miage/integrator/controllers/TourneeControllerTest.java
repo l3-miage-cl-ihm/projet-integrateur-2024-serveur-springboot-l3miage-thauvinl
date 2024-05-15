@@ -227,7 +227,7 @@ public class TourneeControllerTest {
 
         TourneeResponseDTO expected = TourneeResponseDTO.builder()
                 .reference("test")
-                .etatsDeTournee("enDechargement")
+                .etat("enDechargement")
                 .montant(0.0)
                 .tempsDeMontageTheorique(0)
                 .distanceAParcourir(0.0)
