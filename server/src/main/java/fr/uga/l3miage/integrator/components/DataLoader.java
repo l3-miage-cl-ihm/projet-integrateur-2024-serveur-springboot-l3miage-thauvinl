@@ -6,12 +6,15 @@ import fr.uga.l3miage.integrator.models.*;
 import fr.uga.l3miage.integrator.models.enums.Emploi;
 import fr.uga.l3miage.integrator.models.enums.EtatDeCommande;
 import fr.uga.l3miage.integrator.repositories.*;
+import javassist.ClassPath;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -42,7 +45,6 @@ public class DataLoader implements CommandLineRunner {
         Path pathLignes = Path.of("server/src/main/resources/Lignes.csv");
         Path pathEmployes = Path.of("server/src/main/resources/Employés.csv");
         Path pathCamions = Path.of("server/src/main/resources/Camions.csv");
-
         Map<String, CommandeEntity> commandesDetails = new HashMap<>();
 
         try(Stream<String> stream = Files.lines(pathCommandes)) {
@@ -87,7 +89,7 @@ public class DataLoader implements CommandLineRunner {
                     employe.setEmploi(data[1].isEmpty() ? null : Emploi.valueOf(data[1]));
                     employe.setNom(data[2]);
                     employe.setPrenom(data[3]);
-                    employe.setEmail(employe.getPrenom().toLowerCase() +"." +employe.getNom()+"@ikeo.com");
+                    employe.setEmail(employe.getPrenom().toLowerCase() +"." +employe.getNom().toLowerCase()+"@ikeo.com");
                     employe.setTelephone(data[4]);
                     return employe;
                 })
