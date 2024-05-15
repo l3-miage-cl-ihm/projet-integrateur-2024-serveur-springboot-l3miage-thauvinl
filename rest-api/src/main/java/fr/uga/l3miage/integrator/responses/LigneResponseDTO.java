@@ -17,7 +17,7 @@ public class LigneResponseDTO {
     private ProduitResponseDTO produit;
     @Schema(description = "quantité du produit" , example = "11")
     private int quantite;
-    @Schema(description = "prix " , example = "30")
+    @Schema(description = "prix " ,example = "30")
     private double montant;
     @Schema(description = "est-ce que le client a choisit l'option montage ou non" , example = "true")
     private boolean optionDeMontage;
